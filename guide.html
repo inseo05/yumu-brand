@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YUMU Style Guide</title>
+  <link rel="stylesheet" href="assets/css/base/reset.css">
+  <link rel="stylesheet" href="assets/css/base/fonts.css">
+  <link rel="stylesheet" href="assets/css/base/variables.css">
+  <link rel="stylesheet" href="assets/css/base/global.css">
+  <link rel="stylesheet" href="assets/css/layout/container.css">
+  <link rel="stylesheet" href="assets/css/components/button.css">
+  <link rel="stylesheet" href="assets/css/components/product-card.css">
+  <link rel="stylesheet" href="assets/css/components/product-filter.css">
+  <link rel="stylesheet" href="assets/css/components/collection-card.css">
+  <link rel="stylesheet" href="assets/css/components/inquiry-table.css">
+  <link rel="stylesheet" href="assets/css/components/photo-hover.css">
+  <link rel="stylesheet" href="assets/css/components/material-card.css">
+  <link rel="stylesheet" href="assets/css/pages/guide.css">
+</head>
+<body class="guide">
+  <header class="guide__header">
+    <div class="container guide__header-inner">
+      <p class="guide__brand">YUMU Style Guide</p>
+      <nav class="guide__nav" aria-label="스타일 가이드 내비게이션">
+        <a class="guide__nav-link" href="#colors">Colors</a>
+        <a class="guide__nav-link" href="#typography">Typography</a>
+        <a class="guide__nav-link" href="#layout">Layout</a>
+        <a class="guide__nav-link" href="#components">Components</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="guide__main">
+    <div class="container">
+      <section class="guide__intro">
+        <h1 class="guide__intro-title">유무 YUMU Design System</h1>
+        <p class="guide__intro-desc">
+          감성 오브제 브랜드 YUMU의 디자인 시스템입니다. BEM 네이밍, rem 단위(1rem = 16px),
+          Nanum Myeongjo + Pretendard 조합을 기준으로 합니다.
+        </p>
+      </section>
+
+      <!-- Colors -->
+      <section class="guide__section" id="colors">
+        <h2 class="guide__section-title">Colors</h2>
+
+        <div class="guide__color-group">
+          <h3 class="guide__section-subtitle">Grey</h3>
+          <div class="guide__color-grid">
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #1E1E1E;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/900</p>
+                <p class="guide__color-hex">#1E1E1E</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #2F2F2F;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/800</p>
+                <p class="guide__color-hex">#2F2F2F</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #444444;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/700</p>
+                <p class="guide__color-hex">#444444</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #747883;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/600</p>
+                <p class="guide__color-hex">#747883</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #9DA1AC;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/500</p>
+                <p class="guide__color-hex">#9DA1AC</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #B8BCC4;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/400</p>
+                <p class="guide__color-hex">#B8BCC4</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #D2D5DA;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/300</p>
+                <p class="guide__color-hex">#D2D5DA</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #E6E7EB;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/200</p>
+                <p class="guide__color-hex">#E6E7EB</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #F3F4F6;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/100</p>
+                <p class="guide__color-hex">#F3F4F6</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #FBFCFE;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">grey/50</p>
+                <p class="guide__color-hex">#FBFCFE</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #FFFFFF; border-bottom: 0.0625rem solid #E6E7EB;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">White</p>
+                <p class="guide__color-hex">#FFFFFF</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide__color-group">
+          <h3 class="guide__section-subtitle">Brand</h3>
+          <div class="guide__color-grid">
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #1D3D3C;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/7</p>
+                <p class="guide__color-hex">#1D3D3C</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #2E5655;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/6</p>
+                <p class="guide__color-hex">#2E5655</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #467472;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/5 (main)</p>
+                <p class="guide__color-hex">#467472</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #749991;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/4</p>
+                <p class="guide__color-hex">#749991</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #9FB7AE;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/3</p>
+                <p class="guide__color-hex">#9FB7AE</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #B9D2CD;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/2</p>
+                <p class="guide__color-hex">#B9D2CD</p>
+              </div>
+            </div>
+            <div class="guide__color-swatch">
+              <div class="guide__color-chip" style="background-color: #DDE9E6;"></div>
+              <div class="guide__color-info">
+                <p class="guide__color-name">Brand/1</p>
+                <p class="guide__color-hex">#DDE9E6</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography -->
+      <section class="guide__section" id="typography">
+        <h2 class="guide__section-title">Typography</h2>
+        <p class="guide__note">
+          Display · Quote: Nanum Myeongjo · Title · Subtitle · Body · Label · Caption: Pretendard ·
+          rem 기준 (1rem = 16px) · PC / Tablet(≤1024px) / Mobile(≤768px) 반응형
+        </p>
+
+        <table class="guide__spec-table" style="margin-bottom: 2.5rem;">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Style</th>
+              <th>PC</th>
+              <th>Tablet</th>
+              <th>Mobile</th>
+              <th>Weight</th>
+              <th>Line-height</th>
+              <th>Letter-spacing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Display</td><td>01</td><td>7.5rem</td><td>5rem</td><td>3.75rem</td><td>Regular</td><td>120%</td><td>-2%</td></tr>
+            <tr><td>Display</td><td>02</td><td>5rem</td><td>3.75rem</td><td>3rem</td><td>Regular</td><td>120%</td><td>-2%</td></tr>
+            <tr><td>Display</td><td>03</td><td>3.75rem</td><td>3rem</td><td>2rem</td><td>Bold</td><td>120%</td><td>-2%</td></tr>
+            <tr><td>Display</td><td>04</td><td>3rem</td><td>2.5rem</td><td>1.5rem</td><td>Bold</td><td>120%</td><td>-2%</td></tr>
+            <tr><td>Display</td><td>05</td><td>2.5rem</td><td>2rem</td><td>1.5rem</td><td>Bold</td><td>120%</td><td>-2%</td></tr>
+            <tr><td>Title</td><td>01</td><td>2rem</td><td>1.75rem</td><td>1.5rem</td><td>Bold</td><td>140%</td><td>-1%</td></tr>
+            <tr><td>Title</td><td>02</td><td>1.75rem</td><td>1.5rem</td><td>1.25rem</td><td>Bold</td><td>140%</td><td>-1%</td></tr>
+            <tr><td>Title</td><td>03</td><td>1.5rem</td><td>1.25rem</td><td>1.125rem</td><td>Bold</td><td>140%</td><td>-1%</td></tr>
+            <tr><td>Subtitle</td><td>01</td><td>1.25rem</td><td>1.125rem</td><td>1rem</td><td>Bold</td><td>150%</td><td>0%</td></tr>
+            <tr><td>Subtitle</td><td>02</td><td>1.125rem</td><td>1rem</td><td>0.875rem</td><td>Bold</td><td>150%</td><td>0%</td></tr>
+            <tr><td>Body</td><td>01</td><td>1.125rem</td><td>1rem</td><td>0.875rem</td><td>Regular</td><td>160%</td><td>0%</td></tr>
+            <tr><td>Body</td><td>02</td><td>1rem</td><td>0.875rem</td><td>0.8125rem</td><td>Regular</td><td>160%</td><td>0%</td></tr>
+            <tr><td>Body</td><td>03</td><td>0.875rem</td><td>0.8125rem</td><td>0.75rem</td><td>Regular</td><td>160%</td><td>0%</td></tr>
+            <tr><td>Label</td><td>01</td><td>1rem</td><td>0.875rem</td><td>0.8125rem</td><td>Bold</td><td>120%</td><td>0%</td></tr>
+            <tr><td>Label</td><td>02</td><td>0.875rem</td><td>0.8125rem</td><td>0.75rem</td><td>Bold</td><td>120%</td><td>0%</td></tr>
+            <tr><td>Quote</td><td>01</td><td>1.5rem</td><td>1.25rem</td><td>1.125rem</td><td>Regular</td><td>160%</td><td>0%</td></tr>
+            <tr><td>Quote</td><td>02</td><td>1.25rem</td><td>1.125rem</td><td>1rem</td><td>Regular</td><td>160%</td><td>0%</td></tr>
+            <tr><td>Caption</td><td>01</td><td>0.75rem</td><td>0.6875rem</td><td>0.625rem</td><td>Regular</td><td>140%</td><td>0%</td></tr>
+            <tr><td>Caption</td><td>02</td><td>0.625rem</td><td>0.5625rem</td><td>0.5625rem</td><td>Regular</td><td>140%</td><td>0%</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="guide__section-subtitle">Display</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">display-01</span>
+              <span class="guide__type-tag">Regular · 7.5rem</span>
+            </div>
+            <p class="guide__type-sample--display-01">YUMU 釉霧</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">display-02</span>
+              <span class="guide__type-tag">Regular · 5rem</span>
+            </div>
+            <p class="guide__type-sample--display-02">Emotional Objects</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">display-03</span>
+              <span class="guide__type-tag">Bold · 3.75rem</span>
+            </div>
+            <p class="guide__type-sample--display-03">Collection</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">display-04</span>
+              <span class="guide__type-tag">Bold · 3rem</span>
+            </div>
+            <p class="guide__type-sample--display-04">Material Story</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">display-05</span>
+              <span class="guide__type-tag">Bold · 2.5rem</span>
+            </div>
+            <p class="guide__type-sample--display-05">Craft &amp; Texture</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Title</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">title-01</span>
+              <span class="guide__type-tag">Bold · 2rem</span>
+            </div>
+            <p class="guide__type-sample--title-01">브랜드의 철학과 세계관</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">title-02</span>
+              <span class="guide__type-tag">Bold · 1.75rem</span>
+            </div>
+            <p class="guide__type-sample--title-02">감각이 소재와 형태로 구현된 결과물</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">title-03</span>
+              <span class="guide__type-tag">Bold · 1.5rem</span>
+            </div>
+            <p class="guide__type-sample--title-03">Ceramic Vessel Series</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Subtitle</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">subtitle-01</span>
+              <span class="guide__type-tag">Bold · 1.25rem</span>
+            </div>
+            <p class="guide__type-sample--subtitle-01">Handcrafted with intention</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">subtitle-02</span>
+              <span class="guide__type-tag">Bold · 1.125rem</span>
+            </div>
+            <p class="guide__type-sample--subtitle-02">Natural material, timeless form</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Body</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">body-01</span>
+              <span class="guide__type-tag">Regular · 1.125rem</span>
+            </div>
+            <p class="guide__type-sample--body-01">유무 YUMU는 감성적인 인테리어 오브제와 라이프스타일 브랜드입니다.</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">body-02</span>
+              <span class="guide__type-tag">Regular · 1rem</span>
+            </div>
+            <p class="guide__type-sample--body-02">제품 판매보다 브랜드의 철학과 세계관을 먼저 전달하며, 제품은 브랜드의 감각이 소재와 형태로 구현된 결과물로 소개합니다.</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">body-03</span>
+              <span class="guide__type-tag">Regular · 0.875rem</span>
+            </div>
+            <p class="guide__type-sample--body-03">카페, 스튜디오, 소품숍, 쇼룸 등 감각적인 공간을 운영하는 소규모 브랜드 운영자를 위한 오브제입니다.</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Label</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">label-01</span>
+              <span class="guide__type-tag">Bold · 1rem</span>
+            </div>
+            <p class="guide__type-sample--label-01">VIEW COLLECTION</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">label-02</span>
+              <span class="guide__type-tag">Bold · 0.875rem</span>
+            </div>
+            <p class="guide__type-sample--label-02">NEW ARRIVAL</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Quote</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">quote-01</span>
+              <span class="guide__type-tag">Regular · 1.5rem</span>
+            </div>
+            <p class="guide__type-sample--quote-01">"감각은 형태가 되고, 형태는 이야기가 됩니다."</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">quote-02</span>
+              <span class="guide__type-tag">Regular · 1.25rem</span>
+            </div>
+            <p class="guide__type-sample--quote-02">"일상 속에 스며드는 조용한 아름다움"</p>
+          </div>
+        </div>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2.5rem;">Caption</h3>
+        <div class="guide__type-list">
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">caption-01</span>
+              <span class="guide__type-tag">Regular · 0.75rem</span>
+            </div>
+            <p class="guide__type-sample--caption-01">© 2026 YUMU. All rights reserved.</p>
+          </div>
+          <div class="guide__type-item">
+            <div class="guide__type-meta">
+              <span class="guide__type-tag">caption-02</span>
+              <span class="guide__type-tag">Regular · 0.625rem</span>
+            </div>
+            <p class="guide__type-sample--caption-02">Photo by YUMU Studio</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layout -->
+      <section class="guide__section" id="layout">
+        <h2 class="guide__section-title">Layout &amp; Grid</h2>
+        <p class="guide__note">
+          PC 기준 Container 90rem(1440px) · 12 Column · Margin 3.75rem(60px) · Gutter 1.5rem(24px)
+        </p>
+
+        <table class="guide__spec-table">
+          <thead>
+            <tr>
+              <th>Breakpoint</th>
+              <th>Range</th>
+              <th>Container</th>
+              <th>Margin</th>
+              <th>Gutter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PC</td>
+              <td>1920px ~ 1024px</td>
+              <td>90rem (1440px)</td>
+              <td>3.75rem (60px)</td>
+              <td>1.5rem (24px)</td>
+            </tr>
+            <tr>
+              <td>Tablet</td>
+              <td>1024px ~ 768px</td>
+              <td>100%</td>
+              <td>2.5rem (40px)</td>
+              <td>1rem (16px)</td>
+            </tr>
+            <tr>
+              <td>Mobile</td>
+              <td>768px ~ 360px</td>
+              <td>100%</td>
+              <td>1.25rem (20px)</td>
+              <td>0.625rem (10px)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="guide__section-subtitle" style="margin-top: 2rem;">12 Column Grid Demo</h3>
+        <div class="guide__grid-demo grid">
+          <div class="guide__grid-col grid__col--1">1</div>
+          <div class="guide__grid-col grid__col--1">2</div>
+          <div class="guide__grid-col grid__col--1">3</div>
+          <div class="guide__grid-col grid__col--1">4</div>
+          <div class="guide__grid-col grid__col--1">5</div>
+          <div class="guide__grid-col grid__col--1">6</div>
+          <div class="guide__grid-col grid__col--1">7</div>
+          <div class="guide__grid-col grid__col--1">8</div>
+          <div class="guide__grid-col grid__col--1">9</div>
+          <div class="guide__grid-col grid__col--1">10</div>
+          <div class="guide__grid-col grid__col--1">11</div>
+          <div class="guide__grid-col grid__col--1">12</div>
+        </div>
+      </section>
+
+      <!-- Components -->
+      <section class="guide__section" id="components">
+        <h2 class="guide__section-title">Components</h2>
+
+        <!-- Button -->
+        <h3 class="guide__section-subtitle">Button</h3>
+        <div class="guide__demo">
+          <div class="guide__demo-row">
+            <button type="button" class="button button--primary">Primary</button>
+            <button type="button" class="button button--secondary">Secondary</button>
+            <button type="button" class="button button--ghost">Ghost</button>
+          </div>
+          <div class="guide__demo-row">
+            <button type="button" class="button button--primary button--sm">Small</button>
+            <button type="button" class="button button--primary">Default</button>
+            <button type="button" class="button button--primary button--lg">Large</button>
+          </div>
+        </div>
+
+        <!-- Product Filter -->
+        <h3 class="guide__section-subtitle">Product Filter</h3>
+        <div class="guide__demo">
+          <div class="product-filter">
+            <button type="button" class="product-filter__button product-filter__button--active">All</button>
+            <button type="button" class="product-filter__button">Ceramic</button>
+            <button type="button" class="product-filter__button">Wood</button>
+            <button type="button" class="product-filter__button">Textile</button>
+          </div>
+        </div>
+
+        <!-- Product Card -->
+        <h3 class="guide__section-subtitle">Product Card</h3>
+        <div class="guide__demo">
+          <div class="grid">
+            <div class="grid__col--4">
+              <article class="product-card">
+                <div class="product-card__image-wrap">
+                  <div class="guide__demo-placeholder">Product Image</div>
+                </div>
+                <div class="product-card__content">
+                  <h4 class="product-card__subtitle">Ceramic Vessel</h4>
+                  <p class="product-card__body">손으로 빚어낸 질감과 자연스러운 색감이 공간에 따뜻한 분위기를 더합니다.</p>
+                </div>
+              </article>
+            </div>
+            <div class="grid__col--4">
+              <article class="product-card">
+                <div class="product-card__image-wrap">
+                  <div class="guide__demo-placeholder">Product Image</div>
+                </div>
+                <div class="product-card__content">
+                  <h4 class="product-card__subtitle">Wood Object</h4>
+                  <p class="product-card__body">나무 본연의 결을 살린 오브제로 일상에 자연의 온기를 전합니다.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collection Card -->
+        <h3 class="guide__section-subtitle">Collection Card</h3>
+        <div class="guide__demo">
+          <div class="grid">
+            <div class="grid__col--4">
+              <article class="collection-card">
+                <div class="collection-card__image-wrap">
+                  <div class="guide__demo-placeholder">Collection Image</div>
+                </div>
+                <div class="collection-card__content">
+                  <h4 class="collection-card__title">Spring Collection</h4>
+                  <p class="collection-card__description">봄의 부드러운 빛을 담은 시즌 컬렉션</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo Hover -->
+        <h3 class="guide__section-subtitle">Photo Hover</h3>
+        <p class="guide__note">Hover 시 overlay rgba(0,0,0,0.46) + 중앙 정렬 콘텐츠 (gap 1.25rem)</p>
+        <div class="guide__demo">
+          <div class="grid">
+            <div class="grid__col--6">
+              <a href="#" class="photo-hover">
+                <div class="photo-hover__image guide__demo-placeholder" style="min-height: 18.75rem;">Hover me</div>
+                <div class="photo-hover__overlay">
+                  <div class="photo-hover__content">
+                    <p class="photo-hover__title">Material Study</p>
+                    <p class="photo-hover__body">질감과 형태의 탐구</p>
+                    <svg class="photo-hover__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Material Card -->
+        <h3 class="guide__section-subtitle">Material Card</h3>
+        <p class="guide__note">PC/Tablet: 가로 6:4 · Mobile: 세로 · PC height 39.6875rem</p>
+        <div class="guide__demo">
+          <article class="material-card">
+            <div class="material-card__image-wrap">
+              <div class="guide__demo-placeholder" style="min-height: 100%;">Material Image</div>
+            </div>
+            <div class="material-card__content">
+              <h4 class="material-card__title">Ceramic</h4>
+              <p class="material-card__subtitle">흙에서 시작된 형태</p>
+              <p class="material-card__text">
+                유무의 세라믹 오브제는 흙의 본질적인 질감을 존중합니다.
+                손으로 빚어낸 불규칙한 형태와 자연스러운 유약의 흐름이
+                각각의 작품에 고유한 개성을 부여합니다.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Inquiry Table -->
+        <h3 class="guide__section-subtitle">Inquiry Table</h3>
+        <div class="guide__demo">
+          <form class="inquiry-table">
+            <div class="inquiry-table__row">
+              <label class="inquiry-table__label" for="guide-name">이름</label>
+              <div class="inquiry-table__value">
+                <input class="inquiry-table__input" type="text" id="guide-name" placeholder="이름을 입력해주세요">
+              </div>
+            </div>
+            <div class="inquiry-table__row">
+              <label class="inquiry-table__label" for="guide-email">이메일</label>
+              <div class="inquiry-table__value">
+                <input class="inquiry-table__input" type="email" id="guide-email" placeholder="email@example.com">
+              </div>
+            </div>
+            <div class="inquiry-table__row">
+              <label class="inquiry-table__label" for="guide-message">문의 내용</label>
+              <div class="inquiry-table__value">
+                <textarea class="inquiry-table__textarea" id="guide-message" placeholder="문의 내용을 입력해주세요"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="guide__footer">
+    <div class="container">
+      <p>YUMU Design System · BEM · rem(1rem = 16px) · guide.html</p>
+    </div>
+  </footer>
+</body>
+</html>

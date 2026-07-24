@@ -1,0 +1,114 @@
+:root {
+  /* Grey */
+  --color-grey-900: #1e1e1e;
+  --color-grey-800: #2f2f2f;
+  --color-grey-700: #444444;
+  --color-grey-600: #747883;
+  --color-grey-500: #9da1ac;
+  --color-grey-400: #b8bcc4;
+  --color-grey-300: #d2d5da;
+  --color-grey-200: #e6e7eb;
+  --color-grey-100: #f3f4f6;
+  --color-grey-50: #fbfcfe;
+  --color-white: #ffffff;
+
+  /* Brand */
+  --color-brand-7: #1d3d3c;
+  --color-brand-6: #2e5655;
+  --color-brand-5: #467472;
+  --color-brand-4: #749991;
+  --color-brand-3: #9fb7ae;
+  --color-brand-2: #b9d2cd;
+  --color-brand-1: #dde9e6;
+
+  /* Semantic */
+  --color-text-primary: var(--color-grey-900);
+  --color-text-secondary: var(--color-grey-600);
+  --color-text-muted: var(--color-grey-500);
+  --color-bg: var(--color-white);
+  --color-bg-subtle: var(--color-grey-50);
+  --color-surface: var(--color-grey-100);
+  --color-border: var(--color-grey-200);
+  --color-brand-main: var(--color-brand-5);
+  --color-overlay: rgba(0, 0, 0, 0.46);
+
+  /* Font Family */
+  --font-primary: "Pretendard", sans-serif;
+  --font-myeongjo: "Nanum Myeongjo", serif;
+  --font-hanja: "Noto Serif SC", serif;
+  --font-gowun: "Gowun Batang", serif;
+  --font-display: var(--font-myeongjo);
+  --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-nav: "Nanum Myeongjo", "NanumMyeongjo", serif;
+
+  /* Header */
+  --header-height: 5rem;
+  --header-height-mobile: 3.75rem;
+  --header-logo-width: 1.9375rem;
+  --header-logo-height: 2.25rem;
+  --header-logo-width-mobile: 1.625rem;
+  --header-logo-height-mobile: 1.875rem;
+  --header-nav-size: 1rem;
+  --header-nav-weight: 700;
+  --header-nav-lh: 1;
+  --header-nav-gap: 2.5rem;
+  --header-padding-inline-tablet: 3.75rem;
+  --header-padding-inline-mobile: 2.5rem;
+  --header-menu-button-size: 1.625rem;
+
+  /* Footer */
+  --footer-max-width: 90rem;
+  --footer-padding-block-pc: 7.5rem;
+  --footer-padding-block-sub: 2.5rem;
+  --footer-padding-inline-pc: 3.75rem;
+  --footer-padding-inline-mobile: 2.5rem;
+  --footer-content-gap: 1.5rem;
+  --footer-logo-size: 2.875rem;
+  --footer-logo-size-mobile: 1.5rem;
+  --footer-text-size: 0.875rem;
+  --footer-text-size-mobile: 0.5625rem;
+  --footer-text-lh: 2;
+  --footer-title-size: 1rem;
+  --footer-title-size-mobile: 0.75rem;
+  --footer-title-lh: 1;
+  --footer-phone-size: 1.25rem;
+  --footer-phone-size-mobile: 0.75rem;
+  --footer-phone-lh: 1;
+  --footer-insta-size: 1.125rem;
+  --footer-insta-size-mobile: 0.75rem;
+  --footer-service-gap: 0.75rem;
+
+  /* Layout - PC */
+  --container-max-width: 90rem;
+  --container-gutter: 3.75rem;
+  --grid-columns: 12;
+  --grid-margin: 3.75rem;
+  --grid-gutter: 1.5rem;
+
+  /* Breakpoints */
+  --bp-tablet-max: 64rem;
+  --bp-mobile-max: 48rem;
+
+  /* Spacing (Footer) */
+  --space-8: 0.5rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-40: 2.5rem;
+
+  /* Transition */
+  --transition-base: 0.3s ease;
+}
+
+@media (max-width: 64rem) {
+  :root {
+    --grid-margin: 2.5rem;
+    --grid-gutter: 1rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --grid-margin: 1.25rem;
+    --grid-gutter: 0.625rem;
+  }
+}

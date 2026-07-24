@@ -1,0 +1,71 @@
+.inquiry-table {
+  width: 100%;
+  border-top: 0.0625rem solid var(--color-grey-900);
+}
+
+.inquiry-table__row {
+  display: grid;
+  grid-template-columns: 12.5rem 1fr;
+  border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.inquiry-table__label {
+  padding: 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  background-color: var(--color-grey-50);
+}
+
+.inquiry-table__value {
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.inquiry-table__input,
+.inquiry-table__textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 0.0625rem solid var(--color-border);
+  background-color: var(--color-bg);
+  transition: border-color var(--transition-base);
+}
+
+.inquiry-table__input:focus,
+.inquiry-table__textarea:focus {
+  outline: none;
+  border-color: var(--color-brand-main);
+}
+
+.inquiry-table__textarea {
+  min-height: 9.375rem;
+  resize: vertical;
+}
+
+@media (max-width: 64rem) {
+  .inquiry-table__label {
+    font-size: 0.875rem;
+  }
+
+  .inquiry-table__value {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .inquiry-table__row {
+    grid-template-columns: 1fr;
+  }
+
+  .inquiry-table__label {
+    padding-bottom: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .inquiry-table__value {
+    padding-top: 0;
+    font-size: 0.8125rem;
+  }
+}

@@ -1,0 +1,121 @@
+/* =========================================================
+   Header Layout
+   - PC / Tablet: height 80px, text navigation visible
+   - Mobile: height 60px, text navigation hidden, menu button visible
+   ========================================================= */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: var(--color-white);
+}
+
+.header__inner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding-block: 0;
+}
+
+.header__logo {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.header__logo-image {
+  width: var(--header-logo-width);
+  height: var(--header-logo-height);
+  object-fit: contain;
+}
+
+.header__navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--header-nav-gap);
+}
+
+.header__link {
+  font-family: var(--font-nav);
+  font-size: var(--header-nav-size);
+  font-weight: var(--header-nav-weight);
+  line-height: var(--header-nav-lh);
+  color: var(--color-grey-900);
+  transition: opacity var(--transition-base);
+}
+
+.header__link:hover {
+  opacity: 0.7;
+}
+
+.header__link--active {
+  opacity: 1;
+}
+
+/* Mobile menu button - hidden on PC / Tablet */
+.header__menu-button {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--header-menu-button-size);
+  height: var(--header-menu-button-size);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.header__menu-icon {
+  width: var(--header-menu-button-size);
+  height: var(--header-menu-button-size);
+  object-fit: contain;
+}
+
+/* Home header variant */
+.header--home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+.header--home .header__link {
+  color: var(--color-white);
+}
+
+.header--home .header__link:hover {
+  opacity: 0.75;
+}
+
+/* Tablet: header inner side padding 60px */
+@media (max-width: 64rem) {
+  .header__inner {
+    padding-inline: var(--header-padding-inline-tablet);
+  }
+}
+
+/* Mobile: height 60px, side padding 40px, logo/menu button resize */
+@media (max-width: 48rem) {
+  .header__inner {
+    height: var(--header-height-mobile);
+    padding-inline: var(--header-padding-inline-mobile);
+  }
+
+  .header__logo-image {
+    width: var(--header-logo-width-mobile);
+    height: var(--header-logo-height-mobile);
+  }
+
+  .header__navigation {
+    display: none;
+  }
+
+  .header__menu-button {
+    display: inline-flex;
+  }
+}

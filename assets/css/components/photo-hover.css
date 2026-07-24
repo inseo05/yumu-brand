@@ -1,0 +1,88 @@
+.photo-hover {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.photo-hover__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform var(--transition-base);
+}
+
+.photo-hover__image.guide__demo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-hover__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-overlay);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.photo-hover__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  color: var(--color-white);
+  transform: translateY(0.625rem);
+  transition: transform var(--transition-base);
+}
+
+.photo-hover__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.photo-hover__body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.photo-hover__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.photo-hover:hover .photo-hover__overlay {
+  opacity: 1;
+}
+
+.photo-hover:hover .photo-hover__content {
+  transform: translateY(0);
+}
+
+.photo-hover:hover .photo-hover__image {
+  transform: scale(1.02);
+}
+
+@media (max-width: 64rem) {
+  .photo-hover__title {
+    font-size: 1.25rem;
+  }
+
+  .photo-hover__body {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .photo-hover__title {
+    font-size: 1.125rem;
+  }
+
+  .photo-hover__body {
+    font-size: 0.8125rem;
+  }
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YUMU — Products</title>
+  <link rel="stylesheet" href="assets/css/base/reset.css">
+  <link rel="stylesheet" href="assets/css/base/fonts.css">
+  <link rel="stylesheet" href="assets/css/base/variables.css">
+  <link rel="stylesheet" href="assets/css/base/global.css">
+  <link rel="stylesheet" href="assets/css/layout/container.css">
+  <link rel="stylesheet" href="assets/css/layout/header.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/components/product-card.css">
+  <link rel="stylesheet" href="assets/css/components/product-filter.css">
+  <link rel="stylesheet" href="assets/css/pages/products.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <!-- Sub pages: logo-other.png / Mobile menu: menu-mobilde-black.png -->
+      <a class="header__logo" href="index.html" aria-label="YUMU">
+        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36">
+      </a>
+      <nav class="header__navigation" aria-label="주요 메뉴">
+        <a class="header__link" href="about.html">About</a>
+        <a class="header__link" href="collection.html">Collection</a>
+        <a class="header__link" href="products.html">Products</a>
+        <a class="header__link" href="contact.html">Contact</a>
+      </nav>
+      <button type="button" class="header__menu-button" aria-label="메뉴 열기">
+        <img class="header__menu-icon" src="./assets/images/header/menu-mobile-black.png" alt="" width="26" height="26">
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="products-intro">
+      <div class="container">
+        <h1 class="products-intro__title">Products</h1>
+        <div class="product-filter products-intro__filter">
+          <button type="button" class="product-filter__button product-filter__button--active">All</button>
+          <button type="button" class="product-filter__button">Ceramic</button>
+          <button type="button" class="product-filter__button">Wood</button>
+          <button type="button" class="product-filter__button">Textile</button>
+        </div>
+        <p class="products-intro__description">제품 카탈로그가 이곳에 표시됩니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 공통 Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__content">
+        <div class="footer__company">
+          <a class="footer__logo-link" href="index.html">
+            <img class="footer__logo-image" src="assets/images/footer/logo-footer.png" alt="YUMU" width="46" height="46">
+          </a>
+          <div class="footer__company-info">
+            <p class="footer__text">상호: 유무 YUMU&nbsp;&nbsp;대표: 성인서&nbsp;&nbsp;대표전화: <a class="footer__link" href="tel:050700000000">0507-0000-0000</a></p>
+            <p class="footer__text">주소: 03700 인천광역시 남동구 인주대로 593</p>
+            <p class="footer__text">사업자등록번호: 000-00-00000 <a class="footer__link" href="#">[사업자정보확인]</a>&nbsp;&nbsp;통신판매업 신고번호: 제 2026-인천남동구-0000호</p>
+            <p class="footer__text">개인정보보호책임자: 유무&nbsp;&nbsp;E-mail: <a class="footer__link footer__link--email" href="mailto:hello@yumu.kr">hello@yumu.kr</a></p>
+          </div>
+        </div>
+
+        <div class="footer__customer">
+          <h2 class="footer__title">고객 센터</h2>
+          <p class="footer__phone">
+            <a class="footer__phone-link" href="tel:050700000000">0507-0000-0000</a>
+          </p>
+          <p class="footer__text">월–금 10:00 - 18:00</p>
+          <a class="footer__sns-link" href="https://www.instagram.com/yumu.objet/" target="_blank" rel="noopener noreferrer">
+            <img class="footer__sns-icon" src="assets/images/icons/icon-insta.png" alt="" width="18" height="18">
+            <span class="footer__sns-text">yumu.objet</span>
+          </a>
+        </div>
+
+        <div class="footer__service">
+          <h2 class="footer__title">서비스 정보</h2>
+          <nav aria-label="서비스 정보">
+            <ul class="footer__service-list">
+              <li class="footer__service-item">
+                <a class="footer__link" href="about.html">회사소개</a>
+              </li>
+              <li class="footer__service-item">
+                <a class="footer__link" href="#">이용약관</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">Copyright © <strong>YUMU</strong> All rights reserved. Designed by YUMU.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/products.js"></script>
+</body>
+</html>
