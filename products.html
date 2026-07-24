@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="assets/css/layout/header.css">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/components/product-card.css">
-  <link rel="stylesheet" href="assets/css/components/product-filter.css">
   <link rel="stylesheet" href="assets/css/pages/products.css">
 </head>
 <body>
@@ -35,16 +34,23 @@
   </header>
 
   <main>
-    <section class="products-intro">
-      <div class="container">
-        <h1 class="products-intro__title">Products</h1>
-        <div class="product-filter products-intro__filter">
-          <button type="button" class="product-filter__button product-filter__button--active">All</button>
-          <button type="button" class="product-filter__button">Ceramic</button>
-          <button type="button" class="product-filter__button">Wood</button>
-          <button type="button" class="product-filter__button">Textile</button>
+    <section class="hero" aria-labelledby="products-hero-title">
+      <div class="container hero__inner">
+        <h1 class="hero__title" id="products-hero-title">Products</h1>
+      </div>
+    </section>
+
+    <section class="products" aria-labelledby="products-category-title">
+      <div class="container products__inner">
+        <h2 class="products__title" id="products-category-title">All</h2>
+        <div class="products__filters" role="group" aria-label="상품 카테고리">
+          <button type="button" class="products__filter-button products__filter-button--active" data-category="All" aria-pressed="true">전체 상품</button>
+          <button type="button" class="products__filter-button" data-category="Ceramic" aria-pressed="false">도자기</button>
+          <button type="button" class="products__filter-button" data-category="Fog" aria-pressed="false">안개</button>
+          <button type="button" class="products__filter-button" data-category="Moss" aria-pressed="false">이끼</button>
+          <button type="button" class="products__filter-button" data-category="Lily" aria-pressed="false">백합</button>
+          <button type="button" class="products__filter-button" data-category="Resin" aria-pressed="false">레진</button>
         </div>
-        <p class="products-intro__description">제품 카탈로그가 이곳에 표시됩니다.</p>
       </div>
     </section>
   </main>
