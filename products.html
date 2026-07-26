@@ -44,12 +44,204 @@
       <div class="container products__inner">
         <h2 class="products__title" id="products-category-title">All</h2>
         <div class="products__filters" role="group" aria-label="상품 카테고리">
-          <button type="button" class="products__filter-button products__filter-button--active" data-category="All" aria-pressed="true">전체 상품</button>
-          <button type="button" class="products__filter-button" data-category="Ceramic" aria-pressed="false">도자기</button>
-          <button type="button" class="products__filter-button" data-category="Fog" aria-pressed="false">안개</button>
-          <button type="button" class="products__filter-button" data-category="Moss" aria-pressed="false">이끼</button>
-          <button type="button" class="products__filter-button" data-category="Lily" aria-pressed="false">백합</button>
-          <button type="button" class="products__filter-button" data-category="Resin" aria-pressed="false">레진</button>
+          <button type="button" class="products__filter-button products__filter-button--active" data-filter="all" aria-pressed="true">전체 상품</button>
+          <button type="button" class="products__filter-button" data-filter="ceramic" aria-pressed="false">도자기</button>
+          <button type="button" class="products__filter-button" data-filter="fog" aria-pressed="false">안개</button>
+          <button type="button" class="products__filter-button" data-filter="moss" aria-pressed="false">이끼</button>
+          <button type="button" class="products__filter-button" data-filter="lily" aria-pressed="false">백합</button>
+          <button type="button" class="products__filter-button" data-filter="resin" aria-pressed="false">레진</button>
+        </div>
+
+        <div class="products__list">
+          <article class="product-card" data-category="ceramic fog">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-fog-p1.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Mist Glaze Vessel</h3>
+              <p class="product-card__body">흐린 숲의 색을 머금은 유약의 표면</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic fog">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-fog-p2.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Fog Spiral Dish</h3>
+              <p class="product-card__body">안개가 맴도는 듯한 원형의 유약 흐름</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic fog">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-fog-p3.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Moss Dew Vase</h3>
+              <p class="product-card__body">새벽 안개처럼 길고 조용하게 남는 형태</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic lily">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-lily.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Fog Lily Jar</h3>
+              <p class="product-card__body">백합의 잔상이 도자기 위에 머무는 감각</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-p1.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Dew Ceramic Bowl</h3>
+              <p class="product-card__body">이슬이 고인 듯 차갑고 맑은 유약의 결</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-p2.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Lily Veil Vase</h3>
+              <p class="product-card__body">흐릿한 유약 아래 번지는 백합의 흔적</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-p3.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Silent Bloom Tray</h3>
+              <p class="product-card__body">소리 없이 피어난 꽃잎의 부드러운 곡선</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="ceramic">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/ceramic/ceramic-p4.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Moss Branch Objet</h3>
+              <p class="product-card__body">느리게 자란 가지의 조형적 시간</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="fog">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/fog/fog.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Down Forest Veil</h3>
+              <p class="product-card__body">새벽 숲의 이끼와 습도감을 담은 페브릭</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="fog moss">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/fog/fog-moss.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Silent Moss Landscape</h3>
+              <p class="product-card__body">이끼와 작은 나무, 돌의 풍경을 한 조용한 형태 안에 담은 도자기 오브제</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="fog resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/fog/fog-resin.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Moss Mist Dome</h3>
+              <p class="product-card__body">안개처럼 흐린 표면 너머로 이끼의 생명력이 담긴 형태</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="moss">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/moss/moss-p1.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Moss Flow Objet</h3>
+              <p class="product-card__body">부드럽게 이어지는 이끼의 결과 천천히 쌓이는 생명력을 닮은 오브제</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="moss resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/moss/moss-resin.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Moss Cube Objet</h3>
+              <p class="product-card__body">레진 안에 이끼의 습도와 조용한 생명력을 담은 오브제</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="moss lily resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/moss/moss-lily-resin-p1.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Lily Moss Flow</h3>
+              <p class="product-card__body">흐르듯 이어지는 곡선 위에 백합과 이끼의 조용한 생명감을 담은 오브제</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="moss lily resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/moss/moss-lily-resin-p2.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Fog Lily Dome</h3>
+              <p class="product-card__body">유리 너머 희미하게 머무는 백합과 이끼의 감각</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="lily">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/lily/lily-p1.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Silent Lily Flow</h3>
+              <p class="product-card__body">부드럽게 흐르는 형태 안에 백합의 고요한 움직임을 담은 오브제</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="lily">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/lily/lily-p2.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Lily Mist Jar</h3>
+              <p class="product-card__body">안개처럼 부드럽게 감싸인 백합의 분위기를 담은 형태</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="lily resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/lily/lily-resin.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">A Trace Of hand</h3>
+              <p class="product-card__body">섬세한 손의 유연한 흔적</p>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="resin">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="./assets/images/products/resin/resin.jpg" alt="">
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__subtitle">Dew Resin Objet</h3>
+              <p class="product-card__body">이슬이 맺힌 듯한 투명한 표면 안에 고요한 흐름과 굳혀진 감각을 담은 레진 오브제</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>

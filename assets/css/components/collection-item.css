@@ -1,0 +1,365 @@
+.collection-item {
+  width: 100%;
+}
+
+/* 1920px 화면 기준 1440 x 1000 배치 영역. 너비가 줄면 높이도 같은 비율로 줄어든다. */
+.collection-item__inner {
+  position: relative;
+  aspect-ratio: 1440 / 1000;
+  max-height: 62.5rem;
+}
+
+.collection-item__title {
+  position: absolute;
+  font-family: var(--font-myeongjo);
+  font-size: 6.25rem;
+  font-weight: bold;
+  color: #76867E;
+}
+
+.collection-item__description {
+  position: absolute;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  font-family: var(--font-primary);
+  /* 1920px에서 18px, 화면 너비에 비례 축소, 12px 미만으로는 줄지 않음 */
+  font-size: max(0.75rem, 0.9375vw);
+  font-weight: 400;
+  color: #76867E;
+}
+
+.collection-item__image {
+  position: absolute;
+  object-fit: cover;
+}
+
+.collection-item__link {
+  position: absolute;
+  display: block;
+}
+
+.collection-item__link img {
+  width: 100%;
+  height: auto;
+}
+
+/* 제목 아래끝을 이미지 1 위끝(top 34.9%)보다 1%(1920px 기준 10px) 위에 고정 */
+.collection-item--ceramic .collection-item__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.collection-item--ceramic .collection-item__title {
+  bottom: 66.1%;
+  left: 15.9%;
+}
+
+.collection-item--ceramic .collection-item__image--1 {
+  top: 34.9%;
+  left: 9.4%;
+  width: 31.7%;
+  aspect-ratio: 1 / 1;
+}
+
+.collection-item--ceramic .collection-item__image--2 {
+  top: 19.7%;
+  left: 44.5%;
+  width: 41.7%;
+  aspect-ratio: 8 / 5;
+}
+
+/* 오른쪽 끝이 이미지 2의 오른쪽 끝(86.2%)보다 3.8%(1920px 기준 55px) 더 돌출 */
+.collection-item--ceramic .collection-item__image--3 {
+  top: 45%;
+  left: 66.6%;
+  width: 23.4%;
+  aspect-ratio: 1 / 1;
+}
+
+/* 이미지 2 오른쪽 끝에서 1.4%(1920px 기준 20px) 간격, 위끝은 이미지 2와 동일 */
+.collection-item--ceramic .collection-item__description {
+  top: 19.7%;
+  left: 87.6%;
+}
+
+.collection-item--ceramic .collection-item__link {
+  top: 75%;
+  left: 92.4%;
+  width: 2.9%;
+}
+
+/* 제목 아래끝을 이미지 2 위끝(top 37.9%)보다 1%(1920px 기준 10px) 위에 고정, 왼쪽은 이미지 2와 정렬 */
+.collection-item--fog .collection-item__title {
+  bottom: 63.1%;
+  left: 53.6%;
+}
+
+.collection-item--fog .collection-item__image--1 {
+  top: 21.9%;
+  left: 6.3%;
+  width: 44%;
+  aspect-ratio: 16 / 9;
+}
+
+.collection-item--fog .collection-item__image--2 {
+  top: 37.9%;
+  left: 53.6%;
+  width: 35.3%;
+  aspect-ratio: 3 / 2;
+}
+
+/* 이미지 1, 2 위에 겹쳐지는 이미지 */
+.collection-item--fog .collection-item__image--3 {
+  top: 52.3%;
+  left: 31.1%;
+  width: 31.1%;
+  aspect-ratio: 16 / 9;
+}
+
+/* 이미지 1 아래끝(57.5%)에서 2%(1920px 기준 20px) 간격, 디자인에 맞춰 가로 방향 */
+/* 오른쪽은 이미지 3 왼쪽(31.1%)에서 1.4%(1920px 기준 20px) 떨어지도록 */
+.collection-item--fog .collection-item__description {
+  top: 59.5%;
+  left: 11%;
+  max-width: 18.7%;
+  writing-mode: horizontal-tb;
+}
+
+.collection-item--fog .collection-item__link {
+  top: 72.9%;
+  left: 92.4%;
+  width: 2.9%;
+}
+
+/* 이미지 2 오른쪽 끝(68.5%)에서 1.4%(1920px 기준 20px) 간격, 위끝은 이미지 2와 동일 */
+.collection-item--moss .collection-item__title {
+  top: 14.4%;
+  left: 69.9%;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+}
+
+.collection-item--moss .collection-item__image--1 {
+  top: 22.3%;
+  left: 4.2%;
+  width: 52.5%;
+  aspect-ratio: 8 / 5;
+}
+
+/* 이미지 1, 3 위에 겹쳐지는 이미지 */
+.collection-item--moss .collection-item__image--2 {
+  top: 14.4%;
+  left: 51.6%;
+  width: 16.9%;
+  aspect-ratio: 13 / 14;
+  z-index: 1;
+}
+
+.collection-item--moss .collection-item__image--3 {
+  top: 43.7%;
+  left: 53.1%;
+  width: 42.7%;
+  aspect-ratio: 16 / 9;
+}
+
+/* 이미지 1 아래끝에서 2%(1920px 기준 20px) 간격, 디자인에 맞춰 가로 방향 */
+/* 오른쪽은 이미지 3 왼쪽(53.1%)에서 1.4%(1920px 기준 20px) 떨어지도록 */
+.collection-item--moss .collection-item__description {
+  top: 71.6%;
+  left: 35.4%;
+  max-width: 16.3%;
+  writing-mode: horizontal-tb;
+}
+
+/* 이미지 3 아래끝(78.3%)에서 4%(1920px 기준 40px) 간격 */
+.collection-item--moss .collection-item__link {
+  top: 82.3%;
+  left: 92.4%;
+  width: 2.9%;
+}
+
+/* 1920px 화면 기준 1440 x 1200 배치 영역 */
+.collection-item--lily .collection-item__inner {
+  aspect-ratio: 1440 / 1200;
+  max-height: 75rem;
+}
+
+.collection-item--lily .collection-item__title {
+  top: 76.6%;
+  left: 51.4%;
+}
+
+/* 이미지 2 왼쪽 위에 겹치는 세로형 컷 사진 */
+.collection-item--lily .collection-item__image--1 {
+  top: 15.6%;
+  left: 15.6%;
+  width: 20%;
+  aspect-ratio: 639 / 1122;
+  z-index: 2;
+}
+
+.collection-item--lily .collection-item__image--2 {
+  top: 34.1%;
+  left: 16.7%;
+  width: 61.2%;
+  aspect-ratio: 5 / 3;
+}
+
+.collection-item--lily .collection-item__image--3 {
+  top: 61.7%;
+  left: 66.8%;
+  width: 22.1%;
+  aspect-ratio: 1 / 1;
+  z-index: 1;
+}
+
+/* 이미지 2 오른쪽 끝에서 1.4%(1920px 기준 20px) 간격 */
+.collection-item--lily .collection-item__description {
+  top: 40.6%;
+  left: 79.3%;
+}
+
+/* 이미지 3 오른쪽 끝(88.9%)에서 2.8%(1920px 기준 40px) 간격 */
+.collection-item--lily .collection-item__link {
+  top: 85.6%;
+  left: 91.7%;
+  width: 2.9%;
+}
+
+/* 제목 아래끝을 이미지 1 위끝(top 20.6%)보다 1%(1920px 기준 10px) 위에 고정, 왼쪽은 이미지 1과 정렬 */
+.collection-item--resin .collection-item__title {
+  bottom: 80.4%;
+  left: 12.1%;
+}
+
+.collection-item--resin .collection-item__image--1 {
+  top: 20.6%;
+  left: 12.1%;
+  width: 51.6%;
+  aspect-ratio: 8 / 5;
+}
+
+/* 이미지 1 오른쪽에 겹치며 아래로 더 내려가는 손 조각 사진 */
+.collection-item--resin .collection-item__image--2 {
+  top: 18%;
+  left: 46.2%;
+  width: 39.6%;
+  aspect-ratio: 773 / 954;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* 이미지 1 아래끝에서 2%(1920px 기준 20px) 간격, 왼쪽은 이미지 1과 정렬 */
+.collection-item--resin .collection-item__description {
+  top: 69%;
+  left: 12.1%;
+  writing-mode: horizontal-tb;
+}
+
+.collection-item--resin .collection-item__link {
+  top: 88.2%;
+  left: 91.8%;
+  width: 2.9%;
+}
+
+@media (max-width: 90rem) {
+  .collection-item__title {
+    font-size: 4.375rem;
+  }
+}
+
+@media (max-width: 64rem) {
+  .collection-item__title {
+    font-size: 3.125rem;
+  }
+
+  .collection-item--fog .collection-item__description {
+    left: 6%;
+    max-width: none;
+  }
+}
+
+/* ===== Mobile (768px 이하) ===== */
+@media (max-width: 48rem) {
+  /* 모바일 공통 타이포 */
+  .collection-item__title {
+    font-size: 3.125rem;
+  }
+
+  .collection-item__description {
+    font-size: 0.6875rem;
+  }
+
+  /* Ceramic 전용 모바일 배치 — 섹션 높이 800px, 구성 블록 세로 중앙 */
+  /* 사진1 = 왼쪽 고정, 하단 2장 = 오른쪽 고정 */
+  .collection-item--ceramic .collection-item__inner {
+    aspect-ratio: auto;
+    height: 50rem;
+    max-height: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .collection-item--ceramic .collection-item__stage {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    container-type: inline-size;
+    /* 제목 + 14px + 이미지1 + 14px + 이미지2 + 14px + 화살표 */
+    height: calc(
+      3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem + (52.1cqi * 318 / 456) + 0.875rem + 2.25rem
+    );
+  }
+
+  .collection-item--ceramic .collection-item__title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+  }
+
+  /* 사진1 — 왼쪽 고정 */
+  .collection-item--ceramic .collection-item__image--1 {
+    top: calc(3.125rem + 0.875rem);
+    left: 0;
+    right: auto;
+    width: 50.1%;
+    aspect-ratio: 438 / 426;
+  }
+
+  /* 하단 오른쪽 — 화병(ceramic-3), 오른쪽 고정 */
+  .collection-item--ceramic .collection-item__image--2 {
+    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem);
+    left: auto;
+    right: 0;
+    width: 52.1%;
+    aspect-ratio: 456 / 318;
+  }
+
+  /* 하단 왼쪽 — 꽃 접시(ceramic-2), 화병과 겹치며 함께 오른쪽 그룹 */
+  .collection-item--ceramic .collection-item__image--3 {
+    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem);
+    left: auto;
+    right: calc(52.1% - 6.5%);
+    width: 28.3%;
+    aspect-ratio: 263 / 248;
+    z-index: 1;
+  }
+
+  /* 사진1 오른쪽, 세로 문장 — 간격 10px */
+  .collection-item--ceramic .collection-item__description {
+    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) * 0.2);
+    left: calc(50.1% + 0.625rem);
+    right: auto;
+  }
+
+  /* 화살표 36×36, 하단 사진 그룹 아래 14px · 오른쪽 정렬 */
+  .collection-item--ceramic .collection-item__link {
+    top: calc(
+      3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem + (52.1cqi * 318 / 456) + 0.875rem
+    );
+    left: auto;
+    right: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

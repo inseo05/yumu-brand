@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="assets/css/layout/header.css">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/components/collection-card.css">
+  <link rel="stylesheet" href="assets/css/components/collection-item.css">
   <link rel="stylesheet" href="assets/css/components/photo-hover.css">
   <link rel="stylesheet" href="assets/css/pages/collection.css">
 </head>
@@ -34,10 +35,84 @@
     </div>
   </header>
   <main>
-    <section class="collection-intro">
-      <div class="container">
-        <h1 class="collection-intro__title">Collection</h1>
-        <p class="collection-intro__description">시즌별 컬렉션이 이곳에 표시됩니다.</p>
+    <section class="hero" aria-labelledby="collection-hero-title">
+      <div class="container hero__inner">
+        <h1 class="hero__title" id="collection-hero-title">collection</h1>
+      </div>
+    </section>
+
+    <section class="collection-item collection-item--ceramic" aria-labelledby="collection-ceramic-title">
+      <div class="container collection-item__inner">
+        <div class="collection-item__stage">
+          <h2 class="collection-item__title" id="collection-ceramic-title">Ceramic</h2>
+          <p class="collection-item__description">“오래 남는 형태와 손의 흔적”</p>
+          <picture>
+            <source media="(max-width: 48rem)" srcset="./assets/images/collection/mobile/ceramic/ceramic-1.png">
+            <img class="collection-item__image collection-item__image--1" src="./assets/images/collection/ceramic/ceramic-p1.png" alt="">
+          </picture>
+          <picture>
+            <source media="(max-width: 48rem)" srcset="./assets/images/collection/mobile/ceramic/ceramic-3.png">
+            <img class="collection-item__image collection-item__image--2" src="./assets/images/collection/ceramic/ceramic-p2.png" alt="">
+          </picture>
+          <picture>
+            <source media="(max-width: 48rem)" srcset="./assets/images/collection/mobile/ceramic/ceramic-2.png">
+            <img class="collection-item__image collection-item__image--3" src="./assets/images/collection/ceramic/ceramic-p3.png" alt="">
+          </picture>
+          <a class="collection-item__link" href="products.html?category=ceramic" aria-label="Ceramic 상품 보기">
+            <img src="./assets/images/collection/arrow.svg" alt="" width="60" height="60">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="collection-item collection-item--fog" aria-labelledby="collection-fog-title">
+      <div class="container collection-item__inner">
+        <h2 class="collection-item__title" id="collection-fog-title">Fog</h2>
+        <p class="collection-item__description">“선명하지 않지만 공간에 머무는 감각”</p>
+        <img class="collection-item__image collection-item__image--1" src="./assets/images/collection/fog/fog-p1.png" alt="">
+        <img class="collection-item__image collection-item__image--2" src="./assets/images/collection/fog/fog-p2.png" alt="">
+        <img class="collection-item__image collection-item__image--3" src="./assets/images/collection/fog/fog-p3.png" alt="">
+        <a class="collection-item__link" href="products.html?category=fog" aria-label="Fog 상품 보기">
+          <img src="./assets/images/collection/arrow.svg" alt="" width="60" height="60">
+        </a>
+      </div>
+    </section>
+
+    <section class="collection-item collection-item--moss" aria-labelledby="collection-moss-title">
+      <div class="container collection-item__inner">
+        <h2 class="collection-item__title" id="collection-moss-title">Moss</h2>
+        <p class="collection-item__description">“느리게 축적되는 생명력”</p>
+        <img class="collection-item__image collection-item__image--1" src="./assets/images/collection/moss/moss-p1.png" alt="">
+        <img class="collection-item__image collection-item__image--2" src="./assets/images/collection/moss/moss-p2.png" alt="">
+        <img class="collection-item__image collection-item__image--3" src="./assets/images/collection/moss/moss-p3.png" alt="">
+        <a class="collection-item__link" href="products.html?category=moss" aria-label="Moss 상품 보기">
+          <img src="./assets/images/collection/arrow.svg" alt="" width="60" height="60">
+        </a>
+      </div>
+    </section>
+
+    <section class="collection-item collection-item--lily" aria-labelledby="collection-lily-title">
+      <div class="container collection-item__inner">
+        <h2 class="collection-item__title" id="collection-lily-title">Lily</h2>
+        <p class="collection-item__description">“조용하고 정제된 아름다움”</p>
+        <img class="collection-item__image collection-item__image--1" src="./assets/images/collection/lily/lily-p1.png" alt="">
+        <img class="collection-item__image collection-item__image--2" src="./assets/images/collection/lily/lily-p2.png" alt="">
+        <img class="collection-item__image collection-item__image--3" src="./assets/images/collection/lily/lily-p3.png" alt="">
+        <a class="collection-item__link" href="products.html?category=lily" aria-label="Lily 상품 보기">
+          <img src="./assets/images/collection/arrow.svg" alt="" width="60" height="60">
+        </a>
+      </div>
+    </section>
+
+    <section class="collection-item collection-item--resin" aria-labelledby="collection-resin-title">
+      <div class="container collection-item__inner">
+        <h2 class="collection-item__title" id="collection-resin-title">Resin</h2>
+        <p class="collection-item__description">“사라지는 순간을 보존하는 물성”</p>
+        <img class="collection-item__image collection-item__image--1" src="./assets/images/collection/resin/resin-p1.png" alt="">
+        <img class="collection-item__image collection-item__image--2" src="./assets/images/collection/resin/resin-p2.png" alt="">
+        <a class="collection-item__link" href="products.html?category=resin" aria-label="Resin 상품 보기">
+          <img src="./assets/images/collection/arrow.svg" alt="" width="60" height="60">
+        </a>
       </div>
     </section>
   </main>
