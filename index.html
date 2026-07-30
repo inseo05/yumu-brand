@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="assets/css/base/fonts.css">
   <link rel="stylesheet" href="assets/css/base/variables.css">
   <link rel="stylesheet" href="assets/css/base/global.css">
+  <link rel="stylesheet" href="assets/css/base/animations.css">
   <link rel="stylesheet" href="assets/css/layout/container.css">
   <link rel="stylesheet" href="assets/css/layout/header.css">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/components/button.css">
-  <link rel="stylesheet" href="assets/css/components/hero.css">
   <link rel="stylesheet" href="assets/css/pages/home.css">
 </head>
 <body class="page-home">
@@ -35,12 +35,80 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero__overlay" aria-hidden="true"></div>
-      <div class="container hero__content">
-        <h1 class="hero__title">유무 YUMU</h1>
-        <p class="hero__description">감성이 소재와 형태로 구현된 오브제 브랜드</p>
-        <a class="button button--secondary" href="collection.html">Collection 보기</a>
+    <div class="home-scroll">
+      <section class="home-scroll__panel home-scroll__panel--intro">
+        <video
+          class="home-scroll__video"
+          src="./assets/images/home/intro-ment.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <div class="home-scroll__intro-copy">
+          <p class="home-scroll__intro-line is-active">“선명하게 보이지 않아도”</p>
+          <p class="home-scroll__intro-line">“공간에 오래 머무는 감각이 있습니다.”</p>
+          <p class="home-scroll__intro-line">“그 감각은 어떤 형태로 남을까요?”</p>
+        </div>
+      </section>
+      <section class="home-scroll__panel home-scroll__panel--hero">
+        <video
+          class="home-scroll__video"
+          src="./assets/images/home/hero-bg.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <div class="home-scroll__content">
+          <div class="container home-scroll__content-inner">
+            <div class="home-scroll__text">
+              <p class="home-scroll__brand">
+                <span class="home-scroll__brand-ko">유무</span>
+                <span class="home-scroll__brand-hanja">釉霧</span>
+              </p>
+              <p class="home-scroll__lead">: 있는 듯 없는 듯, 그러나 늘 그 자리에 남는 감각.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="material" aria-labelledby="material-title">
+      <div class="container material__header">
+        <p class="material__label">Material</p>
+        <h2 class="material__title" id="material-title">감각을 이루는 물성</h2>
+      </div>
+
+      <div class="container">
+        <div class="material__panel material__panel--ceramic">
+          <div class="material__panel-inner">
+            <div class="material__name-group">
+              <p class="material__name material__name--vertical">도<br>자<br>기</p>
+              <p class="material__hanja">釉</p>
+            </div>
+            <div class="material__media-group">
+              <p class="material__body">연약하지만 오래 남는 형태,<br>손의 흔적, 차가운 촉감</p>
+              <img
+                class="material__image"
+                src="./assets/images/home/material-ceramic.webp"
+                alt=""
+                width="259"
+                height="280"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="material__panel material__panel--fog">
+        <div class="container material__panel-inner">
+          <p class="material__body material__body--light">선명하지 않은 기억, 흐릿한 감정,<br>공간에 머무는 분위기</p>
+          <div class="material__name-group">
+            <p class="material__name material__name--vertical material__name--light">안<br>개</p>
+            <p class="material__hanja material__hanja--muted">霧</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -94,6 +162,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
   <script src="assets/js/common.js"></script>
   <script src="assets/js/home.js"></script>
 </body>
