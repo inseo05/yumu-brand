@@ -3,8 +3,8 @@
    ========================================================= */
 
 .text-blur-out {
-  -webkit-animation: text-blur-out 1.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-  animation: text-blur-out 1.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  -webkit-animation: text-blur-out 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: text-blur-out 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 
 @-webkit-keyframes text-blur-out {
@@ -32,8 +32,8 @@
 }
 
 .text-focus-in {
-  -webkit-animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-  animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  -webkit-animation: text-focus-in 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: text-focus-in 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
 
 @-webkit-keyframes text-focus-in {
