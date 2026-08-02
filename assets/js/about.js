@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAboutHeroPhrases();
   initAboutScrollReveals();
   initAboutNameMobileScale();
+  initAboutMaterialStory();
 });
 
 function initAboutHeroPhrases() {
@@ -198,4 +199,53 @@ function initAboutNameMobileScale() {
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(updateScale);
   }
+}
+
+function initAboutMaterialStory() {
+  const root = document.querySelector('.about-material__swiper');
+  const fill = document.querySelector('.about-material__progress-fill');
+
+  if (!root || !fill || typeof Swiper === 'undefined') return;
+
+  const setProgress = (ratio) => {
+    const value = Math.min(1, Math.max(0, ratio));
+
+    if (typeof gsap !== 'undefined') {
+      gsap.set(fill, { scaleX: value, transformOrigin: 'left center' });
+      return;
+    }
+
+    fill.style.transformOrigin = 'left center';
+    fill.style.transform = `scaleX(${value})`;
+  };
+
+  const swiper = new Swiper(root, {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    loop: true,
+    speed: 300,
+    grabCursor: true,
+    allowTouchMove: true,
+    followFinger: true,
+    freeMode: false,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: false,
+    },
+    on: {
+      init() {
+        setProgress(0);
+      },
+      slideChange() {
+        setProgress(0);
+      },
+      autoplayTimeLeft(_swiper, _time, progress) {
+        // progress: 1 → 0 (remaining). Fill should go 0 → 1.
+        setProgress(1 - progress);
+      },
+    },
+  });
+
+  return swiper;
 }
