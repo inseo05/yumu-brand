@@ -10,6 +10,13 @@
   z-index: 100;
   width: 100%;
   background-color: var(--color-white);
+  transition:
+    transform var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.header.header--hidden {
+  transform: translateY(-100%);
 }
 
 .header__inner {
@@ -45,7 +52,9 @@
   font-weight: var(--header-nav-weight);
   line-height: var(--header-nav-lh);
   color: var(--color-grey-900);
-  transition: opacity var(--transition-base);
+  transition:
+    opacity var(--transition-base),
+    color var(--transition-base);
 }
 
 .header__link:hover {
@@ -78,7 +87,7 @@
 
 /* Home header variant */
 .header--home {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: transparent;
@@ -117,5 +126,102 @@
 
   .header__menu-button {
     display: inline-flex;
+  }
+}
+
+/* ===== Mobile side menu (768px 이하) ===== */
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 48rem) {
+  .mobile-nav {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+  }
+
+  .mobile-nav.is-open {
+    pointer-events: auto;
+  }
+
+  .mobile-nav__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: #000;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+  }
+
+  .mobile-nav.is-open .mobile-nav__overlay {
+    opacity: 0.2;
+    pointer-events: auto;
+  }
+
+  .mobile-nav__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 60%;
+    height: 100vh;
+    height: 100dvh;
+    padding: 1.0625rem 1.25rem 0;
+    background-color: var(--color-white);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+  }
+
+  .mobile-nav.is-open .mobile-nav__panel {
+    transform: translateX(0);
+  }
+
+  .mobile-nav__close {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .mobile-nav__close-icon {
+    display: block;
+    width: 1.625rem;
+    height: 1.625rem;
+  }
+
+  .mobile-nav__nav {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+  }
+
+  .mobile-nav__link {
+    display: block;
+    box-sizing: border-box;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.0625rem solid var(--color-grey-100);
+    font-family: var(--font-myeongjo);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--color-grey-900);
+    text-decoration: none;
+  }
+
+  body.is-menu-open {
+    overflow: hidden;
   }
 }

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="assets/css/base/fonts.css">
   <link rel="stylesheet" href="assets/css/base/variables.css">
   <link rel="stylesheet" href="assets/css/base/global.css">
+  <link rel="stylesheet" href="assets/css/base/animations.css">
   <link rel="stylesheet" href="assets/css/layout/container.css">
   <link rel="stylesheet" href="assets/css/layout/header.css">
   <link rel="stylesheet" href="assets/css/common.css">
@@ -34,11 +35,116 @@
   </header>
 
   <main>
-    <section class="about-intro">
-      <div class="container">
-        <h1 class="about-intro__title">About YUMU</h1>
-        <p class="about-intro__description">
-          유무 YUMU는 브랜드의 철학과 세계관을 먼저 전달하는 감성 오브제 브랜드입니다.
+    <section class="about-hero" aria-label="About Hero">
+      <div class="container about-hero__inner">
+        <div class="about-hero__phrases">
+          <p class="about-hero__phrase about-hero__phrase--left">오<br>래<br>남<br>는<br>감<br>각<br>이<br>있<br>습<br>니<br>다<br>.</p>
+          <p class="about-hero__phrase about-hero__phrase--right">선<br>명<br>하<br>지<br>않<br>아<br>도<br>,</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-intro" aria-label="브랜드 소개">
+      <div class="container about-intro__inner">
+        <p class="about-intro__text">
+          <span class="about-intro__part" data-d="0" data-t="0" data-m="0">유무는 선명하게 보이는 아름다움보다,</span><br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="0" data-t="1" data-m="0">흐릿하지만 오래 남는 감각에 주목합니다.</span><br class="about-intro__break about-intro__break--line">
+          <br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="1" data-t="2" data-m="1">인테리어 오브제는 처음 공간에 놓였을 때 분명한 존재감을 가지지만,</span><br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="1" data-t="3" data-m="1">시간이 지나면 일상의 배경처럼 자연스럽게 스며듭니다.</span><br class="about-intro__break about-intro__break--line">
+          <br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="2" data-t="4" data-m="2">그러나 그 사물은 사라지지 않고 늘 같은 자리에 머물며,</span><br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="2" data-t="5" data-m="2">공간의 분위기를 조용히 완성합니다.</span><br>
+          <br>
+          <span class="about-intro__part" data-d="3" data-t="6" data-m="3">유무는 이처럼 있는 듯 없는 듯하지만 분명히 존재하는 사물의 가치를 담고자 합니다.</span><br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="3" data-t="7" data-m="3">강하게 드러나기보다 조용히 머무르고,</span><br class="about-intro__break about-intro__break--desktop">
+          <span class="about-intro__part" data-d="4" data-t="7" data-m="3">눈에 띄지 않아도</span><br class="about-intro__break about-intro__break--tablet">
+          <span class="about-intro__part" data-d="4" data-t="8" data-m="3">공간에 감각의 흔적을 남기는 오브제를 제안합니다.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="about-name" aria-label="Name meaning" data-about-reveal>
+      <div class="about-name__header">
+        <h2 class="about-name__title">Name meaning</h2>
+        <div class="about-name__divider" aria-hidden="true"></div>
+      </div>
+
+      <div class="about-name__viewport">
+        <div class="about-name__stage">
+          <div class="about-name__body">
+            <div class="about-name__copy-group">
+              <span class="about-name__hanja" aria-hidden="true">釉</span>
+
+              <div class="container about-name__inner">
+                <div class="about-name__content">
+                  <div class="about-name__copy">
+                    <h3 class="about-name__heading about-reveal__line">유약 유</h3>
+                    <p class="about-name__text">
+                      <span class="about-reveal__line">도자기의 표면을 얇게 감싸며<br class="about-name__break about-name__break--mobile">빛과 촉감을 남기는 막입니다.</span><br>
+                      <br class="about-name__break about-name__break--mobile">
+                      <span class="about-reveal__line">흙이 불을 지나 단단해진 뒤,<br class="about-name__break about-name__break--mobile">그 위에 얇게 남는 빛과 촉감의 막.</span><br>
+                      <br class="about-name__break about-name__break--mobile">
+                      <span class="about-reveal__line">유무에서는 사물의 표면에 조용히<br class="about-name__break about-name__break--mobile">남는 감각과 손끝으로</span><br class="about-name__break about-name__break--desktop">
+                      <span class="about-reveal__line">기억되는<br class="about-name__break about-name__break--mobile">물성을 의미합니다.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <img
+              class="about-name__image"
+              src="./assets/images/about/name-ceramic.webp"
+              alt="유약 유를 표현한 도자기"
+              width="635"
+              height="653"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-name about-name--fog" aria-label="안개 무" data-about-reveal>
+      <div class="about-name__viewport">
+        <div class="about-name__stage">
+          <div class="about-name__body">
+            <div class="about-name__copy-group">
+              <div class="container about-name__inner">
+                <div class="about-name__content">
+                  <div class="about-name__cluster">
+                    <div class="about-name__copy">
+                      <h3 class="about-name__heading about-reveal__line">안개 무</h3>
+                      <p class="about-name__text">
+                        <span class="about-reveal__line">안개는 선명한 형태를 가지지 않지만,</span><br>
+                        <span class="about-reveal__line">공간의 공기와 온도, 사물의 윤곽을 조용히 바꿉니다.</span><br>
+                        <span class="about-reveal__line">눈앞에 또렷하게 잡히지 않아도 그곳에 머물고 있음을<br class="about-name__break about-name__break--mobile">느낄 수 있는 존재.</span><br>
+                        <span class="about-reveal__line">유무에게 霧는 보이지 않지만 공간에 오래 남는<br class="about-name__break about-name__break--mobile">분위기입니다.</span>
+                      </p>
+                    </div>
+                    <span class="about-name__hanja" aria-hidden="true">霧</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-meaning" aria-label="유무는" data-about-reveal>
+      <div class="about-meaning__overlay" aria-hidden="true"></div>
+      <div class="about-meaning__content">
+        <h2 class="about-meaning__title about-reveal__line">유무는</h2>
+        <p class="about-meaning__text">
+          <span class="about-reveal__line">겉으로는 ‘있음과 없음’을 떠올리게 하지만,</span><br>
+          <span class="about-reveal__line">브랜드 안에서는 유약의 <span class="about-meaning__hanja">釉</span>와 안개의 <span class="about-meaning__hanja">霧</span>를 함께 담습니다.</span><br>
+          <br>
+          <span class="about-reveal__line">표면에 남는 촉감과</span><br>
+          <span class="about-reveal__line">공간에 머무는 흐릿한 감각.</span><br>
+          <br>
+          <span class="about-reveal__line">유무는 이 두 의미를 바탕으로</span><br>
+          <span class="about-reveal__line">오래 남는 감각의 오브제를 만듭니다.</span>
         </p>
       </div>
     </section>
@@ -93,6 +199,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
   <script src="assets/js/common.js"></script>
+  <script src="assets/js/about.js"></script>
 </body>
 </html>

@@ -34,6 +34,8 @@ window.addEventListener('load', () => {
   const finale = section.querySelector('.essence__finale');
   const finaleTop = section.querySelector('.essence__finale-line--top');
   const finaleBrand = section.querySelector('.essence__finale-brand');
+  const finaleKo = section.querySelector('.essence__finale-ko');
+  const finaleHanja = section.querySelector('.essence__finale-hanja');
   const finaleBottom = section.querySelector('.essence__finale-line--bottom');
 
   if (!viewport || stageEls.some((el) => !el)) return;
@@ -159,20 +161,42 @@ window.addEventListener('load', () => {
 
   const clearFinaleTextAnimations = () => {
     finaleItems.forEach((el) => {
-      el.classList.remove('text-blur-out', 'text-focus-in');
+      el.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
       el.style.removeProperty('filter');
       el.style.removeProperty('opacity');
     });
+    if (finaleKo) {
+      finaleKo.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
+      finaleKo.style.removeProperty('filter');
+      finaleKo.style.removeProperty('opacity');
+      finaleKo.style.removeProperty('letter-spacing');
+    }
+    if (finaleHanja) {
+      finaleHanja.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
+      finaleHanja.style.removeProperty('filter');
+      finaleHanja.style.removeProperty('opacity');
+    }
   };
 
   const playTextFocusIn = async (element) => {
     if (!element) return;
-    element.classList.remove('text-blur-out', 'text-focus-in');
+    element.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
     element.style.removeProperty('filter');
     element.style.removeProperty('opacity');
     void element.offsetWidth;
     element.classList.add('text-focus-in');
     await waitForAnimation(element, 'text-focus-in', 900);
+  };
+
+  const playFocusInExpand = async (element) => {
+    if (!element) return;
+    element.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
+    element.style.removeProperty('filter');
+    element.style.removeProperty('opacity');
+    element.style.removeProperty('letter-spacing');
+    void element.offsetWidth;
+    element.classList.add('focus-in-expand');
+    await waitForAnimation(element, 'focus-in-expand', 900);
   };
 
   const setFinaleStart = () => {
@@ -335,8 +359,32 @@ window.addEventListener('load', () => {
       await tl.then();
       setLogoState('none', true);
 
-      // 한 줄씩 text-focus-in
+      // 한 줄씩 등장 — 유무(finale-ko)만 focus-in-expand
       for (const item of finaleItems) {
+        if (item === finaleBrand && finaleKo) {
+          item.classList.remove('text-blur-out', 'text-focus-in', 'focus-in-expand');
+          item.style.removeProperty('filter');
+          item.style.opacity = '1';
+
+          const brandTasks = [playFocusInExpand(finaleKo)];
+          if (finaleHanja) {
+            brandTasks.push(playTextFocusIn(finaleHanja));
+          }
+          await Promise.all(brandTasks);
+
+          finaleKo.classList.remove('focus-in-expand');
+          finaleKo.style.removeProperty('filter');
+          finaleKo.style.removeProperty('letter-spacing');
+          finaleKo.style.opacity = '1';
+
+          if (finaleHanja) {
+            finaleHanja.classList.remove('text-focus-in');
+            finaleHanja.style.removeProperty('filter');
+            finaleHanja.style.opacity = '1';
+          }
+          continue;
+        }
+
         await playTextFocusIn(item);
         item.classList.remove('text-focus-in');
         item.style.removeProperty('filter');

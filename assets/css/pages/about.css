@@ -1,42 +1,638 @@
-.about-intro {
-  padding-block: 3.75rem;
+/* ===== About Hero ===== */
+.about-hero {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--color-grey-100);
+  background-image: url("../../images/about/about-hero-bg.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-.about-intro__title {
-  margin-bottom: 2.5rem;
+.about-hero__inner {
+  max-width: 64.625rem;
+}
+
+.about-hero__phrases {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5rem;
+}
+
+.about-hero__phrase {
+  margin: 0;
   font-family: var(--font-myeongjo);
-  font-size: 3.75rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.about-intro__description {
-  max-width: 45rem;
-  font-family: var(--font-primary);
-  font-size: 1.125rem;
   font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: 0;
-  color: var(--color-text-secondary);
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  color: var(--color-grey-700);
+  opacity: 0;
 }
 
 @media (max-width: 64rem) {
-  .about-intro__title {
-    font-size: 3rem;
+  .about-hero__inner {
+    max-width: var(--container-max-width);
   }
 
-  .about-intro__description {
-    font-size: 1rem;
+  .about-hero__phrases {
+    gap: 3.3125rem;
+  }
+
+  .about-hero__phrase {
+    font-size: 1.375rem;
+    line-height: 2.125rem;
   }
 }
 
 @media (max-width: 48rem) {
-  .about-intro__title {
-    font-size: 2rem;
+  .about-hero__phrases {
+    gap: 1.875rem;
   }
 
-  .about-intro__description {
-    font-size: 0.875rem;
+  .about-hero__phrase {
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+}
+
+/* ===== About Intro ===== */
+.about-intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50rem;
+  background-color: var(--color-grey-800);
+}
+
+.about-intro__inner {
+  width: 100%;
+}
+
+.about-intro__text {
+  margin: 0;
+  font-family: var(--font-myeongjo);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 2.625rem;
+  color: var(--color-white);
+  text-align: left;
+}
+
+.about-intro__part,
+.about-reveal__line {
+  opacity: 0.25;
+  will-change: opacity;
+}
+
+.about-intro__part {
+  display: inline;
+}
+
+.about-intro__break--tablet {
+  display: none;
+}
+
+.about-intro__break--desktop {
+  display: inline;
+}
+
+.about-intro__break--line {
+  display: inline;
+}
+
+@media (max-width: 64rem) {
+  .about-intro {
+    height: 43.75rem;
+  }
+
+  .about-intro__text {
+    font-size: 1.125rem;
+    line-height: 2.25rem;
+  }
+
+  .about-intro__break--tablet {
+    display: inline;
+  }
+
+  .about-intro__break--desktop {
+    display: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  .about-intro {
+    height: 28.75rem;
+  }
+
+  .about-intro__text {
+    font-size: 0.75rem;
+    line-height: 170%;
+  }
+
+  .about-intro__break--tablet,
+  .about-intro__break--desktop,
+  .about-intro__break--line {
+    display: none;
+  }
+}
+
+/* ===== About Name meaning ===== */
+.about-name {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--color-white);
+}
+
+.about-name__header {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.about-name__viewport {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.about-name__stage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.about-name__title {
+  margin: 0;
+  padding: 50px 0 30px;
+  font-family: var(--font-myeongjo);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--color-grey-800);
+  text-align: center;
+}
+
+.about-name__divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-grey-800);
+  opacity: 0.1;
+}
+
+.about-name__body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+}
+
+.about-name__copy-group {
+  width: 100%;
+}
+
+.about-name__hanja {
+  position: absolute;
+  top: 50%;
+  left: max(-106px, -5.5208vw);
+  z-index: 0;
+  font-family: var(--font-hanja);
+  font-weight: 400;
+  font-size: min(800px, 41.6667vw);
+  line-height: 1;
+  color: var(--color-grey-800);
+  opacity: 0.1;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-name__image {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 1;
+  display: block;
+  width: min(635px, 33.0729vw);
+  height: auto;
+  object-fit: contain;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.about-name__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.about-name__content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  padding-right: max(
+    0px,
+    calc(
+      min(635px, 33.0729vw) + min(50px, 2.6042vw)
+      - max(0px, (100vw - var(--container-max-width)) / 2)
+      - var(--container-gutter)
+    )
+  );
+}
+
+.about-name__copy {
+  flex-shrink: 0;
+}
+
+.about-name__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-myeongjo);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--color-grey-800);
+}
+
+.about-name__text {
+  margin: 0;
+  font-family: var(--font-myeongjo);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 40px;
+  color: var(--color-grey-800);
+}
+
+.about-name__break--mobile {
+  display: none;
+}
+
+.about-name__break--desktop {
+  display: inline;
+}
+
+@media (max-width: 64rem) {
+  .about-name__title {
+    padding: 26px 0 16px;
+    font-size: 18px;
+  }
+
+  .about-name__hanja {
+    font-size: 426px;
+  }
+
+  .about-name__image {
+    width: 339px;
+    height: auto;
+  }
+
+  .about-name__content {
+    padding-right: max(
+      0px,
+      calc(
+        339px + 10px
+        - max(0px, (100vw - var(--container-max-width)) / 2)
+        - var(--container-gutter)
+      )
+    );
+  }
+
+  .about-name__heading {
+    margin-bottom: 9px;
+    font-size: 16px;
+  }
+
+  .about-name__text {
+    font-size: 12px;
+    line-height: 22px;
+  }
+}
+
+/* ===== About Name meaning — 안개 무 ===== */
+.about-name--fog {
+  background-color: var(--color-grey-800);
+  background-image: url("../../images/about/name-fog.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-name--fog .about-name__content {
+  justify-content: flex-end;
+  padding-right: 0;
+}
+
+.about-name--fog .about-name__cluster {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: min(60px, 3.125vw);
+  min-width: 0;
+}
+
+.about-name--fog .about-name__copy {
+  flex-shrink: 0;
+  margin-left: 0;
+  text-align: right;
+}
+
+.about-name--fog .about-name__heading,
+.about-name--fog .about-name__text {
+  color: var(--color-white);
+}
+
+.about-name--fog .about-name__hanja {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  flex-shrink: 0;
+  margin-right: max(-106px, -5.5208vw);
+  color: var(--color-white);
+  opacity: 0.3;
+  background-image: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  transform: none;
+}
+
+@media (max-width: 64rem) {
+  .about-name--fog .about-name__content {
+    justify-content: flex-end;
+    padding-right: 0;
+  }
+
+  .about-name--fog .about-name__cluster {
+    gap: min(32px, 3.125vw);
+  }
+
+  .about-name--fog .about-name__copy {
+    margin-left: 0;
+    text-align: right;
+  }
+
+  .about-name--fog .about-name__hanja {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    margin-right: max(-106px, -5.5208vw);
+    color: var(--color-white);
+    opacity: 0.3;
+    transform: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  .about-name {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .about-name__header {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+  }
+
+  .about-name__title {
+    padding: 16px 0;
+    font-size: 16px;
+  }
+
+  .about-name__divider {
+    width: 100%;
+  }
+
+  .about-name__viewport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .about-name__stage {
+    position: relative;
+    flex-shrink: 0;
+    width: 360px;
+    height: 808px;
+    overflow: visible;
+    transform-origin: center center;
+  }
+
+  .about-name__body {
+    position: relative;
+    display: block;
+    flex: none;
+    align-items: stretch;
+    width: 360px;
+    height: 808px;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .about-name__copy-group {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-top: 106px;
+  }
+
+  .about-name__hanja {
+    top: auto;
+    left: auto;
+    right: -50px;
+    bottom: 30px;
+    z-index: 0;
+    font-size: 220px;
+    color: transparent;
+    opacity: 1;
+    background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-grey-200) 20%, transparent),
+      var(--color-grey-200)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    transform: none;
+  }
+
+  .about-name__inner {
+    z-index: 2;
+    max-width: none;
+  }
+
+  .about-name__content {
+    justify-content: flex-start;
+    padding-right: 0;
+  }
+
+  .about-name__heading {
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+
+  .about-name__text {
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .about-name__break--mobile {
+    display: inline;
+  }
+
+  .about-name__break--desktop {
+    display: none;
+  }
+
+  .about-name__image {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    z-index: 1;
+    display: block;
+    width: 300px;
+    max-width: none;
+    height: auto;
+    margin-top: 70px;
+    margin-left: 86px;
+    transform: none;
+  }
+
+  .about-name--fog .about-name__body {
+    display: flex;
+    align-items: center;
+  }
+
+  .about-name--fog .about-name__copy-group {
+    position: static;
+    z-index: 2;
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .about-name--fog .about-name__cluster {
+    display: block;
+    gap: 0;
+  }
+
+  .about-name--fog .about-name__hanja {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    bottom: auto;
+    left: auto;
+    z-index: 0;
+    margin-right: 0;
+    color: var(--color-white);
+    opacity: 0.3;
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    transform: none;
+  }
+
+  .about-name--fog .about-name__content {
+    justify-content: flex-start;
+  }
+
+  .about-name--fog .about-name__copy {
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+/* ===== About Meaning — 유무는 ===== */
+.about-meaning {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--color-grey-800);
+  background-image: url("../../images/about/name-bg.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-meaning__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #000;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.about-meaning__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--color-white);
+}
+
+.about-meaning__title {
+  margin: 0 0 40px;
+  font-family: var(--font-myeongjo);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
+  color: var(--color-white);
+}
+
+.about-meaning__text {
+  margin: 0;
+  font-family: var(--font-myeongjo);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 40px;
+  color: var(--color-white);
+}
+
+.about-meaning__hanja {
+  font-family: var(--font-hanja);
+  font-weight: 400;
+}
+
+@media (max-width: 64rem) {
+  .about-meaning__title {
+    margin-bottom: 20px;
+    font-size: 22px;
+    line-height: 40px;
+  }
+
+  .about-meaning__text {
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 48rem) {
+  .about-meaning__title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 40px;
+  }
+
+  .about-meaning__text {
+    font-size: 12px;
+    line-height: 20px;
   }
 }
