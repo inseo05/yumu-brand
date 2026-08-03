@@ -13,6 +13,7 @@ const ABOUT_REVEAL = {
 document.addEventListener('DOMContentLoaded', () => {
   initAboutHeroPhrases();
   initAboutScrollReveals();
+  initAboutNameEntrances();
   initAboutNameMobileScale();
   initAboutMaterialStory();
 });
@@ -149,10 +150,88 @@ function initAboutSectionReveals() {
   const sections = Array.from(document.querySelectorAll('[data-about-reveal]'));
 
   sections.forEach((section) => {
+    // about-name 도자기·안개: 별도 등장 타임라인 사용 (scrub 제외)
+    if (section.classList.contains('about-name')) return;
+
     const lines = Array.from(section.querySelectorAll('.about-reveal__line'));
     if (!lines.length) return;
     createOpacityRevealTimelines(lines);
   });
+}
+
+/**
+ * Name meaning — 도자기(釉)·안개(霧)
+ * motion wrapper x 이동 → 텍스트 영역 순차 등장
+ * 한자 요소의 CSS transform/위치는 건드리지 않음
+ */
+function initAboutNameEntrances() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const configs = [
+    {
+      section: document.querySelector('.about-name:not(.about-name--fog)'),
+      direction: -1,
+    },
+    {
+      section: document.querySelector('.about-name--fog'),
+      direction: 1,
+    },
+  ];
+
+  configs.forEach(({ section, direction }) => {
+    if (!section) return;
+
+    const hanjaMotion = section.querySelector('.about-name__hanja-motion');
+    const heading = section.querySelector('.about-name__heading');
+    const bodyText = section.querySelector('.about-name__text');
+
+    if (!hanjaMotion || !heading || !bodyText) return;
+
+    gsap.set(hanjaMotion, {
+      x: () => direction * Math.max(window.innerWidth, section.offsetWidth),
+    });
+    gsap.set([heading, bodyText], { y: 24, opacity: 0.25 });
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 75%',
+          once: true,
+          invalidateOnRefresh: true,
+        },
+      })
+      .fromTo(
+        hanjaMotion,
+        {
+          x: () => direction * Math.max(window.innerWidth, section.offsetWidth),
+        },
+        {
+          x: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+        }
+      )
+      .fromTo(
+        heading,
+        { y: 24, opacity: 0.25 },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' }
+      )
+      .fromTo(
+        bodyText,
+        { y: 24, opacity: 0.25 },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' }
+      )
+      .add(() => {
+        // FOUC CSS 해제 후에야 clearProps — 제목이 다시 숨겨지지 않도록
+        section.classList.add('is-name-entered');
+        gsap.set([heading, bodyText], { clearProps: 'transform,opacity' });
+      });
+  });
+
+  ScrollTrigger.refresh();
 }
 
 function initAboutNameMobileScale() {

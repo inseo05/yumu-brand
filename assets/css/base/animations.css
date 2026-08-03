@@ -64,6 +64,65 @@
   }
 }
 
+.text-focus-in-left {
+  display: inline-block;
+
+  /* linear: 왼쪽→오른쪽 채움 속도가 처음부터 끝까지 동일하게 */
+  -webkit-animation: text-focus-in-left 1s linear both;
+  animation: text-focus-in-left 1s linear both;
+}
+
+@-webkit-keyframes text-focus-in-left {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 0%,
+      #000 45%,
+      transparent 55%,
+      transparent 100%
+    );
+    -webkit-mask-size: 200% 100%;
+    -webkit-mask-position: 100% 0;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  100% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    opacity: 1;
+
+    -webkit-mask-position: 0 0;
+  }
+}
+
+@keyframes text-focus-in-left {
+  0% {
+    filter: blur(12px);
+    opacity: 0;
+
+    mask-image: linear-gradient(
+      90deg,
+      #000 0%,
+      #000 45%,
+      transparent 55%,
+      transparent 100%
+    );
+    mask-size: 200% 100%;
+    mask-position: 100% 0;
+    mask-repeat: no-repeat;
+  }
+
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    mask-position: 0 0;
+  }
+}
+
 .focus-in-expand {
   -webkit-animation: focus-in-expand 0.8s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

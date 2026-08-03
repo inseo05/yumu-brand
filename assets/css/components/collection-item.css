@@ -15,6 +15,8 @@
   font-size: 6.25rem;
   font-weight: bold;
   color: #76867E;
+  /* 등장 전 숨김 (이미지·링크 등은 영향 없음) */
+  opacity: 0;
 }
 
 .collection-item__description {
@@ -26,6 +28,22 @@
   font-size: max(0.75rem, 0.9375vw);
   font-weight: 400;
   color: #76867E;
+  /* 등장 전 숨김 (이미지·링크 등은 영향 없음) */
+  opacity: 0;
+}
+
+.collection-item__title.is-revealed,
+.collection-item__description.is-revealed {
+  opacity: 1;
+  filter: none;
+}
+
+/* 제목만 등장 시간을 더 길게 (속도는 linear 유지) */
+.collection-item__title.text-focus-in-left {
+  -webkit-animation-duration: 1.8s;
+  -webkit-animation-timing-function: linear;
+  animation-duration: 1.8s;
+  animation-timing-function: linear;
 }
 
 .collection-item__image {

@@ -137,6 +137,10 @@
   opacity: 1;
 }
 
+.home-scroll__br--mobile {
+  display: none;
+}
+
 /* ===== Tablet: 1024px 이하 ===== */
 @media (max-width: 64rem) {
   .home-scroll__brand {
@@ -180,6 +184,11 @@
 
   .home-scroll__intro-line {
     font-size: 1.25rem;
+    padding-inline: 0;
+  }
+
+  .home-scroll__br--mobile {
+    display: inline;
   }
 }
 
