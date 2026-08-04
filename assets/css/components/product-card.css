@@ -1,4 +1,4 @@
-.product-card {
+﻿.product-card {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -29,16 +29,16 @@
 }
 
 .product-card__subtitle {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
   letter-spacing: 0;
   color: var(--color-grey-800);
 }
 
 .product-card__body {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6;

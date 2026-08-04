@@ -1,4 +1,4 @@
-/* ===== About Hero ===== */
+﻿/* ===== About Hero ===== */
 .about-hero {
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@
 
 .about-hero__phrase {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 1.5rem;
   line-height: 2.5rem;
@@ -76,7 +76,7 @@
 
 .about-intro__text {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 1.25rem;
   line-height: 2.625rem;
@@ -186,8 +186,8 @@
 .about-name__title {
   margin: 0;
   padding: 50px 0 30px;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 26px;
   color: var(--color-grey-800);
   text-align: center;
@@ -276,15 +276,15 @@
 
 .about-name__heading {
   margin: 0 0 16px;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 26px;
   color: var(--color-grey-800);
 }
 
 .about-name__text {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 18px;
   line-height: 40px;
@@ -641,8 +641,8 @@
 
 .about-meaning__title {
   margin: 0 0 40px;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 28px;
   line-height: 40px;
   color: var(--color-white);
@@ -650,7 +650,7 @@
 
 .about-meaning__text {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 20px;
   line-height: 40px;
@@ -701,7 +701,7 @@
 
 .about-symbol__text {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 18px;
   line-height: 160%;
@@ -1009,8 +1009,8 @@
 
 .about-material__title {
   margin: 0 0 40px;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 26px;
   color: var(--color-white);
 }
@@ -1082,8 +1082,8 @@
 
 .about-material__name {
   margin: 0 0 10px;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 22px;
   line-height: 40px;
   color: var(--color-grey-800);
@@ -1091,7 +1091,7 @@
 
 .about-material__quote {
   margin: 0 0 40px;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 16px;
   color: var(--color-grey-500);
@@ -1287,7 +1287,7 @@
 
 .about-collection-cta__text {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 26px;
   line-height: 40px;

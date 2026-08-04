@@ -34,12 +34,13 @@
 
   /* Font Family */
   --font-primary: "Pretendard", sans-serif;
+  --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-myeongjo: "Nanum Myeongjo", serif;
+  --font-noto-kr: "Noto Serif KR", serif;
   --font-hanja: "Noto Serif SC", serif;
   --font-gowun: "Gowun Batang", serif;
   --font-display: var(--font-myeongjo);
-  --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-nav: "Nanum Myeongjo", "NanumMyeongjo", serif;
+  --font-nav: "Noto Serif KR", serif;
 
   /* Header */
   --header-height: 5rem;
@@ -49,7 +50,7 @@
   --header-logo-width-mobile: 1.625rem;
   --header-logo-height-mobile: 1.875rem;
   --header-nav-size: 1rem;
-  --header-nav-weight: 700;
+  --header-nav-weight: 600;
   --header-nav-lh: 1;
   --header-nav-gap: 2.5rem;
   --header-padding-inline-tablet: 3.75rem;

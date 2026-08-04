@@ -1,4 +1,4 @@
-.page-home {
+﻿.page-home {
   position: relative;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .home-scroll__brand-ko {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 2.125rem;
   font-weight: 400;
   line-height: 110%;
@@ -93,7 +93,7 @@
 
 .home-scroll__lead {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 120%;
@@ -123,7 +123,7 @@
   padding-inline: var(--container-gutter);
   box-sizing: border-box;
   transform: translate(-50%, -50%);
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 2.625rem;
   font-weight: 400;
   line-height: 160%;
@@ -207,18 +207,18 @@
 
 .material__label {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 120%;
   color: var(--color-grey-900);
 }
 
 .material__title {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 110%;
   color: var(--color-grey-900);
 }
@@ -936,8 +936,8 @@
 
 .home-collection__title {
   margin: 0;
-  font-family: var(--font-myeongjo);
-  font-weight: 700;
+  font-family: var(--font-noto-kr);
+  font-weight: 600;
   font-size: 2.25rem;
   line-height: 160%;
   color: var(--color-white);
@@ -945,7 +945,7 @@
 
 .home-collection__desc {
   margin: 0;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 1.25rem;
   line-height: 130%;

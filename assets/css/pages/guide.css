@@ -1,4 +1,4 @@
-.guide {
+﻿.guide {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -21,9 +21,9 @@
 }
 
 .guide__brand {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .guide__nav {
@@ -53,9 +53,9 @@
 
 .guide__intro-title {
   margin-bottom: 1rem;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 3.75rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   color: var(--color-brand-7);
 }
@@ -172,7 +172,7 @@
 }
 
 .guide__type-sample--display-01 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 7.5rem;
   font-weight: 400;
   line-height: 1.2;
@@ -180,7 +180,7 @@
 }
 
 .guide__type-sample--display-02 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 5rem;
   font-weight: 400;
   line-height: 1.2;
@@ -188,25 +188,25 @@
 }
 
 .guide__type-sample--display-03 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 3.75rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
 .guide__type-sample--display-04 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
 .guide__type-sample--display-05 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
@@ -292,7 +292,7 @@
 }
 
 .guide__type-sample--quote-01 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.6;
@@ -300,7 +300,7 @@
 }
 
 .guide__type-sample--quote-02 {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6;

@@ -1,4 +1,4 @@
-.hero {
+﻿.hero {
   position: relative;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
 }
 
 .hero__title {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 5rem;
   font-weight: 400;
   line-height: 1.2;

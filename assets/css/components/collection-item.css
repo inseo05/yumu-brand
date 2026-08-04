@@ -11,9 +11,9 @@
 
 .collection-item__title {
   position: absolute;
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 6.25rem;
-  font-weight: bold;
+  font-weight: 600;
   color: #76867E;
   /* 등장 전 숨김 (이미지·링크 등은 영향 없음) */
   opacity: 0;

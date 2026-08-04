@@ -11,9 +11,9 @@
 }
 
 .hero__title {
-  font-family: var(--font-myeongjo);
+  font-family: var(--font-noto-kr);
   font-size: 3.75rem;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--color-brand-5);
 }
 
