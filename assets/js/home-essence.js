@@ -41,11 +41,13 @@ window.addEventListener('load', () => {
   if (!viewport || stageEls.some((el) => !el)) return;
 
   const LAST_STAGE = 3;
+  const ENTRY_STAGE = -1; // 로고만 표시
   const WHEEL_THRESHOLD = 4;
   const TOUCH_THRESHOLD = 40;
   const GESTURE_IDLE_MS = 220;
+  const HOLD_MS = 800;
 
-  let currentStage = 0;
+  let currentStage = ENTRY_STAGE;
   let isAnimating = false;
   let isSectionActive = false;
   let canExitDown = false;
@@ -55,6 +57,14 @@ window.addEventListener('load', () => {
   let touchStartY = 0;
   let touchGestureConsumed = false;
   let isReady = false;
+  /** 페이지당 최초 Essence 진입 0.8초 유지 완료 */
+  let hasCompletedEntryHold = false;
+  let isEntryHolding = false;
+  /** 마지막 장면 완료 후 0.8초 유지 완료 (해당 방문) */
+  let hasCompletedExitHold = false;
+  let isExitHolding = false;
+  let entryHoldTimer = null;
+  let exitHoldTimer = null;
   /** @type {ScrollTrigger | null} */
   let scrollTrigger = null;
   /** @type {gsap.core.Tween | gsap.core.Timeline | null} */
@@ -97,6 +107,52 @@ window.addEventListener('load', () => {
     isAnimating = false;
     activeTween = null;
     pingGestureActivity();
+  };
+
+  const clearEntryHoldTimer = () => {
+    if (entryHoldTimer != null) {
+      clearTimeout(entryHoldTimer);
+      entryHoldTimer = null;
+    }
+    isEntryHolding = false;
+  };
+
+  const clearExitHoldTimer = () => {
+    if (exitHoldTimer != null) {
+      clearTimeout(exitHoldTimer);
+      exitHoldTimer = null;
+    }
+    isExitHolding = false;
+  };
+
+  /** 최초 진입: 로고만 0.8초 잠금 (자동으로 첫 장면 시작하지 않음) */
+  const startEntryHold = () => {
+    if (hasCompletedEntryHold || isEntryHolding) return;
+
+    isEntryHolding = true;
+    isAnimating = true;
+    clearTimeout(entryHoldTimer);
+    entryHoldTimer = setTimeout(() => {
+      entryHoldTimer = null;
+      isEntryHolding = false;
+      hasCompletedEntryHold = true;
+      finishAnimating();
+    }, HOLD_MS);
+  };
+
+  /** 마지막 장면 완료 후 0.8초 잠금 (자동 이탈하지 않음) */
+  const startExitHold = () => {
+    if (hasCompletedExitHold || isExitHolding) return;
+
+    isExitHolding = true;
+    isAnimating = true;
+    clearTimeout(exitHoldTimer);
+    exitHoldTimer = setTimeout(() => {
+      exitHoldTimer = null;
+      isExitHolding = false;
+      hasCompletedExitHold = true;
+      finishAnimating();
+    }, HOLD_MS);
   };
 
   const setLogoState = (state, immediate = false) => {
@@ -220,6 +276,38 @@ window.addEventListener('load', () => {
     gsap.set(finaleItems, { opacity: 1, clearProps: 'y,transform,filter' });
   };
 
+  /** 최초 진입용: 배경 로고만 (스테이지 텍스트 숨김) */
+  const showLogoOnly = () => {
+    if (activeTween) {
+      activeTween.kill();
+      activeTween = null;
+    }
+
+    currentStage = ENTRY_STAGE;
+
+    stageEls.forEach((el) => {
+      el.classList.remove('is-active');
+      gsap.set(el, {
+        opacity: 0,
+        visibility: 'hidden',
+        filter: 'blur(0px)',
+      });
+    });
+
+    if (introText) {
+      introText.classList.remove('text-blur-out', 'text-focus-in');
+      gsap.set(introText, { opacity: 0, clearProps: 'filter' });
+    }
+
+    gsap.set(bgLight, { opacity: 1 });
+    gsap.set(bgBrand, { opacity: 0 });
+    gsap.set(logos, { opacity: 1 });
+    setLogoState('base', true);
+    resetPairToStart('ceramic');
+    resetPairToStart('fog');
+    setFinaleStart();
+  };
+
   const showStageInstant = (stage) => {
     if (activeTween) {
       activeTween.kill();
@@ -300,6 +388,33 @@ window.addEventListener('load', () => {
   const playForward = async (fromStage, toStage) => {
     if (toStage !== fromStage + 1) {
       showStageInstant(toStage);
+      return;
+    }
+
+    // 로고만 → 첫 장면(인트로 문구)
+    if (fromStage === ENTRY_STAGE && toStage === 0) {
+      setStageVisibility(0);
+      gsap.set(bgLight, { opacity: 1 });
+      gsap.set(bgBrand, { opacity: 0 });
+      gsap.set(logos, { opacity: 1 });
+      setLogoState('base', true);
+      resetPairToStart('ceramic');
+      resetPairToStart('fog');
+      setFinaleStart();
+
+      if (introText) {
+        introText.classList.remove('text-blur-out', 'text-focus-in');
+        introText.style.removeProperty('filter');
+        introText.style.opacity = '0';
+        void introText.offsetWidth;
+        introText.classList.add('text-focus-in');
+        await waitForAnimation(introText, 'text-focus-in', 900);
+        introText.classList.remove('text-focus-in');
+        introText.style.removeProperty('filter');
+        introText.style.opacity = '1';
+      } else {
+        gsap.set(stageEls[0], { opacity: 1 });
+      }
       return;
     }
 
@@ -415,7 +530,13 @@ window.addEventListener('load', () => {
   };
 
   const goToStage = async (nextStage) => {
-    if (nextStage < 0 || nextStage > LAST_STAGE || nextStage === currentStage) return;
+    if (
+      nextStage < ENTRY_STAGE ||
+      nextStage > LAST_STAGE ||
+      nextStage === currentStage
+    ) {
+      return;
+    }
     if (isAnimating) return;
 
     isAnimating = true;
@@ -424,12 +545,21 @@ window.addEventListener('load', () => {
     try {
       if (nextStage < from) {
         showStageInstant(nextStage);
+        if (nextStage < LAST_STAGE) {
+          hasCompletedExitHold = false;
+          clearExitHoldTimer();
+        }
       } else {
         await playForward(from, nextStage);
         currentStage = nextStage;
       }
     } finally {
-      finishAnimating();
+      if (currentStage === LAST_STAGE && from < LAST_STAGE) {
+        // 마지막 장면 등장 완료 후 0.8초 유지
+        startExitHold();
+      } else {
+        finishAnimating();
+      }
     }
   };
 
@@ -438,7 +568,9 @@ window.addEventListener('load', () => {
    */
   const handleStep = (direction) => {
     if (!isSectionActive) return 'none';
-    if (isAnimating || awaitingGestureEnd) return 'blocked';
+    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
+      return 'blocked';
+    }
 
     if (direction > 0) {
       if (currentStage < LAST_STAGE) {
@@ -446,6 +578,10 @@ window.addEventListener('load', () => {
         goToStage(currentStage + 1);
         return 'step';
       }
+
+      // 마지막 장면: 0.8초 유지 완료 전에는 이탈 불가
+      if (!hasCompletedExitHold) return 'blocked';
+
       canExitDown = true;
       isSectionActive = false;
       beginGesture();
@@ -458,6 +594,8 @@ window.addEventListener('load', () => {
         goToStage(currentStage - 1);
         return 'step';
       }
+
+      // ENTRY_STAGE 또는 stage 0에서 위로 → 섹션 이탈
       isSectionActive = false;
       absorbInertia = true;
       beginGesture();
@@ -492,8 +630,27 @@ window.addEventListener('load', () => {
     isSectionActive = true;
     canExitDown = false;
     absorbInertia = false;
-    showStageInstant(stage);
     snapToHold();
+
+    // 페이지 최초 진입: 로고만 + 0.8초 잠금
+    if (!hasCompletedEntryHold && stage <= 0) {
+      clearExitHoldTimer();
+      hasCompletedExitHold = false;
+      showLogoOnly();
+      startEntryHold();
+      return;
+    }
+
+    // 아래에서 재진입(마지막 장면): 완료 화면 + 이탈 전 0.8초 유지
+    if (stage === LAST_STAGE) {
+      clearExitHoldTimer();
+      hasCompletedExitHold = false;
+      showStageInstant(LAST_STAGE);
+      startExitHold();
+      return;
+    }
+
+    showStageInstant(stage);
   };
 
   const onWheel = (event) => {
@@ -515,7 +672,7 @@ window.addEventListener('load', () => {
 
     if (!isSectionActive) return;
 
-    if (isAnimating || awaitingGestureEnd) {
+    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
       event.preventDefault();
       snapToHold();
       pingGestureActivity();
@@ -561,7 +718,13 @@ window.addEventListener('load', () => {
 
     if (!isSectionActive) return;
 
-    if (isAnimating || awaitingGestureEnd || touchGestureConsumed) {
+    if (
+      isAnimating ||
+      awaitingGestureEnd ||
+      touchGestureConsumed ||
+      isEntryHolding ||
+      isExitHolding
+    ) {
       snapToHold();
       pingGestureActivity();
       return;
@@ -608,7 +771,7 @@ window.addEventListener('load', () => {
 
     if (!isSectionActive) return;
 
-    if (isAnimating || awaitingGestureEnd) {
+    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
       event.preventDefault();
       snapToHold();
       return;
@@ -656,6 +819,13 @@ window.addEventListener('load', () => {
     onLeaveBack() {
       isSectionActive = false;
       absorbInertia = false;
+      // 최초 0.8초 유지 중 이탈 시: 다음에 다시 진입하면 hold 재시도
+      if (isEntryHolding) {
+        clearEntryHoldTimer();
+        isAnimating = false;
+      }
+      clearExitHoldTimer();
+      hasCompletedExitHold = false;
     },
     onUpdate(self) {
       if (isSectionActive && !canExitDown) {
@@ -674,8 +844,8 @@ window.addEventListener('load', () => {
     },
   });
 
-  // 초기 상태
-  showStageInstant(0);
+  // 초기 상태: 로고만 (스크롤 진입 전)
+  showLogoOnly();
 
   requestAnimationFrame(() => {
     ScrollTrigger.refresh();

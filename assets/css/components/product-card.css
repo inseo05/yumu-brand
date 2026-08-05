@@ -21,6 +21,16 @@
   object-fit: cover;
 }
 
+@media (min-width: 64.0625rem) {
+  .product-card__image {
+    transition: transform 0.6s ease;
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+}
+
 .product-card__content {
   display: flex;
   flex-direction: column;

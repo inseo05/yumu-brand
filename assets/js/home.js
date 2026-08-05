@@ -10,6 +10,9 @@ window.addEventListener('load', () => {
   const wrapper = document.querySelector('.home-scroll');
   const heroPanel = document.querySelector('.home-scroll__panel--hero');
   const introPanel = document.querySelector('.home-scroll__panel--intro');
+  const introVideo = introPanel
+    ? introPanel.querySelector('.home-scroll__video')
+    : null;
   const heroText = document.querySelector('.home-scroll__text');
   const introCopy = document.querySelector('.home-scroll__intro-copy');
   const introLines = introCopy
@@ -28,6 +31,15 @@ window.addEventListener('load', () => {
     transformOrigin: '50% 50%',
     force3D: true,
   });
+
+  if (introVideo) {
+    introVideo.pause();
+    introVideo.currentTime = 0;
+    gsap.set(introVideo, {
+      opacity: 0,
+      filter: 'blur(16px)',
+    });
+  }
 
   /*
    * pin 전체 200% = 영상 전환 100% + Intro 홀드 100%
@@ -56,6 +68,11 @@ window.addEventListener('load', () => {
   let introCopyVisible = false;
   let touchStartY = 0;
   let touchGestureConsumed = false;
+  /** Intro 진입 초기 연출 — 페이지당 1회 */
+  let hasPlayedIntroEntrance = false;
+  let introEntrancePlaying = false;
+  /** @type {gsap.core.Timeline | null} */
+  let introEntranceTimeline = null;
 
   /** @type {ScrollTrigger | null} */
   let scrollTrigger = null;
@@ -251,19 +268,156 @@ window.addEventListener('load', () => {
     finishAnimating();
   };
 
+  const playIntroVideo = () => {
+    if (!introVideo) return;
+    const playPromise = introVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  };
+
+  const ensureIntroVideoComplete = () => {
+    if (!introVideo) return;
+    gsap.set(introVideo, {
+      opacity: 1,
+      filter: 'blur(0px)',
+    });
+    playIntroVideo();
+  };
+
+  /**
+   * Hero → Intro 첫 진입 연출
+   * 0s #131313 유지 → 1s 첫 문장(text-focus-in) → 2.2s 영상 재생·선명화(4s)
+   */
+  const playIntroEntrance = () => {
+    if (
+      hasPlayedIntroEntrance ||
+      introEntrancePlaying ||
+      introLines.length !== 3
+    ) {
+      return;
+    }
+
+    const firstText = introLines[0];
+
+    introEntrancePlaying = true;
+    isAnimating = true;
+    currentIndex = 0;
+
+    introLines.forEach((line) => {
+      clearIntroLineAnimations(line);
+      line.classList.remove('is-active');
+    });
+
+    if (introVideo) {
+      introVideo.pause();
+      introVideo.currentTime = 0;
+      gsap.set(introVideo, {
+        opacity: 0,
+        filter: 'blur(16px)',
+      });
+    }
+
+    if (introEntranceTimeline) {
+      introEntranceTimeline.kill();
+    }
+
+    introEntranceTimeline = gsap.timeline({
+      onStart: () => {
+        if (!introVideo) return;
+        introVideo.pause();
+        introVideo.currentTime = 0;
+      },
+      onComplete: () => {
+        introEntrancePlaying = false;
+      },
+    });
+
+    // 첫 문장: 스크롤 단계 전환과 동일한 text-focus-in (0.8s)
+    // 문장 등장 완료 시 스크롤 잠금 해제 (영상 4s와 분리)
+    introEntranceTimeline
+      .to({}, { duration: 1 })
+      .call(() => {
+        clearIntroLineAnimations(firstText);
+        firstText.classList.add('is-active');
+        void firstText.offsetWidth;
+        firstText.classList.add('text-focus-in');
+      })
+      .to({}, { duration: 0.8 })
+      .call(() => {
+        firstText.classList.remove('text-focus-in');
+        hasPlayedIntroEntrance = true;
+        finishAnimating();
+      });
+
+    if (introVideo) {
+      introEntranceTimeline
+        .call(
+          () => {
+            playIntroVideo();
+          },
+          null,
+          2.2
+        )
+        .fromTo(
+          introVideo,
+          {
+            opacity: 0,
+            filter: 'blur(16px)',
+          },
+          {
+            opacity: 1,
+            filter: 'blur(0px)',
+            duration: 4,
+            ease: 'power2.out',
+          },
+          2.2
+        );
+    }
+  };
+
   const activateIntroSection = (index = 0) => {
     isSectionActive = true;
     canExitDown = false;
     absorbInertia = false;
+    snapToIntroScroll();
+
+    // 첫 진입 초기 연출 (한 번만, 첫 문장 진입 시에만)
+    if (!hasPlayedIntroEntrance) {
+      if (index !== 0) {
+        hasPlayedIntroEntrance = true;
+        ensureIntroVideoComplete();
+        setIntroCopyVisible(true);
+        showIntroIndexInstant(index);
+        return;
+      }
+
+      if (!introEntrancePlaying) {
+        playIntroEntrance();
+      }
+      setIntroCopyVisible(true);
+      return;
+    }
+
+    ensureIntroVideoComplete();
     setIntroCopyVisible(true);
     showIntroIndexInstant(index);
-    snapToIntroScroll();
   };
 
   const deactivateIntroSection = ({ hideCopy = true, resetIndex = true } = {}) => {
     isSectionActive = false;
     if (hideCopy) setIntroCopyVisible(false);
-    if (resetIndex) showIntroIndexInstant(0);
+    if (resetIndex) {
+      if (hasPlayedIntroEntrance) {
+        showIntroIndexInstant(0);
+      } else {
+        currentIndex = 0;
+        introLines.forEach((line) => {
+          clearIntroLineAnimations(line);
+          line.classList.remove('is-active');
+        });
+      }
+    }
   };
 
   /**

@@ -24,6 +24,7 @@
 /* Intro: Hero 뒤에 배치, 초기에는 Hero에 가려짐 */
 .home-scroll__panel--intro {
   z-index: 1;
+  background-color: #131313;
 }
 
 /* Hero: 초기 화면, Intro 위에 배치 */
@@ -903,6 +904,16 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+@media (min-width: 64.0625rem) {
+  .home-collection__image {
+    transition: transform 0.6s ease;
+  }
+
+  .home-collection__card:hover .home-collection__image {
+    transform: scale(1.05);
+  }
 }
 
 .home-collection__overlay {

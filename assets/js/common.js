@@ -33,7 +33,6 @@ function initMobileSideMenu(currentPath) {
           <img class="mobile-nav__close-icon" src="./assets/images/header/close.svg" alt="" width="26" height="26">
         </button>
         <nav class="mobile-nav__nav" aria-label="모바일 메뉴">
-          <a class="mobile-nav__link" href="index.html">home</a>
           <a class="mobile-nav__link" href="about.html">about</a>
           <a class="mobile-nav__link" href="collection.html">collection</a>
           <a class="mobile-nav__link" href="products.html">products</a>
