@@ -46,6 +46,12 @@ window.addEventListener('load', () => {
   const TOUCH_THRESHOLD = 40;
   const GESTURE_IDLE_MS = 220;
   const HOLD_MS = 800;
+  /** 장면 완성 후 머무름 (ms) — 단순/텍스트량에 따라 차등, 마지막 장면은 exit hold 사용 */
+  const STAGE_DWELL_MS = {
+    0: 750, // 인트로 한 줄
+    1: 1100, // 釉 + 설명 두 줄
+    2: 1100, // 霧 + 설명 두 줄
+  };
 
   let currentStage = ENTRY_STAGE;
   let isAnimating = false;
@@ -63,8 +69,13 @@ window.addEventListener('load', () => {
   /** 마지막 장면 완료 후 0.8초 유지 완료 (해당 방문) */
   let hasCompletedExitHold = false;
   let isExitHolding = false;
+  /** 마지막 장면 텍스트 blur-out 완료 (해당 방문) */
+  let hasPlayedFinaleOut = false;
+  /** 장면 사이 짧은 머무름 */
+  let isStageDwelling = false;
   let entryHoldTimer = null;
   let exitHoldTimer = null;
+  let stageDwellTimer = null;
   /** @type {ScrollTrigger | null} */
   let scrollTrigger = null;
   /** @type {gsap.core.Tween | gsap.core.Timeline | null} */
@@ -123,6 +134,32 @@ window.addEventListener('load', () => {
       exitHoldTimer = null;
     }
     isExitHolding = false;
+  };
+
+  const clearStageDwellTimer = () => {
+    if (stageDwellTimer != null) {
+      clearTimeout(stageDwellTimer);
+      stageDwellTimer = null;
+    }
+    isStageDwelling = false;
+  };
+
+  /** 장면 완성 후 짧은 머무름 — 다음 스크롤 입력 전까지 잠금 */
+  const startStageDwell = (stage) => {
+    const dwellMs = STAGE_DWELL_MS[stage];
+    if (dwellMs == null) {
+      finishAnimating();
+      return;
+    }
+
+    clearStageDwellTimer();
+    isStageDwelling = true;
+    isAnimating = true;
+    stageDwellTimer = setTimeout(() => {
+      stageDwellTimer = null;
+      isStageDwelling = false;
+      finishAnimating();
+    }, dwellMs);
   };
 
   /** 최초 진입: 로고만 0.8초 잠금 (자동으로 첫 장면 시작하지 않음) */
@@ -274,6 +311,49 @@ window.addEventListener('load', () => {
       visibility: 'visible',
     });
     gsap.set(finaleItems, { opacity: 1, clearProps: 'y,transform,filter' });
+    if (finaleKo) gsap.set(finaleKo, { opacity: 1, clearProps: 'filter,letterSpacing' });
+    if (finaleHanja) gsap.set(finaleHanja, { opacity: 1, clearProps: 'filter' });
+  };
+
+  /** 마지막 장면 텍스트 동시 blur-out — 배경은 유지 */
+  const playFinaleBlurOut = async () => {
+    if (isAnimating || hasPlayedFinaleOut) return;
+
+    isAnimating = true;
+
+    // 형제 단위로 동일 클래스·동일 타이밍 적용 (유무/釉霧는 brand 래퍼로 함께)
+    const targets = [finaleTop, finaleBrand, finaleBottom].filter(Boolean);
+
+    clearFinaleTextAnimations();
+    targets.forEach((el) => {
+      // .essence__finale-line / brand 기본 opacity:0 이므로 인라인으로 보여 둔 뒤 애니메이션
+      el.style.opacity = '1';
+      el.style.removeProperty('filter');
+    });
+    if (finaleKo) {
+      finaleKo.style.opacity = '1';
+      finaleKo.style.removeProperty('filter');
+      finaleKo.style.removeProperty('letter-spacing');
+    }
+    if (finaleHanja) {
+      finaleHanja.style.opacity = '1';
+      finaleHanja.style.removeProperty('filter');
+    }
+
+    // 리플로우 1회 후 같은 프레임에 클래스 부여 → 동일 속도·동시 시작
+    if (targets[0]) void targets[0].offsetWidth;
+    targets.forEach((el) => {
+      el.classList.add('text-blur-out');
+    });
+
+    try {
+      await Promise.all(
+        targets.map((el) => waitForAnimation(el, 'text-blur-out', 900))
+      );
+      hasPlayedFinaleOut = true;
+    } finally {
+      finishAnimating();
+    }
   };
 
   /** 최초 진입용: 배경 로고만 (스테이지 텍스트 숨김) */
@@ -540,13 +620,16 @@ window.addEventListener('load', () => {
     if (isAnimating) return;
 
     isAnimating = true;
+    clearStageDwellTimer();
     const from = currentStage;
+    const isForward = nextStage > from;
 
     try {
-      if (nextStage < from) {
+      if (!isForward) {
         showStageInstant(nextStage);
         if (nextStage < LAST_STAGE) {
           hasCompletedExitHold = false;
+          hasPlayedFinaleOut = false;
           clearExitHoldTimer();
         }
       } else {
@@ -554,9 +637,13 @@ window.addEventListener('load', () => {
         currentStage = nextStage;
       }
     } finally {
-      if (currentStage === LAST_STAGE && from < LAST_STAGE) {
-        // 마지막 장면 등장 완료 후 0.8초 유지
+      if (isForward && currentStage === LAST_STAGE && from < LAST_STAGE) {
+        // 마지막 장면 등장 완료 후 0.8초 유지 (기존 exit hold)
+        hasPlayedFinaleOut = false;
         startExitHold();
+      } else if (isForward && STAGE_DWELL_MS[currentStage] != null) {
+        // 장면 완성 후 짧은 머무름
+        startStageDwell(currentStage);
       } else {
         finishAnimating();
       }
@@ -568,7 +655,13 @@ window.addEventListener('load', () => {
    */
   const handleStep = (direction) => {
     if (!isSectionActive) return 'none';
-    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
+    if (
+      isAnimating ||
+      awaitingGestureEnd ||
+      isEntryHolding ||
+      isExitHolding ||
+      isStageDwelling
+    ) {
       return 'blocked';
     }
 
@@ -581,6 +674,13 @@ window.addEventListener('load', () => {
 
       // 마지막 장면: 0.8초 유지 완료 전에는 이탈 불가
       if (!hasCompletedExitHold) return 'blocked';
+
+      // 유지 후 첫 아래 스크롤: 텍스트 blur-out (섹션 이탈은 그 다음)
+      if (!hasPlayedFinaleOut) {
+        beginGesture();
+        playFinaleBlurOut();
+        return 'step';
+      }
 
       canExitDown = true;
       isSectionActive = false;
@@ -630,12 +730,14 @@ window.addEventListener('load', () => {
     isSectionActive = true;
     canExitDown = false;
     absorbInertia = false;
+    clearStageDwellTimer();
     snapToHold();
 
     // 페이지 최초 진입: 로고만 + 0.8초 잠금
     if (!hasCompletedEntryHold && stage <= 0) {
       clearExitHoldTimer();
       hasCompletedExitHold = false;
+      hasPlayedFinaleOut = false;
       showLogoOnly();
       startEntryHold();
       return;
@@ -645,6 +747,7 @@ window.addEventListener('load', () => {
     if (stage === LAST_STAGE) {
       clearExitHoldTimer();
       hasCompletedExitHold = false;
+      hasPlayedFinaleOut = false;
       showStageInstant(LAST_STAGE);
       startExitHold();
       return;
@@ -672,7 +775,13 @@ window.addEventListener('load', () => {
 
     if (!isSectionActive) return;
 
-    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
+    if (
+      isAnimating ||
+      awaitingGestureEnd ||
+      isEntryHolding ||
+      isExitHolding ||
+      isStageDwelling
+    ) {
       event.preventDefault();
       snapToHold();
       pingGestureActivity();
@@ -723,7 +832,8 @@ window.addEventListener('load', () => {
       awaitingGestureEnd ||
       touchGestureConsumed ||
       isEntryHolding ||
-      isExitHolding
+      isExitHolding ||
+      isStageDwelling
     ) {
       snapToHold();
       pingGestureActivity();
@@ -771,7 +881,13 @@ window.addEventListener('load', () => {
 
     if (!isSectionActive) return;
 
-    if (isAnimating || awaitingGestureEnd || isEntryHolding || isExitHolding) {
+    if (
+      isAnimating ||
+      awaitingGestureEnd ||
+      isEntryHolding ||
+      isExitHolding ||
+      isStageDwelling
+    ) {
       event.preventDefault();
       snapToHold();
       return;
@@ -825,7 +941,9 @@ window.addEventListener('load', () => {
         isAnimating = false;
       }
       clearExitHoldTimer();
+      clearStageDwellTimer();
       hasCompletedExitHold = false;
+      hasPlayedFinaleOut = false;
     },
     onUpdate(self) {
       if (isSectionActive && !canExitDown) {

@@ -58,7 +58,7 @@ window.addEventListener('load', () => {
 
   ScrollTrigger.create({
     trigger: section,
-    start: 'top 75%',
+    start: 'top 50%',
     onEnter() {
       if (hasPlayed) {
         showFinalState();

@@ -31,7 +31,14 @@
   font-size: 1.5rem;
   line-height: 2.5rem;
   color: var(--color-grey-700);
+  /* 로드 직후 깜빡임 방지 — Hero 문구만 초기 숨김 */
   opacity: 0;
+}
+
+/* 공통 .text-focus-in 키프레임 재사용, About Hero만 1.5초 */
+.about-hero__phrase.text-focus-in {
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
 }
 
 @media (max-width: 64rem) {
@@ -603,7 +610,7 @@
 .about-name:not(.is-name-entered) .about-name__heading,
 .about-name:not(.is-name-entered) .about-name__text {
   opacity: 0.25;
-  transform: translateY(24px);
+  transform: translateY(12px);
 }
 
 /* ===== About Meaning — 유무는 ===== */
@@ -646,15 +653,29 @@
   font-size: 28px;
   line-height: 40px;
   color: var(--color-white);
+  opacity: 0;
 }
 
 .about-meaning__text {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   margin: 0;
   font-family: var(--font-noto-kr);
   font-weight: 400;
   font-size: 20px;
   line-height: 40px;
   color: var(--color-white);
+}
+
+.about-meaning__paragraph {
+  margin: 0;
+  opacity: 0;
+}
+
+.about-meaning__title.is-shown,
+.about-meaning__paragraph.is-shown {
+  opacity: 1;
 }
 
 .about-meaning__hanja {
@@ -670,6 +691,7 @@
   }
 
   .about-meaning__text {
+    gap: 24px;
     font-size: 14px;
     line-height: 24px;
   }
@@ -683,6 +705,7 @@
   }
 
   .about-meaning__text {
+    gap: 20px;
     font-size: 12px;
     line-height: 20px;
   }

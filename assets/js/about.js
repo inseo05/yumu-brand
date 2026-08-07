@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAboutHeroPhrases();
   initAboutScrollReveals();
   initAboutNameEntrances();
+  initAboutMeaningAnimation();
   initAboutNameMobileScale();
   initAboutMaterialStory();
 });
@@ -24,6 +25,8 @@ function initAboutHeroPhrases() {
 
   if (!rightPhrase || !leftPhrase) return;
 
+  const HERO_HOLD_MS = 500;
+
   const playFocusIn = (element) => {
     element.classList.remove('text-focus-in');
     void element.offsetWidth;
@@ -31,13 +34,18 @@ function initAboutHeroPhrases() {
   };
 
   const onRightAnimationEnd = (event) => {
+    if (event.target !== rightPhrase) return;
     if (event.animationName && event.animationName !== 'text-focus-in') return;
     rightPhrase.removeEventListener('animationend', onRightAnimationEnd);
     playFocusIn(leftPhrase);
   };
 
   rightPhrase.addEventListener('animationend', onRightAnimationEnd);
-  playFocusIn(rightPhrase);
+
+  // Hero 표시 후 0.5초 대기 → 오른쪽 → (animationend) → 왼쪽
+  window.setTimeout(() => {
+    playFocusIn(rightPhrase);
+  }, HERO_HOLD_MS);
 }
 
 /**
@@ -150,8 +158,13 @@ function initAboutSectionReveals() {
   const sections = Array.from(document.querySelectorAll('[data-about-reveal]'));
 
   sections.forEach((section) => {
-    // about-name 도자기·안개: 별도 등장 타임라인 사용 (scrub 제외)
-    if (section.classList.contains('about-name')) return;
+    // about-name / about-meaning: 별도 등장 로직 사용 (scrub 제외)
+    if (
+      section.classList.contains('about-name') ||
+      section.classList.contains('about-meaning')
+    ) {
+      return;
+    }
 
     const lines = Array.from(section.querySelectorAll('.about-reveal__line'));
     if (!lines.length) return;
@@ -160,8 +173,157 @@ function initAboutSectionReveals() {
 }
 
 /**
+ * about-meaning — 제목 → 문단별 text-focus-in, 이탈 시 전체 text-blur-out
+ * 재진입 시 완성 상태 유지 (재재생 없음)
+ */
+function initAboutMeaningAnimation() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector('.about-meaning');
+  if (!section) return;
+
+  const title = section.querySelector('.about-meaning__title');
+  const paragraphs = Array.from(
+    section.querySelectorAll('.about-meaning__paragraph')
+  );
+  if (!title || !paragraphs.length) return;
+
+  const allText = [title, ...paragraphs];
+  let hasPlayedEnter = false;
+  let isAnimating = false;
+  let isBlurredOut = false;
+  let enterToken = 0;
+
+  const waitForAnimation = (element, animationName, fallbackMs) =>
+    new Promise((resolve) => {
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        element.removeEventListener('animationend', onEnd);
+        resolve();
+      };
+      const onEnd = (event) => {
+        if (event.target !== element) return;
+        if (event.animationName && event.animationName !== animationName) return;
+        finish();
+      };
+      element.addEventListener('animationend', onEnd);
+      setTimeout(finish, fallbackMs);
+    });
+
+  const clearTextAnimation = (element) => {
+    element.classList.remove('text-blur-out', 'text-focus-in', 'is-shown');
+    element.style.removeProperty('filter');
+    element.style.removeProperty('opacity');
+  };
+
+  const showComplete = () => {
+    enterToken += 1;
+    isAnimating = false;
+    isBlurredOut = false;
+    hasPlayedEnter = true;
+    allText.forEach((element) => {
+      clearTextAnimation(element);
+      element.classList.add('is-shown');
+    });
+  };
+
+  const playFocusIn = async (element, token) => {
+    if (token !== enterToken) return;
+    clearTextAnimation(element);
+    void element.offsetWidth;
+    element.classList.add('text-focus-in');
+    await waitForAnimation(element, 'text-focus-in', 900);
+    if (token !== enterToken) return;
+    element.classList.remove('text-focus-in');
+    element.style.removeProperty('filter');
+    element.classList.add('is-shown');
+  };
+
+  const playEnter = async () => {
+    if (hasPlayedEnter || isAnimating) return;
+
+    isAnimating = true;
+    isBlurredOut = false;
+    const token = ++enterToken;
+
+    try {
+      await playFocusIn(title, token);
+      if (token !== enterToken) return;
+
+      for (const paragraph of paragraphs) {
+        await playFocusIn(paragraph, token);
+        if (token !== enterToken) return;
+      }
+
+      hasPlayedEnter = true;
+    } finally {
+      if (token === enterToken) {
+        isAnimating = false;
+      }
+    }
+  };
+
+  const playBlurOut = async () => {
+    if (isBlurredOut) return;
+
+    enterToken += 1;
+    isAnimating = true;
+    isBlurredOut = true;
+
+    allText.forEach((element) => {
+      element.classList.remove('text-blur-out', 'text-focus-in');
+      element.style.removeProperty('filter');
+      element.style.opacity = '1';
+      element.classList.remove('is-shown');
+    });
+
+    if (allText[0]) void allText[0].offsetWidth;
+    allText.forEach((element) => {
+      element.classList.add('text-blur-out');
+    });
+
+    try {
+      await Promise.all(
+        allText.map((element) => waitForAnimation(element, 'text-blur-out', 900))
+      );
+    } finally {
+      allText.forEach((element) => {
+        element.classList.remove('text-blur-out', 'is-shown');
+        element.style.removeProperty('filter');
+        element.style.removeProperty('opacity');
+      });
+      isAnimating = false;
+    }
+  };
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 50%',
+    // 섹션 상단이 뷰포트 상단에 닿는 순간 = 이탈 시작
+    end: 'top top',
+    onEnter() {
+      if (!hasPlayedEnter) {
+        playEnter();
+      } else if (isBlurredOut) {
+        showComplete();
+      }
+    },
+    onLeave() {
+      playBlurOut();
+    },
+    onEnterBack() {
+      showComplete();
+    },
+  });
+}
+
+/**
  * Name meaning — 도자기(釉)·안개(霧)
- * motion wrapper x 이동 → 텍스트 영역 순차 등장
+ * motion wrapper x 이동 → heading·text 동시 등장
  * 한자 요소의 CSS transform/위치는 건드리지 않음
  */
 function initAboutNameEntrances() {
@@ -186,13 +348,14 @@ function initAboutNameEntrances() {
     const hanjaMotion = section.querySelector('.about-name__hanja-motion');
     const heading = section.querySelector('.about-name__heading');
     const bodyText = section.querySelector('.about-name__text');
+    const copyTargets = [heading, bodyText].filter(Boolean);
 
-    if (!hanjaMotion || !heading || !bodyText) return;
+    if (!hanjaMotion || copyTargets.length < 2) return;
 
     gsap.set(hanjaMotion, {
       x: () => direction * Math.max(window.innerWidth, section.offsetWidth),
     });
-    gsap.set([heading, bodyText], { y: 24, opacity: 0.25 });
+    gsap.set(copyTargets, { y: 12, opacity: 0.25 });
 
     gsap
       .timeline({
@@ -210,24 +373,20 @@ function initAboutNameEntrances() {
         },
         {
           x: 0,
-          duration: 1.2,
+          duration: 2.2,
           ease: 'power2.out',
         }
       )
       .fromTo(
-        heading,
-        { y: 24, opacity: 0.25 },
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' }
-      )
-      .fromTo(
-        bodyText,
-        { y: 24, opacity: 0.25 },
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' }
+        copyTargets,
+        { y: 12, opacity: 0.25 },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' },
+        '-=0.4'
       )
       .add(() => {
         // FOUC CSS 해제 후에야 clearProps — 제목이 다시 숨겨지지 않도록
         section.classList.add('is-name-entered');
-        gsap.set([heading, bodyText], { clearProps: 'transform,opacity' });
+        gsap.set(copyTargets, { clearProps: 'transform,opacity' });
       });
   });
 
