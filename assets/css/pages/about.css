@@ -610,7 +610,6 @@
 .about-name:not(.is-name-entered) .about-name__heading,
 .about-name:not(.is-name-entered) .about-name__text {
   opacity: 0.25;
-  transform: translateY(12px);
 }
 
 /* ===== About Meaning — 유무는 ===== */
@@ -732,6 +731,11 @@
   writing-mode: horizontal-tb;
   word-break: keep-all;
   overflow-wrap: normal;
+  opacity: 0;
+}
+
+.about-symbol__text.is-shown {
+  opacity: 1;
 }
 
 .about-symbol__line {
@@ -750,6 +754,15 @@
   position: relative;
   flex-shrink: 0;
   background-color: var(--color-grey-900);
+}
+
+/* 초기: 선 숨김 — PC는 심볼→바깥, tablet·mobile은 심볼→위/아래 */
+.about-symbol:not(.is-symbol-entered) .about-symbol__rule--a {
+  clip-path: inset(0 0 0 100%);
+}
+
+.about-symbol:not(.is-symbol-entered) .about-symbol__rule--b {
+  clip-path: inset(0 100% 0 0);
 }
 
 .about-symbol__rule::before,
@@ -807,6 +820,14 @@
     width: 1px;
     height: 79px;
     transform: none;
+  }
+
+  .about-symbol:not(.is-symbol-entered) .about-symbol__rule--a {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .about-symbol:not(.is-symbol-entered) .about-symbol__rule--b {
+    clip-path: inset(0 0 100% 0);
   }
 
   .about-symbol__rule::before,
