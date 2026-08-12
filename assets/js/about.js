@@ -175,7 +175,11 @@ function initAboutSectionReveals() {
 
 /**
  * about-meaning — 제목 → 문단별 text-focus-in, 이탈 시 전체 text-blur-out
- * 재진입 시 완성 상태 유지 (재재생 없음)
+ *
+ * 버그 원인: onLeave에서 스크롤을 되돌리면 onEnterBack → showComplete()가
+ * 호출되어 등장/1초 잠금이 중간에 취소됨.
+ *
+ * 등장~읽기 잠금 동안 섹션을 pin 하고, 잠금 해제 후에만 이탈·blur-out 허용.
  */
 function initAboutMeaningAnimation() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -192,10 +196,16 @@ function initAboutMeaningAnimation() {
   if (!title || !paragraphs.length) return;
 
   const allText = [title, ...paragraphs];
+  const READ_LOCK_MS = 1000;
   let hasPlayedEnter = false;
   let isAnimating = false;
   let isBlurredOut = false;
+  /** 등장 + 읽기 1초 동안 true — blur-out/재진입 완성 처리 금지 */
+  let isSequenceActive = false;
   let enterToken = 0;
+  let touchStartY = 0;
+  /** @type {ScrollTrigger | null} */
+  let pinTrigger = null;
 
   const waitForAnimation = (element, animationName, fallbackMs) =>
     new Promise((resolve) => {
@@ -215,6 +225,11 @@ function initAboutMeaningAnimation() {
       setTimeout(finish, fallbackMs);
     });
 
+  const delay = (ms) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+
   const clearTextAnimation = (element) => {
     element.classList.remove('text-blur-out', 'text-focus-in', 'is-shown');
     element.style.removeProperty('filter');
@@ -222,6 +237,8 @@ function initAboutMeaningAnimation() {
   };
 
   const showComplete = () => {
+    if (isSequenceActive) return;
+
     enterToken += 1;
     isAnimating = false;
     isBlurredOut = false;
@@ -244,12 +261,87 @@ function initAboutMeaningAnimation() {
     element.classList.add('is-shown');
   };
 
+  const killPin = () => {
+    if (!pinTrigger) return;
+    pinTrigger.kill(true);
+    pinTrigger = null;
+    ScrollTrigger.refresh();
+  };
+
   const playEnter = async () => {
-    if (hasPlayedEnter || isAnimating) return;
+    if (hasPlayedEnter || isAnimating || isSequenceActive) return;
 
     isAnimating = true;
+    isSequenceActive = true;
     isBlurredOut = false;
     const token = ++enterToken;
+
+    // 섹션을 화면 상단에 맞춘 뒤 pin — 읽는 동안 다음 섹션으로 못 넘어감
+    killPin();
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, sectionTop);
+
+    pinTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      anticipatePin: 1,
+    });
+    window.scrollTo(0, pinTrigger.start);
+
+    const freezeScroll = () => {
+      if (!pinTrigger) return;
+      if (window.scrollY > pinTrigger.start) {
+        window.scrollTo(0, pinTrigger.start);
+      }
+    };
+
+    const onWheel = (event) => {
+      if (!isSequenceActive || event.deltaY <= 0) return;
+      event.preventDefault();
+      freezeScroll();
+    };
+    const onTouchStart = (event) => {
+      if (!event.touches.length) return;
+      touchStartY = event.touches[0].clientY;
+    };
+    const onTouchMove = (event) => {
+      if (!isSequenceActive || !event.touches.length) return;
+      const deltaY = touchStartY - event.touches[0].clientY;
+      if (deltaY <= 0) return;
+      event.preventDefault();
+      freezeScroll();
+    };
+    const onKeyDown = (event) => {
+      if (!isSequenceActive) return;
+      if (
+        event.key === 'ArrowDown' ||
+        event.key === 'PageDown' ||
+        event.key === ' '
+      ) {
+        event.preventDefault();
+        freezeScroll();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, {
+      passive: true,
+      capture: true,
+    });
+    window.addEventListener('touchmove', onTouchMove, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener('keydown', onKeyDown, { capture: true });
+
+    const releaseListeners = () => {
+      window.removeEventListener('wheel', onWheel, { capture: true });
+      window.removeEventListener('touchstart', onTouchStart, { capture: true });
+      window.removeEventListener('touchmove', onTouchMove, { capture: true });
+      window.removeEventListener('keydown', onKeyDown, { capture: true });
+    };
 
     try {
       await playFocusIn(title, token);
@@ -261,15 +353,23 @@ function initAboutMeaningAnimation() {
       }
 
       hasPlayedEnter = true;
+
+      // 등장 완료 후 1초 더 아래 스크롤 고정
+      freezeScroll();
+      await delay(READ_LOCK_MS);
+      if (token !== enterToken) return;
     } finally {
+      releaseListeners();
       if (token === enterToken) {
+        isSequenceActive = false;
         isAnimating = false;
+        killPin();
       }
     }
   };
 
   const playBlurOut = async () => {
-    if (isBlurredOut) return;
+    if (isBlurredOut || isSequenceActive) return;
 
     enterToken += 1;
     isAnimating = true;
@@ -301,22 +401,31 @@ function initAboutMeaningAnimation() {
     }
   };
 
+  // 등장 시작
   ScrollTrigger.create({
     trigger: section,
     start: 'top 50%',
-    // 섹션 상단이 뷰포트 상단에 닿는 순간 = 이탈 시작
-    end: 'top top',
     onEnter() {
-      if (!hasPlayedEnter) {
+      playEnter();
+    },
+    onRefresh(self) {
+      if (self.progress > 0 && !hasPlayedEnter && !isSequenceActive) {
         playEnter();
-      } else if (isBlurredOut) {
-        showComplete();
       }
     },
+  });
+
+  // 이탈(blur-out): 시퀀스 종료 후에만, 섹션이 위로 빠져나갈 때
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: 'bottom top',
     onLeave() {
+      if (isSequenceActive) return;
       playBlurOut();
     },
     onEnterBack() {
+      if (isSequenceActive) return;
       showComplete();
     },
   });
@@ -560,7 +669,7 @@ function initAboutSymbolAnimation() {
 
     return ScrollTrigger.create({
       trigger: section,
-      start: 'top 75%',
+      start: 'top 50%',
       onEnter() {
         if (!hasPlayed) {
           playEnter(vertical);
@@ -655,7 +764,7 @@ function initAboutMaterialStory() {
     slidesPerView: 1,
     spaceBetween: 0,
     loop: true,
-    speed: 300,
+    speed: 500,
     grabCursor: true,
     allowTouchMove: true,
     followFinger: true,

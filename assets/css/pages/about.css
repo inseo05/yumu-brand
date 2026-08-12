@@ -580,6 +580,7 @@
     left: auto;
     z-index: 0;
     margin-right: 0;
+    font-size: 220px;
     color: var(--color-white);
     opacity: 0.3;
     background-image: none;
@@ -589,12 +590,18 @@
   }
 
   .about-name--fog .about-name__content {
-    justify-content: center;
+    justify-content: flex-start;
+    padding-right: 0;
   }
 
   .about-name--fog .about-name__copy {
     margin-left: 0;
     text-align: left;
+  }
+
+  .about-name--fog .about-name__heading,
+  .about-name--fog .about-name__text {
+    color: var(--color-white);
   }
 }
 
@@ -750,13 +757,20 @@
   flex-shrink: 0;
 }
 
+/* 선+양끝 원을 한 박스에 담아 clip-path로 함께 드러냄 */
 .about-symbol__rule {
   position: relative;
   flex-shrink: 0;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.about-symbol__rule-bar {
+  position: absolute;
   background-color: var(--color-grey-900);
 }
 
-/* 초기: 선 숨김 — PC는 심볼→바깥, tablet·mobile은 심볼→위/아래 */
+/* 초기: 선·원 숨김 — PC는 심볼→바깥, tablet·mobile은 심볼→위/아래 */
 .about-symbol:not(.is-symbol-entered) .about-symbol__rule--a {
   clip-path: inset(0 0 0 100%);
 }
@@ -769,6 +783,7 @@
 .about-symbol__rule::after {
   content: "";
   position: absolute;
+  z-index: 1;
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -817,9 +832,18 @@
     right: auto;
     bottom: auto;
     left: auto;
-    width: 1px;
+    width: 5px;
     height: 79px;
     transform: none;
+  }
+
+  .about-symbol__rule-bar {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    height: auto;
+    transform: translateX(-50%);
   }
 
   .about-symbol:not(.is-symbol-entered) .about-symbol__rule--a {
@@ -839,12 +863,13 @@
     transform: translate(-50%, -50%);
   }
 
+  /* 원 전체가 clip 박스 안에 들어오도록 중심을 안쪽으로 */
   .about-symbol__rule::before {
-    top: 0;
+    top: 2.5px;
   }
 
   .about-symbol__rule::after {
-    top: 100%;
+    top: calc(100% - 2.5px);
   }
 }
 
@@ -876,14 +901,8 @@
   }
 
   .about-symbol__rule {
-    width: 1px;
-    height: 79px;
-  }
-
-  .about-symbol__rule::before,
-  .about-symbol__rule::after {
     width: 5px;
-    height: 5px;
+    height: 79px;
   }
 }
 
@@ -915,14 +934,8 @@
   }
 
   .about-symbol__rule {
-    width: 1px;
-    height: 43px;
-  }
-
-  .about-symbol__rule::before,
-  .about-symbol__rule::after {
     width: 5px;
-    height: 5px;
+    height: 43px;
   }
 }
 
@@ -982,7 +995,7 @@
     top: 48px;
     right: calc(100% + 16px);
     width: 79px;
-    height: 1px;
+    height: 5px;
     transform: translateY(-50%);
   }
 
@@ -999,8 +1012,18 @@
     bottom: 48px;
     left: calc(100% + 16px);
     width: 79px;
-    height: 1px;
+    height: 5px;
     transform: translateY(50%);
+  }
+
+  .about-symbol__rule-bar {
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 1px;
+    transform: translateY(-50%);
   }
 
   .about-symbol__rule--a::before,
@@ -1014,14 +1037,15 @@
     transform: translate(-50%, -50%);
   }
 
+  /* 원 전체가 clip 박스 안에 들어오도록 중심을 안쪽으로 */
   .about-symbol__rule--a::before,
   .about-symbol__rule--b::before {
-    left: 0;
+    left: 2.5px;
   }
 
   .about-symbol__rule--a::after,
   .about-symbol__rule--b::after {
-    left: 100%;
+    left: calc(100% - 2.5px);
   }
 }
 
