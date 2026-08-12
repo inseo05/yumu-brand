@@ -552,9 +552,9 @@
   width: 13.75rem;
 }
 
-/* 霧: 한자 전체가 보이도록 마스크 폭을 글자 크기에 맞춤 */
+/* 霧: 釉와 동일 비율 — 선(왼쪽) 쪽은 보이고 바깥쪽이 일부 잘림 */
 .essence__pair--fog .essence__hanja-mask {
-  width: 17.5rem;
+  width: 13.75rem;
 }
 
 .essence__hanja {
@@ -579,6 +579,10 @@
 
 .essence__pair--ceramic .essence__hanja {
   margin-left: auto;
+}
+
+.essence__pair--fog .essence__hanja {
+  margin-right: auto;
 }
 
 .essence__desc {
@@ -688,7 +692,7 @@
   }
 
   .essence__pair--fog .essence__hanja-mask {
-    width: 180px;
+    width: calc(180px * 13.75 / 17.5);
   }
 
   .essence__hanja {
@@ -739,33 +743,30 @@
   }
 
   .essence__intro {
-    font-size: 15px;
+    font-size: 18px;
   }
 
-  /* 한자·마스크·세로선: 데스크톱 비율 유지 (280 → 100) */
+  /* 한자·마스크·세로선: 120px, 釉/霧 동일 잘림 비율 */
   .essence__hanja-mask {
-    height: 100px;
+    height: 120px;
   }
 
-  .essence__pair--ceramic .essence__hanja-mask {
-    width: calc(100px * 13.75 / 17.5);
-  }
-
+  .essence__pair--ceramic .essence__hanja-mask,
   .essence__pair--fog .essence__hanja-mask {
-    width: 100px;
+    width: calc(120px * 13.75 / 17.5);
   }
 
   .essence__hanja {
-    width: 100px;
-    font-size: 100px;
+    width: 120px;
+    font-size: 120px;
   }
 
   .essence__divider {
-    height: 100px;
+    height: 120px;
   }
 
   .essence__desc {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .essence__pair--ceramic .essence__desc {
@@ -781,7 +782,7 @@
   }
 
   .essence__finale-line {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .essence__finale-ko {
