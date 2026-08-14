@@ -161,7 +161,7 @@
     z-index: 0;
     background-color: #000;
     opacity: 0;
-    transition: opacity var(--transition-base);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
   }
 
@@ -184,7 +184,7 @@
     padding: 1.0625rem 1.25rem 0;
     background-color: var(--color-white);
     transform: translateX(100%);
-    transition: transform var(--transition-base);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .mobile-nav.is-open .mobile-nav__panel {

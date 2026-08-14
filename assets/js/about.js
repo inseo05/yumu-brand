@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAboutHeroPhrases();
   initAboutScrollReveals();
   initAboutNameEntrances();
+  initAboutNameHanjaAlign();
   initAboutMeaningAnimation();
   initAboutSymbolAnimation();
   initAboutNameMobileScale();
@@ -432,6 +433,44 @@ function initAboutMeaningAnimation() {
 }
 
 /**
+ * Name meaning 한자 — 텍스트 박스(.about-name__copy) 세로 중앙에 맞춤
+ * slot의 top/height만 조정하고, 한자 자체는 line-height:100% + translateY(-50%) 유지
+ */
+function syncAboutNameHanjaAlign() {
+  const isMobile = window.matchMedia('(max-width: 48rem)').matches;
+
+  document.querySelectorAll('.about-name').forEach((section) => {
+    const body = section.querySelector('.about-name__body');
+    const copy = section.querySelector('.about-name__copy');
+    const slot = section.querySelector('.about-name__hanja-slot');
+    if (!body || !copy || !slot) return;
+
+    if (isMobile) {
+      slot.style.top = '';
+      slot.style.bottom = '';
+      slot.style.height = '';
+      return;
+    }
+
+    const bodyRect = body.getBoundingClientRect();
+    const copyRect = copy.getBoundingClientRect();
+
+    slot.style.top = `${copyRect.top - bodyRect.top}px`;
+    slot.style.bottom = 'auto';
+    slot.style.height = `${copyRect.height}px`;
+  });
+}
+
+function initAboutNameHanjaAlign() {
+  syncAboutNameHanjaAlign();
+  window.addEventListener('resize', syncAboutNameHanjaAlign);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncAboutNameHanjaAlign);
+  }
+}
+
+/**
  * Name meaning — 도자기(釉)·안개(霧)
  * motion wrapper x 이동 → heading opacity → text opacity (순차)
  * 한자 요소의 CSS transform/위치는 건드리지 않음
@@ -727,6 +766,8 @@ function initAboutNameMobileScale() {
 
       stage.style.transform = `scale(${scale})`;
     });
+
+    syncAboutNameHanjaAlign();
 
     if (typeof ScrollTrigger !== 'undefined') {
       ScrollTrigger.refresh();

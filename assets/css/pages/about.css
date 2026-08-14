@@ -219,12 +219,25 @@
   width: 100%;
 }
 
+/* 텍스트 박스와 같은 세로 구간 — JS가 top/height를 copy에 맞춤 */
+.about-name__hanja-slot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
 /* 한자 이동 전용 — GSAP x만 적용, 한자 자체 transform/위치는 유지 */
 .about-name__hanja-motion {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: visible;
 }
 
 .about-name__hanja {
@@ -235,7 +248,7 @@
   font-family: var(--font-hanja);
   font-weight: 400;
   font-size: min(800px, 41.6667vw);
-  line-height: 1;
+  line-height: 100%;
   color: var(--color-grey-800);
   opacity: 0.1;
   transform: translateY(-50%);
@@ -278,6 +291,7 @@
 }
 
 .about-name__copy {
+  position: relative;
   flex-shrink: 0;
 }
 
@@ -491,6 +505,14 @@
     z-index: 2;
     width: 100%;
     padding-top: 106px;
+  }
+
+  .about-name__hanja-slot {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
   }
 
   .about-name__hanja {

@@ -228,10 +228,12 @@ window.addEventListener('load', () => {
 
   const resetPairToStart = (type) => {
     if (type === 'ceramic') {
+      // 선(오른쪽) 쪽에서 더 잘린 상태로 시작 → 정착
       gsap.set(ceramicHanja, { xPercent: 70 });
       gsap.set(ceramicDivider, { opacity: 0 });
       gsap.set(ceramicDesc, { opacity: 0, y: 28 });
     } else {
+      // 선(왼쪽) 쪽에서 더 잘린 상태로 시작 → 정착
       gsap.set(fogHanja, { xPercent: -70 });
       gsap.set(fogDivider, { opacity: 0 });
       gsap.set(fogDesc, { opacity: 0, y: 28 });
