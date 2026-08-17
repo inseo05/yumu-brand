@@ -176,10 +176,8 @@ function initAboutSectionReveals() {
 /**
  * about-meaning — 제목 → 문단별 text-focus-in, 이탈 시 전체 text-blur-out
  *
- * 버그 원인: onLeave에서 스크롤을 되돌리면 onEnterBack → showComplete()가
- * 호출되어 등장/1초 잠금이 중간에 취소됨.
- *
- * 등장~읽기 잠금 동안 섹션을 pin 하고, 잠금 해제 후에만 이탈·blur-out 허용.
+ * 등장~읽기 잠금 동안 페이지 스크롤을 막고, 잠금 해제 후에만 이탈·blur-out 허용.
+ * GSAP pin + scrollTo 보정은 서로 싸워 화면이 흔들리므로 사용하지 않는다.
  */
 function initAboutMeaningAnimation() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -203,9 +201,6 @@ function initAboutMeaningAnimation() {
   /** 등장 + 읽기 1초 동안 true — blur-out/재진입 완성 처리 금지 */
   let isSequenceActive = false;
   let enterToken = 0;
-  let touchStartY = 0;
-  /** @type {ScrollTrigger | null} */
-  let pinTrigger = null;
 
   const waitForAnimation = (element, animationName, fallbackMs) =>
     new Promise((resolve) => {
@@ -261,11 +256,18 @@ function initAboutMeaningAnimation() {
     element.classList.add('is-shown');
   };
 
-  const killPin = () => {
-    if (!pinTrigger) return;
-    pinTrigger.kill(true);
-    pinTrigger = null;
-    ScrollTrigger.refresh();
+  const lockPageScroll = () => {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.classList.add('is-scroll-locked');
+    document.body.style.paddingRight = scrollbarWidth
+      ? `${scrollbarWidth}px`
+      : '';
+  };
+
+  const unlockPageScroll = () => {
+    document.documentElement.classList.remove('is-scroll-locked');
+    document.body.style.paddingRight = '';
   };
 
   const playEnter = async () => {
@@ -276,60 +278,34 @@ function initAboutMeaningAnimation() {
     isBlurredOut = false;
     const token = ++enterToken;
 
-    // 섹션을 화면 상단에 맞춘 뒤 pin — 읽는 동안 다음 섹션으로 못 넘어감
-    killPin();
     const sectionTop = section.getBoundingClientRect().top + window.scrollY;
     window.scrollTo(0, sectionTop);
-
-    pinTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top top',
-      end: '+=200%',
-      pin: true,
-      anticipatePin: 1,
-    });
-    window.scrollTo(0, pinTrigger.start);
-
-    const freezeScroll = () => {
-      if (!pinTrigger) return;
-      if (window.scrollY > pinTrigger.start) {
-        window.scrollTo(0, pinTrigger.start);
-      }
-    };
+    lockPageScroll();
 
     const onWheel = (event) => {
-      if (!isSequenceActive || event.deltaY <= 0) return;
+      if (!isSequenceActive) return;
       event.preventDefault();
-      freezeScroll();
-    };
-    const onTouchStart = (event) => {
-      if (!event.touches.length) return;
-      touchStartY = event.touches[0].clientY;
     };
     const onTouchMove = (event) => {
-      if (!isSequenceActive || !event.touches.length) return;
-      const deltaY = touchStartY - event.touches[0].clientY;
-      if (deltaY <= 0) return;
+      if (!isSequenceActive) return;
       event.preventDefault();
-      freezeScroll();
     };
     const onKeyDown = (event) => {
       if (!isSequenceActive) return;
       if (
         event.key === 'ArrowDown' ||
+        event.key === 'ArrowUp' ||
         event.key === 'PageDown' ||
-        event.key === ' '
+        event.key === 'PageUp' ||
+        event.key === ' ' ||
+        event.key === 'Home' ||
+        event.key === 'End'
       ) {
         event.preventDefault();
-        freezeScroll();
       }
     };
 
     window.addEventListener('wheel', onWheel, { passive: false, capture: true });
-    window.addEventListener('touchstart', onTouchStart, {
-      passive: true,
-      capture: true,
-    });
     window.addEventListener('touchmove', onTouchMove, {
       passive: false,
       capture: true,
@@ -338,7 +314,6 @@ function initAboutMeaningAnimation() {
 
     const releaseListeners = () => {
       window.removeEventListener('wheel', onWheel, { capture: true });
-      window.removeEventListener('touchstart', onTouchStart, { capture: true });
       window.removeEventListener('touchmove', onTouchMove, { capture: true });
       window.removeEventListener('keydown', onKeyDown, { capture: true });
     };
@@ -354,8 +329,6 @@ function initAboutMeaningAnimation() {
 
       hasPlayedEnter = true;
 
-      // 등장 완료 후 1초 더 아래 스크롤 고정
-      freezeScroll();
       await delay(READ_LOCK_MS);
       if (token !== enterToken) return;
     } finally {
@@ -363,7 +336,7 @@ function initAboutMeaningAnimation() {
       if (token === enterToken) {
         isSequenceActive = false;
         isAnimating = false;
-        killPin();
+        unlockPageScroll();
       }
     }
   };

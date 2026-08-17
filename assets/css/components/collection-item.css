@@ -67,6 +67,11 @@
   inset: 0;
 }
 
+/* PC: 래퍼는 레이아웃에 영향 없이 자식만 stage 기준으로 배치 */
+.collection-item--ceramic .collection-item__cluster--primary {
+  display: contents;
+}
+
 .collection-item--ceramic .collection-item__title {
   bottom: 66.1%;
   left: 15.9%;
@@ -107,6 +112,15 @@
 }
 
 /* 제목 아래끝을 이미지 2 위끝(top 37.9%)보다 1%(1920px 기준 10px) 위에 고정, 왼쪽은 이미지 2와 정렬 */
+.collection-item--fog .collection-item__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.collection-item--fog .collection-item__cluster--primary {
+  display: contents;
+}
+
 .collection-item--fog .collection-item__title {
   bottom: 63.1%;
   left: 53.6%;
@@ -150,6 +164,11 @@
 }
 
 /* 이미지 2 오른쪽 끝(68.5%)에서 1.4%(1920px 기준 20px) 간격, 위끝은 이미지 2와 동일 */
+.collection-item--moss .collection-item__stage {
+  position: absolute;
+  inset: 0;
+}
+
 .collection-item--moss .collection-item__title {
   top: 14.4%;
   left: 69.9%;
@@ -202,6 +221,11 @@
   max-height: 75rem;
 }
 
+.collection-item--lily .collection-item__stage {
+  position: absolute;
+  inset: 0;
+}
+
 .collection-item--lily .collection-item__title {
   top: 76.6%;
   left: 51.4%;
@@ -245,6 +269,11 @@
 }
 
 /* 제목 아래끝을 이미지 1 위끝(top 20.6%)보다 1%(1920px 기준 10px) 위에 고정, 왼쪽은 이미지 1과 정렬 */
+.collection-item--resin .collection-item__stage {
+  position: absolute;
+  inset: 0;
+}
+
 .collection-item--resin .collection-item__title {
   bottom: 80.4%;
   left: 12.1%;
@@ -301,32 +330,52 @@
 @media (max-width: 48rem) {
   /* 모바일 공통 타이포 */
   .collection-item__title {
+    margin: 0 0 1.25rem;
     font-size: 3.125rem;
+    line-height: 100%;
   }
 
   .collection-item__description {
     font-size: 0.6875rem;
+    line-height: 100%;
   }
 
-  /* Ceramic 전용 모바일 배치 — 섹션 높이 800px, 구성 블록 세로 중앙 */
-  /* 사진1 = 왼쪽 고정, 하단 2장 = 오른쪽 고정 */
+  .collection-item__stage {
+    margin-top: 4.375rem;
+  }
+
+  /*
+   * ===== Ceramic 모바일 =====
+   * .collection-item__stage 기준(100% × 100%)으로 top / left / right / width 를 % 로 조정
+   */
   .collection-item--ceramic .collection-item__inner {
     aspect-ratio: auto;
-    height: 50rem;
+    height: auto;
     max-height: none;
-    display: flex;
-    align-items: center;
   }
 
   .collection-item--ceramic .collection-item__stage {
     position: relative;
-    inset: auto;
     width: 100%;
-    container-type: inline-size;
-    /* 제목 + 14px + 이미지1 + 14px + 이미지2 + 14px + 화살표 */
-    height: calc(
-      3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem + (52.1cqi * 318 / 456) + 0.875rem + 2.25rem
-    );
+    aspect-ratio: 710 / 800;
+
+    /* ── 위치 조정용 변수 (여기만 수정) ── */
+    --ceramic-m-img1-top: 18%;
+    --ceramic-m-img1-left: 0%;
+    --ceramic-m-img1-width: 50.1%;
+
+    --ceramic-m-img2-top: 62%;
+    --ceramic-m-img2-right: 0%;
+    --ceramic-m-img2-width: 52.1%;
+
+    /* 768: 간격 넓음(right 작음) → 500: 겹침(right 큼) */
+    --ceramic-m-img3-top: 52%;
+    --ceramic-m-img3-right-wide: 38%;
+    --ceramic-m-img3-right-narrow: 54%;
+    --ceramic-m-img3-width: 28.3%;
+
+    --ceramic-m-link-top: 90%;
+    --ceramic-m-link-right: 0%;
   }
 
   .collection-item--ceramic .collection-item__title {
@@ -335,49 +384,417 @@
     left: 0;
   }
 
-  /* 사진1 — 왼쪽 고정 */
+  .collection-item--ceramic .collection-item__cluster--primary {
+    display: block;
+    position: absolute;
+    top: var(--ceramic-m-img1-top);
+    left: var(--ceramic-m-img1-left);
+    width: var(--ceramic-m-img1-width);
+  }
+
+  .collection-item--ceramic .collection-item__cluster--primary picture {
+    display: block;
+    width: 100%;
+  }
+
   .collection-item--ceramic .collection-item__image--1 {
-    top: calc(3.125rem + 0.875rem);
-    left: 0;
-    right: auto;
-    width: 50.1%;
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
     aspect-ratio: 438 / 426;
   }
 
-  /* 하단 오른쪽 — 화병(ceramic-3), 오른쪽 고정 */
+  .collection-item--ceramic .collection-item__description {
+    top: auto;
+    bottom: 0;
+    left: calc(100% + 0.625rem);
+    right: auto;
+  }
+
   .collection-item--ceramic .collection-item__image--2 {
-    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem);
+    top: var(--ceramic-m-img2-top);
     left: auto;
-    right: 0;
-    width: 52.1%;
+    right: var(--ceramic-m-img2-right);
+    width: var(--ceramic-m-img2-width);
     aspect-ratio: 456 / 318;
   }
 
-  /* 하단 왼쪽 — 꽃 접시(ceramic-2), 화병과 겹치며 함께 오른쪽 그룹 */
   .collection-item--ceramic .collection-item__image--3 {
-    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem);
+    top: var(--ceramic-m-img3-top);
     left: auto;
-    right: calc(52.1% - 6.5%);
-    width: 28.3%;
+    right: calc(
+      var(--ceramic-m-img3-right-wide)
+      + (var(--ceramic-m-img3-right-narrow) - var(--ceramic-m-img3-right-wide))
+        * clamp(0, (100vw - 31.25rem) / 16.75rem, 1)
+    );
+    width: var(--ceramic-m-img3-width);
     aspect-ratio: 263 / 248;
     z-index: 1;
   }
 
-  /* 사진1 오른쪽, 세로 문장 — 간격 10px */
-  .collection-item--ceramic .collection-item__description {
-    top: calc(3.125rem + 0.875rem + (50.1cqi * 426 / 438) * 0.2);
-    left: calc(50.1% + 0.625rem);
-    right: auto;
-  }
-
-  /* 화살표 36×36, 하단 사진 그룹 아래 14px · 오른쪽 정렬 */
   .collection-item--ceramic .collection-item__link {
-    top: calc(
-      3.125rem + 0.875rem + (50.1cqi * 426 / 438) + 0.875rem + (52.1cqi * 318 / 456) + 0.875rem
-    );
+    top: var(--ceramic-m-link-top);
     left: auto;
-    right: 0;
+    right: var(--ceramic-m-link-right);
     width: 2.25rem;
     height: 2.25rem;
+  }
+
+  /*
+   * ===== Fog 모바일 =====
+   * .collection-item__stage 기준(100% × 100%)으로 top / left / right / width 를 % 로 조정
+   */
+  .collection-item--fog .collection-item__inner {
+    aspect-ratio: auto;
+    height: auto;
+    max-height: none;
+  }
+
+  .collection-item--fog .collection-item__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 710 / 800;
+
+    /* ── 위치 조정용 변수 (여기만 수정) ── */
+    --fog-m-img1-top: 18%;
+    --fog-m-img1-left: 0%;
+    --fog-m-img1-width: 47%;
+
+    /* 768: 간격 40px → 500: 화병 너비 35% 겹침 */
+    --fog-m-img2-top: 60%;
+    --fog-m-img2-right-wide: 32%;
+    --fog-m-img2-right-narrow: 18%;
+    --fog-m-img2-width: 32%;
+
+    --fog-m-img3-top: 42%;
+    --fog-m-img3-right: 0%;
+    --fog-m-img3-width: 27%;
+
+    --fog-m-link-top: 88%;
+    --fog-m-link-right: 0%;
+  }
+
+  .collection-item--fog .collection-item__title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+  }
+
+  .collection-item--fog .collection-item__cluster--primary {
+    display: block;
+    position: absolute;
+    top: var(--fog-m-img1-top);
+    left: var(--fog-m-img1-left);
+    width: var(--fog-m-img1-width);
+  }
+
+  .collection-item--fog .collection-item__cluster--primary picture {
+    display: block;
+    width: 100%;
+  }
+
+  .collection-item--fog .collection-item__image--1 {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 444 / 486;
+  }
+
+  .collection-item--fog .collection-item__description {
+    top: 0;
+    bottom: auto;
+    left: calc(100% + 0.625rem);
+    right: auto;
+    max-width: none;
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+  }
+
+  .collection-item--fog .collection-item__image--2 {
+    top: var(--fog-m-img2-top);
+    left: auto;
+    right: calc(
+      var(--fog-m-img2-right-wide)
+      + (var(--fog-m-img2-right-narrow) - var(--fog-m-img2-right-wide))
+        * clamp(0, (100vw - 31.25rem) / 16.75rem, 1)
+    );
+    width: var(--fog-m-img2-width);
+    aspect-ratio: 1 / 1;
+    z-index: 1;
+  }
+
+  .collection-item--fog .collection-item__image--3 {
+    top: var(--fog-m-img3-top);
+    left: auto;
+    right: var(--fog-m-img3-right);
+    width: var(--fog-m-img3-width);
+    aspect-ratio: 270 / 392;
+  }
+
+  .collection-item--fog .collection-item__link {
+    top: var(--fog-m-link-top);
+    left: auto;
+    right: var(--fog-m-link-right);
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .collection-item__stage picture {
+    display: contents;
+  }
+
+  /*
+   * ===== Moss 모바일 (기준 599×800) =====
+   * img1=이끼(moss-1) img2=큐브(moss-2) img3=구(moss-3)
+   */
+  .collection-item--moss .collection-item__inner {
+    aspect-ratio: auto;
+    height: auto;
+    max-height: none;
+  }
+
+  .collection-item--moss .collection-item__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 599 / 800;
+
+    --moss-m-img1-top: 12%;
+    --moss-m-img1-left: 0%;
+    --moss-m-img1-width: 72%;
+
+    --moss-m-img2-top: 10%;
+    --moss-m-img2-left: 55%;
+    --moss-m-img2-width: 22%;
+
+    --moss-m-img3-top: 40%;
+    --moss-m-img3-right: 4%;
+    --moss-m-img3-width: 66%;
+
+    --moss-m-desc-top: 73%;
+    --moss-m-desc-left: 30%;
+    --moss-m-desc-width: 66%;
+
+    --moss-m-link-top: 87%;
+    --moss-m-link-right: 0%;
+  }
+
+  .collection-item--moss .collection-item__title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    z-index: 2;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+  }
+
+  .collection-item--moss .collection-item__image--1 {
+    top: var(--moss-m-img1-top);
+    left: var(--moss-m-img1-left);
+    width: var(--moss-m-img1-width);
+    aspect-ratio: 540 / 443;
+    z-index: 1;
+  }
+
+  .collection-item--moss .collection-item__image--2 {
+    top: var(--moss-m-img2-top);
+    left: var(--moss-m-img2-left);
+    right: auto;
+    width: var(--moss-m-img2-width);
+    aspect-ratio: 216 / 233;
+    z-index: 3;
+  }
+
+  .collection-item--moss .collection-item__image--3 {
+    top: var(--moss-m-img3-top);
+    left: auto;
+    right: var(--moss-m-img3-right);
+    width: var(--moss-m-img3-width);
+    aspect-ratio: 480 / 273;
+    z-index: 1;
+  }
+
+  .collection-item--moss .collection-item__description {
+    top: var(--moss-m-desc-top);
+    left: var(--moss-m-desc-left);
+    width: var(--moss-m-desc-width);
+    max-width: none;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .collection-item--moss .collection-item__link {
+    top: var(--moss-m-link-top);
+    left: auto;
+    right: var(--moss-m-link-right);
+    width: 2.25rem;
+    height: 2.25rem;
+    z-index: 2;
+  }
+
+  /*
+   * ===== Lily 모바일 (기준 533×1024) =====
+   * img1=화병(lily-1) img2=메인(lily-2) img3=항아리(lily-3)
+   */
+  .collection-item--lily .collection-item__inner {
+    aspect-ratio: auto;
+    height: auto;
+    max-height: none;
+  }
+
+  .collection-item--lily .collection-item__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 533 / 1024;
+
+    --lily-m-img1-top: 17%;
+    --lily-m-img1-left: 0%;
+    --lily-m-img1-width: 48%;
+
+    --lily-m-img2-top: 28%;
+    --lily-m-img2-left: 0%;
+    --lily-m-img2-width: 100%;
+
+    --lily-m-desc-top: 21%;
+    --lily-m-desc-right: 0%;
+
+    --lily-m-img3-top: 56%;
+    --lily-m-img3-right: 0%;
+    --lily-m-img3-width: 73%;
+
+    --lily-m-link-top: 88%;
+    --lily-m-link-right: 0%;
+  }
+
+  .collection-item--lily .collection-item__title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    z-index: 2;
+  }
+
+  .collection-item--lily .collection-item__image--1 {
+    top: var(--lily-m-img1-top);
+    left: var(--lily-m-img1-left);
+    width: var(--lily-m-img1-width);
+    aspect-ratio: 255 / 479;
+    z-index: 2;
+  }
+
+  .collection-item--lily .collection-item__image--2 {
+    top: var(--lily-m-img2-top);
+    left: var(--lily-m-img2-left);
+    width: var(--lily-m-img2-width);
+    aspect-ratio: 875 / 648;
+    z-index: 1;
+  }
+
+  .collection-item--lily .collection-item__description {
+    top: var(--lily-m-desc-top);
+    left: auto;
+    right: var(--lily-m-desc-right);
+    max-width: none;
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+    z-index: 3;
+  }
+
+  .collection-item--lily .collection-item__image--3 {
+    top: var(--lily-m-img3-top);
+    left: auto;
+    right: var(--lily-m-img3-right);
+    width: var(--lily-m-img3-width);
+    aspect-ratio: 390 / 419;
+    z-index: 2;
+  }
+
+  .collection-item--lily .collection-item__link {
+    top: var(--lily-m-link-top);
+    left: auto;
+    right: var(--lily-m-link-right);
+    width: 2.25rem;
+    height: 2.25rem;
+    z-index: 2;
+  }
+
+  /*
+   * ===== Resin 모바일 (기준 599×905) =====
+   * img1=그릇(resin-1) img2=손(resin-2)
+   */
+  .collection-item--resin .collection-item__inner {
+    aspect-ratio: auto;
+    height: auto;
+    max-height: none;
+  }
+
+  .collection-item--resin .collection-item__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 599 / 905;
+
+    --resin-m-img1-top: 12%;
+    --resin-m-img1-left: 0%;
+    --resin-m-img1-width: 64%;
+
+    --resin-m-img2-top: 8%;
+    --resin-m-img2-right: 0%;
+    --resin-m-img2-width: 68%;
+
+    --resin-m-desc-top: 71%;
+    --resin-m-desc-left: 18%;
+    --resin-m-desc-width: 64%;
+
+    --resin-m-link-top: 86%;
+    --resin-m-link-right: 0%;
+  }
+
+  .collection-item--resin .collection-item__title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    z-index: 2;
+  }
+
+  .collection-item--resin .collection-item__image--1 {
+    top: var(--resin-m-img1-top);
+    left: var(--resin-m-img1-left);
+    width: var(--resin-m-img1-width);
+    aspect-ratio: 635 / 390;
+    z-index: 1;
+  }
+
+  .collection-item--resin .collection-item__image--2 {
+    top: var(--resin-m-img2-top);
+    left: auto;
+    right: var(--resin-m-img2-right);
+    width: var(--resin-m-img2-width);
+    aspect-ratio: 480 / 593;
+    object-fit: contain;
+    z-index: 2;
+  }
+
+  .collection-item--resin .collection-item__description {
+    top: var(--resin-m-desc-top);
+    left: var(--resin-m-desc-left);
+    width: var(--resin-m-desc-width);
+    max-width: none;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .collection-item--resin .collection-item__link {
+    top: var(--resin-m-link-top);
+    left: auto;
+    right: var(--resin-m-link-right);
+    width: 2.25rem;
+    height: 2.25rem;
+    z-index: 2;
   }
 }

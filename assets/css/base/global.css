@@ -27,6 +27,12 @@ select {
   border: 0;
 }
 
+html.is-scroll-locked,
+html.is-scroll-locked body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 @media (max-width: 64rem) {
   body {
     font-size: 0.875rem;
