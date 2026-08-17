@@ -17,6 +17,12 @@
   color: var(--color-brand-5);
 }
 
+@media (max-width: 64rem) {
+  .hero__title {
+    font-size: 3.125rem;
+  }
+}
+
 .products__inner {
   padding-block: 4.375rem;
 }
@@ -79,6 +85,10 @@
 }
 
 @media (max-width: 48rem) {
+  .hero__title {
+    font-size: 2.25rem;
+  }
+
   .products__inner {
     padding: 40px 20px;
     padding-block: 2.5rem;

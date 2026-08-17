@@ -123,6 +123,57 @@
   }
 }
 
+@-webkit-keyframes text-focus-in-top {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      #000 0%,
+      #000 45%,
+      transparent 55%,
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 200%;
+    -webkit-mask-position: 0 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  100% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    opacity: 1;
+
+    -webkit-mask-position: 0 0;
+  }
+}
+
+@keyframes text-focus-in-top {
+  0% {
+    filter: blur(12px);
+    opacity: 0;
+
+    mask-image: linear-gradient(
+      180deg,
+      #000 0%,
+      #000 45%,
+      transparent 55%,
+      transparent 100%
+    );
+    mask-size: 100% 200%;
+    mask-position: 0 100%;
+    mask-repeat: no-repeat;
+  }
+
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    mask-position: 0 0;
+  }
+}
+
 .focus-in-expand {
   -webkit-animation: focus-in-expand 0.8s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

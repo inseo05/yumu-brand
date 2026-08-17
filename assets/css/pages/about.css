@@ -516,12 +516,18 @@
   }
 
   .about-name__hanja {
-    top: auto;
-    left: auto;
-    right: -50px;
-    bottom: 30px;
+    /* 모바일: 안개 무와 같이 오른쪽에서 들어와 오른쪽에 위치 */
+    --name-m-hanja-top: 40px;
+    --name-m-hanja-right: -50px;
+    --name-m-hanja-left: auto;
+    --name-m-hanja-size: 220px;
+
+    top: var(--name-m-hanja-top);
+    left: var(--name-m-hanja-left);
+    right: var(--name-m-hanja-right);
+    bottom: auto;
     z-index: 0;
-    font-size: 220px;
+    font-size: var(--name-m-hanja-size);
     color: transparent;
     opacity: 1;
     background-image: linear-gradient(
@@ -595,14 +601,24 @@
   }
 
   .about-name--fog .about-name__hanja {
+    /* ── 모바일 한자(霧) 위치·크기 (여기만 수정) ──
+       top    ↑ 작을수록 위로
+       right  ↑ 클수록 왼쪽으로 (음수면 오른쪽 밖으로)
+       left   쓸 경우 right는 auto
+       font-size 한자 크기 */
+    --fog-m-hanja-top: 40px;
+    --fog-m-hanja-right: -50px;
+    --fog-m-hanja-left: auto;
+    --fog-m-hanja-size: 220px;
+
     position: absolute;
-    top: 0;
-    right: -50px;
+    top: var(--fog-m-hanja-top);
+    right: var(--fog-m-hanja-right);
     bottom: auto;
-    left: auto;
+    left: var(--fog-m-hanja-left);
     z-index: 0;
     margin-right: 0;
-    font-size: 220px;
+    font-size: var(--fog-m-hanja-size);
     color: var(--color-white);
     opacity: 0.3;
     background-image: none;
@@ -639,6 +655,12 @@
 .about-name:not(.is-name-entered) .about-name__heading,
 .about-name:not(.is-name-entered) .about-name__text {
   opacity: 0.25;
+}
+
+@media (max-width: 48rem) {
+  .about-name:not(.is-name-entered):not(.about-name--fog) .about-name__hanja-motion {
+    transform: translate3d(100vw, 0, 0);
+  }
 }
 
 /* ===== About Meaning — 유무는 ===== */

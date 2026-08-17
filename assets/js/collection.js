@@ -22,7 +22,13 @@ window.addEventListener('load', () => {
 
       const onEnd = (event) => {
         if (event.target !== element) return;
-        if (event.animationName && event.animationName !== animationName) return;
+        if (
+          event.animationName &&
+          event.animationName !== animationName &&
+          event.animationName !== 'text-focus-in-top'
+        ) {
+          return;
+        }
         finish();
       };
 

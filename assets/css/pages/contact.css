@@ -213,15 +213,15 @@
   }
 
   .contact-inquiry__item {
-    grid-template-columns: 5.5rem 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 1rem;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 0;
     align-items: start;
     padding-block: 1.25rem;
   }
 
   .contact-inquiry__label {
-    grid-row: 1 / -1;
+    grid-column: 1;
     padding-right: 0;
     font-size: 0.8125rem;
     text-align: left;
@@ -229,17 +229,16 @@
   }
 
   .contact-inquiry__description {
-    grid-column: 2;
-    grid-row: 1;
+    grid-column: 1;
+    margin-top: 1.25rem;
     font-size: 0.75rem;
     line-height: 130%;
   }
 
   .contact-inquiry__email {
-    grid-column: 2;
-    grid-row: 2;
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
+    grid-column: 1;
+    margin-top: 0.375rem;
+    font-size: 0.625rem;
     text-align: left;
     white-space: normal;
     word-break: break-all;
@@ -267,5 +266,7 @@
     gap: 0;
     padding-left: 1rem;
     font-size: 0.75rem;
+    border-left-width: 1px;
+    line-height: 200%;
   }
 }

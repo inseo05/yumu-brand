@@ -473,8 +473,14 @@ function initAboutNameEntrances() {
 
     if (!hanjaMotion || !heading || !bodyText) return;
 
+    const getDirection = () => {
+      const isMobile = window.matchMedia('(max-width: 48rem)').matches;
+      if (isMobile) return 1;
+      return direction;
+    };
+
     gsap.set(hanjaMotion, {
-      x: () => direction * Math.max(window.innerWidth, section.offsetWidth),
+      x: () => getDirection() * Math.max(window.innerWidth, section.offsetWidth),
     });
     gsap.set([heading, bodyText], { opacity: 0.25, clearProps: 'transform,y' });
 
@@ -490,7 +496,7 @@ function initAboutNameEntrances() {
       .fromTo(
         hanjaMotion,
         {
-          x: () => direction * Math.max(window.innerWidth, section.offsetWidth),
+          x: () => getDirection() * Math.max(window.innerWidth, section.offsetWidth),
         },
         {
           x: 0,

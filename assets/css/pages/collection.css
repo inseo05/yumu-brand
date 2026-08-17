@@ -3,7 +3,7 @@
 }
 
 .hero {
-  height: 62.5rem;
+  height: 48.125em;
   display: flex;
   align-items: center;
   background-image: url("../../images/collection/bg-collection.webp");
