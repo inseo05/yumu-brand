@@ -136,9 +136,10 @@
   display: contents;
 }
 
+/* 제목 아래끝은 이미지 2 위끝보다 2%(20px) 위, 왼쪽은 이미지 2 왼쪽 끝과 정렬 */
 .collection-item--fog .collection-item__title {
   bottom: calc(100% - var(--fog-img2-top) + 2%);
-  left: calc(var(--fog-img2-left) + var(--fog-img2-width) + 1.4%);
+  left: var(--fog-img2-left);
   right: auto;
   width: auto;
   text-align: left;

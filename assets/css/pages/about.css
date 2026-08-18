@@ -330,17 +330,22 @@
     font-size: 426px;
   }
 
-  .about-name__image {
+  .about-name:not(.about-name--fog) .about-name__body {
+    align-items: center;
+  }
+
+  .about-name:not(.about-name--fog) .about-name__image {
     right: -20px;
-    width: 339px;
+    width: min(339px, 38vw);
     height: auto;
   }
 
-  .about-name__content {
+  .about-name:not(.about-name--fog) .about-name__content {
+    align-items: center;
     padding-right: max(
-      0px,
+      16px,
       calc(
-        339px + 10px
+        min(339px, 38vw) + 24px
         - max(0px, (100vw - var(--container-max-width)) / 2)
         - var(--container-gutter)
       )
@@ -365,6 +370,30 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.about-name--fog .about-name__bg-crossfade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-name--fog .about-name__bg-layer--meaning {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-grey-800);
+  background-image: url("../../images/about/name-bg.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0;
+}
+
+.about-name--fog .about-name__viewport {
+  position: relative;
+  z-index: 1;
 }
 
 .about-name--fog .about-name__content {
@@ -644,24 +673,45 @@
   }
 }
 
-/* Name meaning 등장 FOUC — motion wrapper·텍스트만 (한자 transform 건드리지 않음) */
-.about-name:not(.is-name-entered):not(.about-name--fog) .about-name__hanja-motion {
-  transform: translate3d(-100vw, 0, 0);
+/* Name meaning 등장 FOUC — 한자는 처음부터 표시, 텍스트만 숨김 */
+.about-name:not(.is-name-entered):not(.is-name-animating) .about-name__heading,
+.about-name:not(.is-name-entered):not(.is-name-animating) .about-name__text {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.about-name--fog:not(.is-name-entered) .about-name__hanja-motion {
-  transform: translate3d(100vw, 0, 0);
+.about-name.is-name-entered .about-name__heading,
+.about-name.is-name-entered .about-name__text {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.about-name:not(.is-name-entered) .about-name__heading,
-.about-name:not(.is-name-entered) .about-name__text {
-  opacity: 0.25;
+.about-meaning.is-transition-pending {
+  visibility: hidden;
+  pointer-events: none;
 }
 
-@media (max-width: 48rem) {
-  .about-name:not(.is-name-entered):not(.about-name--fog) .about-name__hanja-motion {
-    transform: translate3d(100vw, 0, 0);
-  }
+.about-meaning.is-transition-crossfade {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  visibility: visible;
+  background-color: transparent;
+  background-image: none;
+  pointer-events: none;
+}
+
+.about-meaning.is-transition-crossfade .about-meaning__overlay {
+  opacity: 0;
+}
+
+.about-meaning.is-transition-crossfade .about-meaning__content {
+  pointer-events: auto;
+}
+
+.about-meaning.is-meaning-entered {
+  visibility: visible;
+  clip-path: none;
 }
 
 /* ===== About Meaning — 유무는 ===== */

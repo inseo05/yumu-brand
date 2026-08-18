@@ -65,18 +65,18 @@
   --footer-padding-inline-mobile: 2.5rem;
   --footer-content-gap: 1.5rem;
   --footer-logo-size: 2.875rem;
-  --footer-logo-size-mobile: 1.5rem;
+  --footer-logo-size-mobile: 2.25rem;
   --footer-text-size: 0.875rem;
-  --footer-text-size-mobile: 0.5625rem;
+  --footer-text-size-mobile: 1rem;
   --footer-text-lh: 2;
   --footer-title-size: 1rem;
-  --footer-title-size-mobile: 0.75rem;
+  --footer-title-size-mobile: 1rem;
   --footer-title-lh: 1;
   --footer-phone-size: 1.25rem;
-  --footer-phone-size-mobile: 0.75rem;
+  --footer-phone-size-mobile: 1rem;
   --footer-phone-lh: 1;
   --footer-insta-size: 1.125rem;
-  --footer-insta-size-mobile: 0.75rem;
+  --footer-insta-size-mobile: 1rem;
   --footer-service-gap: 0.75rem;
 
   /* Layout - PC */

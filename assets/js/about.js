@@ -13,9 +13,10 @@ const ABOUT_REVEAL = {
 document.addEventListener('DOMContentLoaded', () => {
   initAboutHeroPhrases();
   initAboutScrollReveals();
+  const meaningController = initAboutMeaningAnimation();
   initAboutNameEntrances();
+  initAboutFogMeaningTransition(meaningController);
   initAboutNameHanjaAlign();
-  initAboutMeaningAnimation();
   initAboutSymbolAnimation();
   initAboutNameMobileScale();
   initAboutMaterialStory();
@@ -48,6 +49,39 @@ function initAboutHeroPhrases() {
   window.setTimeout(() => {
     playFocusIn(rightPhrase);
   }, HERO_HOLD_MS);
+}
+
+/**
+ * Intro 전용 — opacity 1 도달 후 유지 (passed fade 없음)
+ * @param {Array<Element|Element[]>} lines
+ * @returns {gsap.core.Timeline[]}
+ */
+function createIntroRevealTimelines(lines) {
+  const { pending, active } = ABOUT_REVEAL;
+  const flat = lines.flat();
+
+  gsap.set(flat, {
+    opacity: pending,
+    clearProps: 'filter,y,x,translate,transform',
+  });
+
+  return lines.map((line) => {
+    const targets = Array.isArray(line) ? line : [line];
+
+    return gsap.timeline({
+      scrollTrigger: {
+        trigger: targets[0],
+        endTrigger: targets[targets.length - 1],
+        start: 'top 85%',
+        end: 'bottom 25%',
+        scrub: true,
+      },
+    }).fromTo(
+      targets,
+      { opacity: pending },
+      { opacity: active, duration: 1, ease: 'none' }
+    );
+  });
 }
 
 /**
@@ -135,7 +169,7 @@ function initAboutIntroReveal() {
     const groups = getGroups(attr);
     if (!groups.length) return () => {};
 
-    const timelines = createOpacityRevealTimelines(groups);
+    const timelines = createIntroRevealTimelines(groups);
 
     return () => {
       timelines.forEach((timeline) => {
@@ -175,31 +209,28 @@ function initAboutSectionReveals() {
 }
 
 /**
- * about-meaning — 제목 → 문단별 text-focus-in, 이탈 시 전체 text-blur-out
- *
- * 등장~읽기 잠금 동안 페이지 스크롤을 막고, 잠금 해제 후에만 이탈·blur-out 허용.
- * GSAP pin + scrollTo 보정은 서로 싸워 화면이 흔들리므로 사용하지 않는다.
+ * about-meaning — fog 전환 후 text-focus-in, 이탈 시 blur-out
+ * playEnter()는 fog→meaning 브릿지 또는 fallback 진입에서 호출
  */
 function initAboutMeaningAnimation() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return null;
 
   gsap.registerPlugin(ScrollTrigger);
 
   const section = document.querySelector('.about-meaning');
-  if (!section) return;
+  if (!section) return null;
 
   const title = section.querySelector('.about-meaning__title');
   const paragraphs = Array.from(
     section.querySelectorAll('.about-meaning__paragraph')
   );
-  if (!title || !paragraphs.length) return;
+  if (!title || !paragraphs.length) return null;
 
   const allText = [title, ...paragraphs];
   const READ_LOCK_MS = 1000;
   let hasPlayedEnter = false;
   let isAnimating = false;
   let isBlurredOut = false;
-  /** 등장 + 읽기 1초 동안 true — blur-out/재진입 완성 처리 금지 */
   let isSequenceActive = false;
   let enterToken = 0;
 
@@ -232,6 +263,18 @@ function initAboutMeaningAnimation() {
     element.style.removeProperty('opacity');
   };
 
+  const overlay = section.querySelector('.about-meaning__overlay');
+
+  const restoreMeaningOverlay = () => {
+    if (!overlay) return;
+
+    if (typeof gsap !== 'undefined') {
+      gsap.set(overlay, { opacity: 0.5 });
+    } else {
+      overlay.style.opacity = '0.5';
+    }
+  };
+
   const showComplete = () => {
     if (isSequenceActive) return;
 
@@ -239,6 +282,9 @@ function initAboutMeaningAnimation() {
     isAnimating = false;
     isBlurredOut = false;
     hasPlayedEnter = true;
+    section.classList.remove('is-transition-pending', 'is-transition-crossfade');
+    section.classList.add('is-meaning-entered');
+    restoreMeaningOverlay();
     allText.forEach((element) => {
       clearTextAnimation(element);
       element.classList.add('is-shown');
@@ -271,25 +317,39 @@ function initAboutMeaningAnimation() {
     document.body.style.paddingRight = '';
   };
 
-  const playEnter = async () => {
-    if (hasPlayedEnter || isAnimating || isSequenceActive) return;
+  const settleMeaningScroll = () => {
+    window.scrollTo(0, section.offsetTop);
+  };
+
+  const playEnter = async (options = {}) => {
+    const { force = false, fromFogBridge = false } = options;
+    if (!force && (hasPlayedEnter || isAnimating || isSequenceActive)) return;
 
     isAnimating = true;
     isSequenceActive = true;
     isBlurredOut = false;
     const token = ++enterToken;
 
-    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo(0, sectionTop);
+    section.classList.remove('is-transition-pending');
+    section.classList.add('is-meaning-entered');
+
+    if (fromFogBridge) {
+      section.classList.add('is-transition-crossfade');
+    } else {
+      section.classList.remove('is-transition-crossfade');
+    }
+
     lockPageScroll();
 
     const onWheel = (event) => {
       if (!isSequenceActive) return;
       event.preventDefault();
+      event.stopPropagation();
     };
     const onTouchMove = (event) => {
       if (!isSequenceActive) return;
       event.preventDefault();
+      event.stopPropagation();
     };
     const onKeyDown = (event) => {
       if (!isSequenceActive) return;
@@ -337,13 +397,21 @@ function initAboutMeaningAnimation() {
       if (token === enterToken) {
         isSequenceActive = false;
         isAnimating = false;
+        section.classList.remove('is-transition-crossfade');
+        restoreMeaningOverlay();
+
+        if (fromFogBridge) {
+          settleMeaningScroll();
+        }
+
         unlockPageScroll();
+        ScrollTrigger.refresh();
       }
     }
   };
 
   const playBlurOut = async () => {
-    if (isBlurredOut || isSequenceActive) return;
+    if (isBlurredOut || isSequenceActive || !hasPlayedEnter) return;
 
     enterToken += 1;
     isAnimating = true;
@@ -375,34 +443,51 @@ function initAboutMeaningAnimation() {
     }
   };
 
-  // 등장 시작
+  // 빠른 스크롤 등 fog 브릿지 없이 진입한 경우 fallback
   ScrollTrigger.create({
     trigger: section,
     start: 'top 50%',
     onEnter() {
-      playEnter();
-    },
-    onRefresh(self) {
-      if (self.progress > 0 && !hasPlayedEnter && !isSequenceActive) {
-        playEnter();
+      if (hasPlayedEnter) {
+        showComplete();
+        return;
       }
-    },
-  });
-
-  // 이탈(blur-out): 시퀀스 종료 후에만, 섹션이 위로 빠져나갈 때
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top top',
-    end: 'bottom top',
-    onLeave() {
-      if (isSequenceActive) return;
-      playBlurOut();
+      if (section.dataset.fogBridgePending === 'true') return;
+      playEnter();
     },
     onEnterBack() {
       if (isSequenceActive) return;
       showComplete();
     },
   });
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top top',
+    end: 'bottom top',
+    onEnter() {
+      if (hasPlayedEnter) showComplete();
+    },
+    onLeave() {
+      if (isSequenceActive) return;
+      if (hasPlayedEnter) playBlurOut();
+    },
+    onEnterBack() {
+      if (isSequenceActive) return;
+      showComplete();
+    },
+  });
+
+  return {
+    playEnter,
+    showComplete,
+    get hasPlayedEnter() {
+      return hasPlayedEnter;
+    },
+    setHasPlayedEnter(value) {
+      hasPlayedEnter = value;
+    },
+  };
 }
 
 /**
@@ -443,86 +528,539 @@ function initAboutNameHanjaAlign() {
   }
 }
 
+const NAME_SLIDE_DURATION_MS = 1300;
+const NAME_FADE_DURATION_MS = 1300;
+
+function waitForCssAnimation(element, animationName, fallbackMs) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      element.removeEventListener('animationend', onEnd);
+      resolve();
+    };
+    const onEnd = (event) => {
+      if (event.target !== element) return;
+      if (event.animationName && event.animationName !== animationName) return;
+      finish();
+    };
+    element.addEventListener('animationend', onEnd);
+    setTimeout(finish, fallbackMs);
+  });
+}
+
+function wrapTextSlideUpReveal(element) {
+  let wrapper = element.querySelector(':scope > .text-slide-up-reveal');
+  if (wrapper) return wrapper;
+
+  wrapper = document.createElement('span');
+  wrapper.className = 'text-slide-up-reveal';
+
+  const inner = document.createElement('span');
+  inner.className = 'text-slide-up-reveal__inner';
+
+  while (element.firstChild) {
+    inner.appendChild(element.firstChild);
+  }
+
+  wrapper.appendChild(inner);
+  element.appendChild(wrapper);
+  return wrapper;
+}
+
+function finalizeSlideUpReveal(element) {
+  wrapTextSlideUpReveal(element);
+  const inner = element.querySelector('.text-slide-up-reveal__inner');
+  element.style.opacity = '1';
+  if (!inner) return;
+
+  inner.classList.remove('text-slide-up-reveal--play');
+  inner.classList.add('text-slide-up-reveal--done');
+  inner.style.transform = 'translateY(0)';
+}
+
+async function playNameTextSlideUp(element) {
+  wrapTextSlideUpReveal(element);
+  const inner = element.querySelector('.text-slide-up-reveal__inner');
+  if (!inner) return;
+
+  element.style.opacity = '1';
+  inner.classList.remove('text-slide-up-reveal--play', 'text-slide-up-reveal--done');
+  inner.style.transform = 'translateY(100%)';
+  void inner.offsetWidth;
+  inner.classList.add('text-slide-up-reveal--play');
+  await waitForCssAnimation(inner, 'text-slide-up-reveal', NAME_SLIDE_DURATION_MS);
+  inner.classList.remove('text-slide-up-reveal--play');
+  inner.classList.add('text-slide-up-reveal--done');
+  inner.style.transform = 'translateY(0)';
+}
+
+async function playNameTextFade(element) {
+  element.classList.remove('text-name-fade-in');
+  element.style.removeProperty('opacity');
+
+  if (typeof gsap !== 'undefined') {
+    gsap.set(element, { opacity: 0, clearProps: 'transform,filter' });
+  }
+
+  void element.offsetWidth;
+  element.classList.add('text-name-fade-in');
+  await waitForCssAnimation(element, 'text-name-fade-in', NAME_FADE_DURATION_MS);
+  element.classList.remove('text-name-fade-in');
+  element.style.opacity = '1';
+}
+
+function showAboutNameComplete(section) {
+  const heading = section.querySelector('.about-name__heading');
+  const bodyText = section.querySelector('.about-name__text');
+  if (!heading || !bodyText) return;
+
+  section.classList.remove('is-name-animating');
+  section.classList.add('is-name-entered');
+  finalizeSlideUpReveal(heading);
+  bodyText.classList.remove('text-name-fade-in');
+  bodyText.style.opacity = '1';
+
+  if (typeof gsap !== 'undefined') {
+    gsap.set([heading, bodyText], { clearProps: 'opacity,transform,filter' });
+  }
+}
+
 /**
- * Name meaning — 도자기(釉)·안개(霧)
- * motion wrapper x 이동 → heading opacity → text opacity (순차)
- * 한자 요소의 CSS transform/위치는 건드리지 않음
+ * Name meaning — 제목 Slide-up Reveal + 본문 fade (각 1.2s)
+ * 섹션 진입 시 등장 / 재진입 시 완성 상태
  */
 function initAboutNameEntrances() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const configs = [
-    {
-      section: document.querySelector('.about-name:not(.about-name--fog)'),
-      direction: -1,
-    },
-    {
-      section: document.querySelector('.about-name--fog'),
-      direction: 1,
-    },
-  ];
-
-  configs.forEach(({ section, direction }) => {
-    if (!section) return;
-
+  document.querySelectorAll('.about-name').forEach((section) => {
     const hanjaMotion = section.querySelector('.about-name__hanja-motion');
     const heading = section.querySelector('.about-name__heading');
     const bodyText = section.querySelector('.about-name__text');
 
-    if (!hanjaMotion || !heading || !bodyText) return;
+    if (!heading || !bodyText) return;
 
-    const getDirection = () => {
-      const isMobile = window.matchMedia('(max-width: 48rem)').matches;
-      if (isMobile) return 1;
-      return direction;
+    if (hanjaMotion) {
+      gsap.set(hanjaMotion, { x: 0, clearProps: 'transform' });
+    }
+
+    wrapTextSlideUpReveal(heading);
+
+    let hasPlayed = section.classList.contains('is-name-entered');
+    let isAnimating = false;
+
+    if (!hasPlayed) {
+      gsap.set([heading, bodyText], { opacity: 0, clearProps: 'transform,y,filter' });
+    } else {
+      showAboutNameComplete(section);
+    }
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 50%',
+      invalidateOnRefresh: true,
+      onEnter() {
+        if (hasPlayed) {
+          showAboutNameComplete(section);
+          return;
+        }
+        if (isAnimating) return;
+
+        void (async () => {
+          isAnimating = true;
+          section.classList.add('is-name-animating');
+
+          try {
+            await playNameTextSlideUp(heading);
+            await playNameTextFade(bodyText);
+
+            section.classList.remove('is-name-animating');
+            section.classList.add('is-name-entered');
+            hasPlayed = true;
+            gsap.set([heading, bodyText], { clearProps: 'opacity,transform,filter' });
+            section.dispatchEvent(
+              new CustomEvent('about-name-entered', {
+                bubbles: true,
+                detail: { section },
+              })
+            );
+            ScrollTrigger.refresh();
+          } finally {
+            section.classList.remove('is-name-animating');
+            isAnimating = false;
+          }
+        })();
+      },
+      onEnterBack() {
+        if (isAnimating) return;
+        if (hasPlayed) showAboutNameComplete(section);
+      },
+    });
+  });
+}
+
+/**
+ * 안개 무 진입 즉시 pin → 텍스트 등장 → 배경 crossfade → text-focus-in
+ * 재진입 시 완성 상태 표시
+ */
+function initAboutFogMeaningTransition(meaningController) {
+  if (
+    typeof gsap === 'undefined' ||
+    typeof ScrollTrigger === 'undefined' ||
+    !meaningController
+  ) {
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fogSection = document.querySelector('.about-name--fog');
+  const meaningSection = document.querySelector('.about-meaning');
+  if (!fogSection || !meaningSection) return;
+
+  meaningSection.dataset.fogBridgePending = 'true';
+
+  const meaningBgLayer = fogSection.querySelector('.about-name__bg-layer--meaning');
+  const meaningOverlay = meaningSection.querySelector('.about-meaning__overlay');
+  const fogFadeTargets = [
+    fogSection.querySelector('.about-name__copy-group'),
+    fogSection.querySelector('.about-name__hanja-slot'),
+  ].filter(Boolean);
+
+  const WHEEL_THRESHOLD = 36;
+  const TOUCH_THRESHOLD = 24;
+  const BG_CROSSFADE_DURATION = 2;
+  const CONTENT_FADE_DURATION = 0.8;
+
+  let isHolding = false;
+  let isTransitioning = false;
+  let hasTransitioned = false;
+  let isAnimationComplete = false;
+  let holdToken = 0;
+  let releaseHold = null;
+  let wheelAccum = 0;
+  let holdScrollTrigger = null;
+  let reentryScrollTrigger = null;
+
+  const lockPageScroll = () => {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.classList.add('is-scroll-locked');
+    document.body.style.paddingRight = scrollbarWidth
+      ? `${scrollbarWidth}px`
+      : '';
+  };
+
+  const unlockPageScroll = () => {
+    document.documentElement.classList.remove('is-scroll-locked');
+    document.body.style.paddingRight = '';
+  };
+
+  const getFogScrollTop = () =>
+    Math.round(
+      typeof holdScrollTrigger?.start === 'number'
+        ? holdScrollTrigger.start
+        : fogSection.offsetTop
+    );
+
+  const enforceFogSnap = () => {
+    window.scrollTo(0, getFogScrollTop());
+  };
+
+  const showFogReentryComplete = () => {
+    deactivateHold();
+    showAboutNameComplete(fogSection);
+    gsap.set(fogFadeTargets, { opacity: 1 });
+    if (meaningBgLayer) gsap.set(meaningBgLayer, { opacity: 0 });
+    if (!hasTransitioned && meaningOverlay) {
+      gsap.set(meaningOverlay, { opacity: 0 });
+    }
+    isAnimationComplete = true;
+  };
+
+  const setupFogReentryWatch = () => {
+    if (reentryScrollTrigger) return;
+
+    reentryScrollTrigger = ScrollTrigger.create({
+      trigger: fogSection,
+      start: 'top 85%',
+      end: 'bottom top',
+      onEnter: showFogReentryComplete,
+      onEnterBack: showFogReentryComplete,
+    });
+  };
+
+  const teardownHoldTrigger = () => {
+    if (holdScrollTrigger) {
+      holdScrollTrigger.kill();
+      holdScrollTrigger = null;
+    }
+  };
+
+  const normalizeWheelDelta = (event) => {
+    let delta = event.deltaY;
+    if (event.deltaMode === 1) delta *= 16;
+    if (event.deltaMode === 2) delta *= window.innerHeight;
+    return delta;
+  };
+
+  const canTriggerTransition = () =>
+    isAnimationComplete && !isTransitioning && !hasTransitioned;
+
+  const deactivateHold = () => {
+    holdToken += 1;
+    isHolding = false;
+    wheelAccum = 0;
+    unlockPageScroll();
+    if (releaseHold) {
+      releaseHold();
+      releaseHold = null;
+    }
+  };
+
+  const attachHoldListeners = () => {
+    if (releaseHold) return;
+
+    const token = holdToken;
+
+    const onWheel = (event) => {
+      if (!isHolding || token !== holdToken) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!canTriggerTransition()) return;
+
+      const delta = normalizeWheelDelta(event);
+      if (delta <= 0) {
+        wheelAccum = 0;
+        return;
+      }
+
+      wheelAccum += delta;
+      if (wheelAccum < WHEEL_THRESHOLD) return;
+
+      triggerTransitionFromHold();
     };
 
-    gsap.set(hanjaMotion, {
-      x: () => getDirection() * Math.max(window.innerWidth, section.offsetWidth),
-    });
-    gsap.set([heading, bodyText], { opacity: 0.25, clearProps: 'transform,y' });
+    let touchStartY = 0;
+    const onTouchStart = (event) => {
+      touchStartY = event.touches[0].clientY;
+    };
+    const onTouchMove = (event) => {
+      if (!isHolding || token !== holdToken) return;
 
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
-          once: true,
-          invalidateOnRefresh: true,
-        },
-      })
-      .fromTo(
-        hanjaMotion,
-        {
-          x: () => getDirection() * Math.max(window.innerWidth, section.offsetWidth),
-        },
-        {
-          x: 0,
-          duration: 2.2,
-          ease: 'power2.out',
-        }
-      )
-      .fromTo(
-        heading,
-        { opacity: 0.25 },
-        { opacity: 1, duration: 1.2, ease: 'power2.out' },
-        '-=0.4'
-      )
-      .fromTo(
-        bodyText,
-        { opacity: 0.25 },
-        { opacity: 1, duration: 1.2, ease: 'power2.out' }
-      )
-      .add(() => {
-        // FOUC CSS 해제 후에야 clearProps — 제목이 다시 숨겨지지 않도록
-        section.classList.add('is-name-entered');
-        gsap.set([heading, bodyText], { clearProps: 'opacity,transform' });
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!canTriggerTransition()) return;
+
+      const delta = touchStartY - event.touches[0].clientY;
+      if (delta <= TOUCH_THRESHOLD) return;
+
+      triggerTransitionFromHold();
+    };
+
+    const onKeyDown = (event) => {
+      if (!isHolding || token !== holdToken || !canTriggerTransition()) return;
+
+      if (
+        event.key === 'ArrowDown' ||
+        event.key === 'PageDown' ||
+        event.key === ' '
+      ) {
+        event.preventDefault();
+        triggerTransitionFromHold();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, {
+      passive: true,
+      capture: true,
+    });
+    window.addEventListener('touchmove', onTouchMove, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener('keydown', onKeyDown, { capture: true });
+
+    releaseHold = () => {
+      window.removeEventListener('wheel', onWheel, { capture: true });
+      window.removeEventListener('touchstart', onTouchStart, { capture: true });
+      window.removeEventListener('touchmove', onTouchMove, { capture: true });
+      window.removeEventListener('keydown', onKeyDown, { capture: true });
+    };
+  };
+
+  const triggerTransitionFromHold = () => {
+    if (!isHolding || !canTriggerTransition()) return;
+
+    wheelAccum = 0;
+    holdToken += 1;
+    isHolding = false;
+
+    if (releaseHold) {
+      releaseHold();
+      releaseHold = null;
+    }
+
+    unlockPageScroll();
+    playTransition();
+  };
+
+  const beginHold = () => {
+    if (hasTransitioned || isTransitioning || isHolding) return;
+
+    enforceFogSnap();
+    lockPageScroll();
+    enforceFogSnap();
+
+    isHolding = true;
+    wheelAccum = 0;
+    holdToken += 1;
+    attachHoldListeners();
+
+    if (isAnimationComplete && !hasTransitioned && !isTransitioning) {
+      playTransition();
+    }
+  };
+
+  const playTransition = async () => {
+    if (isTransitioning || hasTransitioned) return;
+
+    isTransitioning = true;
+    hasTransitioned = true;
+    deactivateHold();
+    lockPageScroll();
+
+    try {
+      if (meaningBgLayer) gsap.set(meaningBgLayer, { opacity: 0 });
+      if (meaningOverlay) gsap.set(meaningOverlay, { opacity: 0 });
+
+      meaningSection.classList.remove('is-transition-pending');
+      meaningSection.classList.add('is-transition-crossfade');
+
+      const crossfadeTimeline = gsap.timeline();
+
+      crossfadeTimeline.to(fogFadeTargets, {
+        opacity: 0,
+        duration: CONTENT_FADE_DURATION,
+        ease: 'power2.inOut',
       });
+
+      if (meaningBgLayer) {
+        crossfadeTimeline.to(
+          meaningBgLayer,
+          {
+            opacity: 1,
+            duration: BG_CROSSFADE_DURATION,
+            ease: 'power2.inOut',
+          },
+          0
+        );
+      }
+
+      if (meaningOverlay) {
+        crossfadeTimeline.to(
+          meaningOverlay,
+          {
+            opacity: 0.5,
+            duration: BG_CROSSFADE_DURATION * 0.85,
+            ease: 'power2.inOut',
+          },
+          BG_CROSSFADE_DURATION * 0.15
+        );
+      }
+
+      await crossfadeTimeline;
+
+      if (meaningBgLayer) {
+        gsap.set(meaningBgLayer, { opacity: 1 });
+      }
+      if (meaningOverlay) {
+        gsap.set(meaningOverlay, { opacity: 0.5 });
+      }
+
+      delete meaningSection.dataset.fogBridgePending;
+
+      await meaningController.playEnter({ force: true, fromFogBridge: true });
+    } finally {
+      isTransitioning = false;
+      teardownHoldTrigger();
+      setupFogReentryWatch();
+      ScrollTrigger.refresh();
+    }
+  };
+
+  const markAnimationComplete = () => {
+    isAnimationComplete = true;
+
+    if (hasTransitioned || isTransitioning) return;
+    if (!isHolding && !holdScrollTrigger?.isActive) return;
+
+    if (!isHolding) {
+      beginHold();
+    }
+
+    playTransition();
+  };
+
+  const handleHoldEnter = () => {
+    if (hasTransitioned) {
+      showFogReentryComplete();
+      return;
+    }
+
+    enforceFogSnap();
+
+    requestAnimationFrame(() => {
+      enforceFogSnap();
+      ScrollTrigger.refresh();
+
+      requestAnimationFrame(() => {
+        if (hasTransitioned) {
+          showFogReentryComplete();
+          return;
+        }
+        enforceFogSnap();
+        beginHold();
+      });
+    });
+  };
+
+  holdScrollTrigger = ScrollTrigger.create({
+    trigger: fogSection,
+    start: 'top top',
+    end: 'bottom top',
+    pin: true,
+    pinSpacing: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onEnter: handleHoldEnter,
+    onEnterBack: handleHoldEnter,
+    onLeaveBack: () => {
+      if (!hasTransitioned) deactivateHold();
+    },
+    onLeave: () => {
+      if (!hasTransitioned && !isHolding) deactivateHold();
+      if (!hasTransitioned) {
+        delete meaningSection.dataset.fogBridgePending;
+      }
+    },
   });
 
-  ScrollTrigger.refresh();
+  fogSection.addEventListener('about-name-entered', (event) => {
+    if (event.detail?.section !== fogSection) return;
+    markAnimationComplete();
+  });
+
+  if (fogSection.classList.contains('is-name-entered')) {
+    isAnimationComplete = true;
+  }
 }
 
 /**
@@ -544,9 +1082,9 @@ function initAboutSymbolAnimation() {
   const ruleB = section.querySelector('.about-symbol__rule--b');
   if (!textA || !textB || !ruleA || !ruleB) return;
 
-  const LINE_DURATION = 0.6;
-  const LINE_TO_TEXT_DELAY_MS = 500;
-  const FOCUS_FALLBACK_MS = 900;
+  const LINE_DURATION = 0.42;
+  const LINE_TO_TEXT_DELAY_MS = 350;
+  const FOCUS_FALLBACK_MS = 630;
 
   let hasPlayed = false;
   let isAnimating = false;
@@ -780,11 +1318,13 @@ function initAboutMaterialStory() {
     fill.style.transform = `scaleX(${value})`;
   };
 
+  const isDesktopMaterial = window.matchMedia('(min-width: 64.0625rem)').matches;
+
   const swiper = new Swiper(root, {
     slidesPerView: 1,
     spaceBetween: 0,
     loop: true,
-    speed: 500,
+    speed: isDesktopMaterial ? 1000 : 500,
     grabCursor: true,
     allowTouchMove: true,
     followFinger: true,

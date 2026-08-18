@@ -55,13 +55,33 @@
   color: var(--color-grey-600);
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 64rem) {
   .product-card {
     height: auto;
   }
 
   .product-card__image-wrap {
+    height: 20.3125rem;
+  }
+
+  .product-card__body {
+    height: 6.25rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .product-card {
+    height: auto;
+    overflow: visible;
+  }
+
+  .product-card__image-wrap {
     height: 12.5rem;
+  }
+
+  .product-card__content {
+    padding-top: 1rem;
+    gap: 0.5rem;
   }
 
   .product-card__subtitle {
@@ -69,6 +89,8 @@
   }
 
   .product-card__body {
+    height: auto;
     font-size: 0.75rem;
+    padding-bottom: 0.5rem;
   }
 }
