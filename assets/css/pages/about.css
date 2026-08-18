@@ -144,7 +144,7 @@
   }
 
   .about-intro__text {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     line-height: 170%;
   }
 
@@ -331,6 +331,7 @@
   }
 
   .about-name__image {
+    right: -20px;
     width: 339px;
     height: auto;
   }
@@ -348,12 +349,12 @@
 
   .about-name__heading {
     margin-bottom: 9px;
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .about-name__text {
-    font-size: 12px;
-    line-height: 22px;
+    font-size: 16px;
+    line-height: 150%;
   }
 }
 
@@ -756,7 +757,7 @@
 
   .about-meaning__text {
     gap: 20px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
   }
 }

@@ -62,13 +62,14 @@
   height: auto;
 }
 
-/* 제목 아래끝을 이미지 1 위끝(top 34.9%)보다 1%(1920px 기준 10px) 위에 고정 */
 .collection-item--ceramic .collection-item__stage {
   position: absolute;
   inset: 0;
 
+  --ceramic-img1-top: 34.9%;
   --ceramic-img1-left: 9.4%;
   --ceramic-img1-width: 31.7%;
+  --ceramic-title-img-gap: 2%; /* 1920px 기준 stage 높이 1000px → 20px */
 }
 
 /* PC: 래퍼는 레이아웃에 영향 없이 자식만 stage 기준으로 배치 */
@@ -76,8 +77,9 @@
   display: contents;
 }
 
+/* 제목 아래끝을 이미지 1 위끝(top 34.9%)보다 2%(1920px 기준 20px) 위에 고정 */
 .collection-item--ceramic .collection-item__title {
-  bottom: 66.1%;
+  bottom: calc(100% - var(--ceramic-img1-top) + var(--ceramic-title-img-gap));
   left: var(--ceramic-img1-left);
   right: auto;
   width: var(--ceramic-img1-width);
@@ -85,7 +87,7 @@
 }
 
 .collection-item--ceramic .collection-item__image--1 {
-  top: 34.9%;
+  top: var(--ceramic-img1-top);
   left: var(--ceramic-img1-left);
   width: var(--ceramic-img1-width);
   aspect-ratio: 1 / 1;
@@ -298,20 +300,23 @@
   width: 2.9%;
 }
 
-/* 제목 아래끝을 이미지 1 위끝(top 20.6%)보다 1%(1920px 기준 10px) 위에 고정, 왼쪽은 이미지 1과 정렬 */
+/* 제목 아래끝을 이미지 1 위끝(top 20.6%)보다 2%(1920px 기준 20px) 위에 고정, 왼쪽은 이미지 1과 정렬 */
 .collection-item--resin .collection-item__stage {
   position: absolute;
   inset: 0;
+
+  --resin-img1-top: 20.6%;
+  --resin-title-img-gap: 2%; /* 1920px 기준 20px */
 }
 
 .collection-item--resin .collection-item__title {
-  bottom: 80.4%;
+  bottom: calc(100% - var(--resin-img1-top) + var(--resin-title-img-gap));
   left: auto;
   right: calc(100% - 12.1% - 51.6%);
 }
 
 .collection-item--resin .collection-item__image--1 {
-  top: 20.6%;
+  top: var(--resin-img1-top);
   left: 12.1%;
   width: 51.6%;
   aspect-ratio: 8 / 5;
@@ -361,7 +366,7 @@
 @media (max-width: 48rem) {
   /* 모바일 공통 타이포 */
   .collection-item__title {
-    margin: 0 0 1.25rem;
+    margin: 0;
     font-size: 3.125rem;
     line-height: 100%;
   }
@@ -408,8 +413,8 @@
   }
 
   .collection-item--ceramic .collection-item__title {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% - var(--ceramic-m-img1-top) + 20px);
     left: 0;
     width: auto;
     text-align: left;
@@ -511,8 +516,8 @@
   }
 
   .collection-item--fog .collection-item__title {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% - var(--fog-m-img1-top) + 20px);
     left: 0;
     right: auto;
     width: auto;
@@ -623,8 +628,8 @@
   }
 
   .collection-item--moss .collection-item__title {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% - var(--moss-m-img1-top) + 20px);
     left: 0;
     z-index: 2;
     writing-mode: horizontal-tb;
@@ -720,8 +725,8 @@
   }
 
   .collection-item--lily .collection-item__title {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% - var(--lily-m-img1-top) + 20px);
     left: 0;
     z-index: 2;
   }
@@ -805,8 +810,8 @@
   }
 
   .collection-item--resin .collection-item__title {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% - var(--resin-m-img1-top) + 20px);
     left: 0;
     z-index: 2;
   }
