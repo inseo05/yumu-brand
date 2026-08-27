@@ -400,12 +400,11 @@ function initAboutMeaningAnimation() {
         section.classList.remove('is-transition-crossfade');
         restoreMeaningOverlay();
 
-        if (fromFogBridge) {
+        // fog 브릿지에서는 잠금/스크롤 정리를 브릿지 쪽에서 한 번에 처리
+        if (!fromFogBridge) {
           settleMeaningScroll();
+          unlockPageScroll();
         }
-
-        unlockPageScroll();
-        ScrollTrigger.refresh();
       }
     }
   };
@@ -469,7 +468,8 @@ function initAboutMeaningAnimation() {
       if (hasPlayedEnter) showComplete();
     },
     onLeave() {
-      if (isSequenceActive) return;
+      // 애니메이션/잠금 중이 아닐 때만 blur — 빠른 스크롤 끊김 완화
+      if (isSequenceActive || isAnimating) return;
       if (hasPlayedEnter) playBlurOut();
     },
     onEnterBack() {
@@ -687,7 +687,6 @@ function initAboutNameEntrances() {
                 detail: { section },
               })
             );
-            ScrollTrigger.refresh();
           } finally {
             section.classList.remove('is-name-animating');
             isAnimating = false;
@@ -704,7 +703,7 @@ function initAboutNameEntrances() {
 
 /**
  * 안개 무 진입 즉시 pin → 텍스트 등장 → 배경 crossfade → text-focus-in
- * 재진입 시 완성 상태 표시
+ * 재진입 시 완성 상태 표시 (pin/snap/refresh 최소화로 스크롤 끊김 방지)
  */
 function initAboutFogMeaningTransition(meaningController) {
   if (
@@ -744,8 +743,10 @@ function initAboutFogMeaningTransition(meaningController) {
   let wheelAccum = 0;
   let holdScrollTrigger = null;
   let reentryScrollTrigger = null;
+  let fogVisualReady = false;
 
   const lockPageScroll = () => {
+    if (document.documentElement.classList.contains('is-scroll-locked')) return;
     const scrollbarWidth =
       window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.classList.add('is-scroll-locked');
@@ -759,25 +760,16 @@ function initAboutFogMeaningTransition(meaningController) {
     document.body.style.paddingRight = '';
   };
 
-  const getFogScrollTop = () =>
-    Math.round(
-      typeof holdScrollTrigger?.start === 'number'
-        ? holdScrollTrigger.start
-        : fogSection.offsetTop
-    );
-
-  const enforceFogSnap = () => {
-    window.scrollTo(0, getFogScrollTop());
-  };
-
   const showFogReentryComplete = () => {
-    deactivateHold();
+    if (fogVisualReady && hasTransitioned) return;
+
     showAboutNameComplete(fogSection);
     gsap.set(fogFadeTargets, { opacity: 1 });
     if (meaningBgLayer) gsap.set(meaningBgLayer, { opacity: 0 });
     if (!hasTransitioned && meaningOverlay) {
       gsap.set(meaningOverlay, { opacity: 0 });
     }
+    fogVisualReady = true;
     isAnimationComplete = true;
   };
 
@@ -786,7 +778,7 @@ function initAboutFogMeaningTransition(meaningController) {
 
     reentryScrollTrigger = ScrollTrigger.create({
       trigger: fogSection,
-      start: 'top 85%',
+      start: 'top 80%',
       end: 'bottom top',
       onEnter: showFogReentryComplete,
       onEnterBack: showFogReentryComplete,
@@ -794,10 +786,9 @@ function initAboutFogMeaningTransition(meaningController) {
   };
 
   const teardownHoldTrigger = () => {
-    if (holdScrollTrigger) {
-      holdScrollTrigger.kill();
-      holdScrollTrigger = null;
-    }
+    if (!holdScrollTrigger) return;
+    holdScrollTrigger.kill(true);
+    holdScrollTrigger = null;
   };
 
   const normalizeWheelDelta = (event) => {
@@ -810,15 +801,19 @@ function initAboutFogMeaningTransition(meaningController) {
   const canTriggerTransition = () =>
     isAnimationComplete && !isTransitioning && !hasTransitioned;
 
-  const deactivateHold = () => {
+  const clearHoldListeners = () => {
     holdToken += 1;
     isHolding = false;
     wheelAccum = 0;
-    unlockPageScroll();
     if (releaseHold) {
       releaseHold();
       releaseHold = null;
     }
+  };
+
+  const deactivateHold = () => {
+    clearHoldListeners();
+    unlockPageScroll();
   };
 
   const attachHoldListeners = () => {
@@ -832,6 +827,7 @@ function initAboutFogMeaningTransition(meaningController) {
       event.preventDefault();
       event.stopPropagation();
 
+      // 텍스트 등장 중에는 스크롤만 막고 전환은 대기
       if (!canTriggerTransition()) return;
 
       const delta = normalizeWheelDelta(event);
@@ -898,35 +894,37 @@ function initAboutFogMeaningTransition(meaningController) {
 
   const triggerTransitionFromHold = () => {
     if (!isHolding || !canTriggerTransition()) return;
-
-    wheelAccum = 0;
-    holdToken += 1;
-    isHolding = false;
-
-    if (releaseHold) {
-      releaseHold();
-      releaseHold = null;
-    }
-
-    unlockPageScroll();
     playTransition();
   };
 
   const beginHold = () => {
     if (hasTransitioned || isTransitioning || isHolding) return;
 
-    enforceFogSnap();
-    lockPageScroll();
-    enforceFogSnap();
-
     isHolding = true;
     wheelAccum = 0;
     holdToken += 1;
+    lockPageScroll();
     attachHoldListeners();
 
-    if (isAnimationComplete && !hasTransitioned && !isTransitioning) {
+    // 텍스트가 이미 끝난 상태로 pin에 들어오면 바로 전환
+    if (isAnimationComplete) {
       playTransition();
     }
+  };
+
+  const releaseBridgeScroll = () => {
+    clearHoldListeners();
+    teardownHoldTrigger();
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, meaningSection.offsetTop);
+      unlockPageScroll();
+
+      requestAnimationFrame(() => {
+        setupFogReentryWatch();
+        ScrollTrigger.refresh();
+      });
+    });
   };
 
   const playTransition = async () => {
@@ -934,7 +932,8 @@ function initAboutFogMeaningTransition(meaningController) {
 
     isTransitioning = true;
     hasTransitioned = true;
-    deactivateHold();
+    fogVisualReady = false;
+    clearHoldListeners();
     lockPageScroll();
 
     try {
@@ -990,22 +989,14 @@ function initAboutFogMeaningTransition(meaningController) {
       await meaningController.playEnter({ force: true, fromFogBridge: true });
     } finally {
       isTransitioning = false;
-      teardownHoldTrigger();
-      setupFogReentryWatch();
-      ScrollTrigger.refresh();
+      releaseBridgeScroll();
     }
   };
 
   const markAnimationComplete = () => {
     isAnimationComplete = true;
-
     if (hasTransitioned || isTransitioning) return;
-    if (!isHolding && !holdScrollTrigger?.isActive) return;
-
-    if (!isHolding) {
-      beginHold();
-    }
-
+    if (!isHolding) return;
     playTransition();
   };
 
@@ -1014,28 +1005,13 @@ function initAboutFogMeaningTransition(meaningController) {
       showFogReentryComplete();
       return;
     }
-
-    enforceFogSnap();
-
-    requestAnimationFrame(() => {
-      enforceFogSnap();
-      ScrollTrigger.refresh();
-
-      requestAnimationFrame(() => {
-        if (hasTransitioned) {
-          showFogReentryComplete();
-          return;
-        }
-        enforceFogSnap();
-        beginHold();
-      });
-    });
+    beginHold();
   };
 
   holdScrollTrigger = ScrollTrigger.create({
     trigger: fogSection,
     start: 'top top',
-    end: 'bottom top',
+    end: '+=100%',
     pin: true,
     pinSpacing: true,
     anticipatePin: 1,
@@ -1044,12 +1020,6 @@ function initAboutFogMeaningTransition(meaningController) {
     onEnterBack: handleHoldEnter,
     onLeaveBack: () => {
       if (!hasTransitioned) deactivateHold();
-    },
-    onLeave: () => {
-      if (!hasTransitioned && !isHolding) deactivateHold();
-      if (!hasTransitioned) {
-        delete meaningSection.dataset.fogBridgePending;
-      }
     },
   });
 

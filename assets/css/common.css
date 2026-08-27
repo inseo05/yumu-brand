@@ -213,14 +213,17 @@
   .footer__sns-text,
   .footer__copyright {
     font-size: var(--footer-text-size-mobile);
+    line-height: 160%;
   }
 
   .footer__title {
     font-size: var(--footer-title-size-mobile);
+    line-height: 160%;
   }
 
   .footer__phone {
     font-size: var(--footer-phone-size-mobile);
+    line-height: 160%;
   }
 
   .footer__sns-icon {

@@ -6,8 +6,10 @@
 .home-scroll {
   position: relative;
   width: 100%;
+  /* 모바일 브라우저 UI 영역까지 포함한 100vh로 하단이 잘리지 않도록 svh 우선 */
   height: 100vh;
   height: 100dvh;
+  height: 100svh;
   overflow: hidden;
   perspective: 62.5rem;
 }
@@ -430,8 +432,10 @@
 .essence {
   position: relative;
   width: 100%;
+  /* 모바일 브라우저 UI 영역까지 포함한 100vh로 하단이 잘리지 않도록 svh 우선 */
   height: 100vh;
   height: 100dvh;
+  height: 100svh;
   overflow: hidden;
   background-color: var(--color-grey-50);
 }
@@ -1005,7 +1009,7 @@
   }
 }
 
-/* Collection 모바일: 768px 이하 — 1열 */
+/* Collection 모바일: 768px 이하 — 1열, 사진 높이 통일 */
 @media (max-width: 48rem) {
   .home-collection__grid {
     display: grid;
@@ -1015,6 +1019,11 @@
   .home-collection__col {
     flex: none;
     width: 100%;
+  }
+
+  .home-collection__card,
+  .home-collection__card--tall {
+    height: calc((644px - 24px) / 2);
   }
 
   .home-collection__corner-arrow {
@@ -1101,15 +1110,21 @@
   }
 
   .home-cta__media {
-    height: 12.5rem;
+    height: 100px;
+  }
+
+  .home-cta__content {
+    gap: 6px;
   }
 
   .home-cta__title {
-    font-size: 0.75rem;
+    font-size: 16px;
   }
 
   .home-cta__button {
-    font-size: 0.75rem;
+    width: 128px;
+    height: 28px;
+    font-size: 16px;
   }
 }
 
