@@ -22,6 +22,8 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: 5rem;
+  margin: 0;
+  font: inherit;
 }
 
 .about-hero__phrase {
