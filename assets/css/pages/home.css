@@ -76,6 +76,7 @@
   justify-content: flex-end;
   gap: var(--space-8);
   margin: 0;
+  font: inherit;
 }
 
 .home-scroll__brand-ko {
