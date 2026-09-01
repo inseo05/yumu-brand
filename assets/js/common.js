@@ -30,7 +30,7 @@ function initMobileSideMenu(currentPath) {
       <div class="mobile-nav__overlay" data-mobile-nav-close tabindex="-1"></div>
       <aside class="mobile-nav__panel" role="dialog" aria-modal="true" aria-label="메뉴">
         <button type="button" class="mobile-nav__close" data-mobile-nav-close aria-label="메뉴 닫기">
-          <img class="mobile-nav__close-icon" src="./assets/images/header/close.svg" alt="" width="26" height="26" loading="lazy">
+          <img class="mobile-nav__close-icon" src="./assets/images/header/close.svg" alt="메뉴 닫기" width="26" height="26" loading="lazy">
         </button>
         <nav class="mobile-nav__nav" aria-label="모바일 메뉴">
           <a class="mobile-nav__link" href="about.html">about</a>

@@ -3,3 +3,4 @@ Allow: /
 Disallow: /guide.html
 
 Sitemap: https://inseo05.github.io/yumu-brand/sitemap.xml
+Sitemap: https://inseo05.github.io/yumu-brand/sitemap.txt
