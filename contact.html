@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YUMU — Contact</title>
+  <title>문의 | 유무 YUMU</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/images/contact/bg-contact.webp" as="image" type="image/webp">
 
   <meta name="description" content="유무의 감각이 필요한 공간과 제안을 기다립니다. 제품, 입점, 협업, 공간 오브제 문의를 남겨주세요.">
   <link rel="canonical" href="https://inseo05.github.io/yumu-brand/contact.html">
@@ -23,7 +24,7 @@
   <!-- Open Graph -->
   <meta property="og:locale" content="ko_KR">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Contact | 유무 YUMU">
+  <meta property="og:title" content="문의 | 유무 YUMU">
   <meta property="og:description" content="유무의 감각이 필요한 공간과 제안을 기다립니다. 제품, 입점, 협업, 공간 오브제 문의를 남겨주세요.">
   <meta property="og:url" content="https://inseo05.github.io/yumu-brand/contact.html">
   <meta property="og:site_name" content="유무 YUMU">
@@ -35,10 +36,74 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Contact | 유무 YUMU">
+  <meta name="twitter:title" content="문의 | 유무 YUMU">
   <meta name="twitter:description" content="유무의 감각이 필요한 공간과 제안을 기다립니다. 제품, 입점, 협업, 공간 오브제 문의를 남겨주세요.">
   <meta name="twitter:image" content="https://inseo05.github.io/yumu-brand/assets/images/og.webp">
   <meta name="twitter:domain" content="유무 YUMU">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://inseo05.github.io/yumu-brand/#organization",
+        "name": "유무 YUMU",
+        "url": "https://inseo05.github.io/yumu-brand/",
+        "email": "hello@yumu.kr",
+        "telephone": "+82-507-0000-0000",
+        "sameAs": ["https://www.instagram.com/yumu.objet/"]
+      },
+      {
+        "@type": "ContactPage",
+        "@id": "https://inseo05.github.io/yumu-brand/contact.html#webpage",
+        "url": "https://inseo05.github.io/yumu-brand/contact.html",
+        "name": "문의 | 유무 YUMU",
+        "description": "유무의 감각이 필요한 공간과 제안을 기다립니다. 제품, 입점, 협업, 공간 오브제 문의를 남겨주세요.",
+        "isPartOf": { "@id": "https://inseo05.github.io/yumu-brand/#website" },
+        "inLanguage": "ko-KR"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "제품의 표면이나 색감이 사진과 다를 수 있나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "제품은 소재와 제작 방식에 따라 표면의 결, 유약의 흐름, 색감이 조금씩 다를 수 있습니다. 이는 유무가 지향하는 자연스러운 물성의 일부입니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "입점 및 협업 문의 시 어떤 정보를 함께 보내야 하나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "브랜드 소개서, 공간 정보, 제안 내용을 함께 보내주시면 검토에 도움이 됩니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "공간 오브제 제안 문의 시 무엇을 적어야 하나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "공간의 용도, 분위기, 원하는 오브제의 크기나 소재를 함께 적어주시면 더 구체적인 안내가 가능합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "주문, 배송, 교환 문의 시 필요한 정보는 무엇인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "성함과 주문 정보를 함께 남겨주세요."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="assets/css/base/reset.css">
   <link rel="stylesheet" href="assets/css/base/fonts.css">
@@ -54,7 +119,7 @@
     <div class="container header__inner">
       <!-- Sub pages: logo-other.png / Mobile menu: menu-mobile-black.png -->
       <a class="header__logo" href="index.html" aria-label="YUMU">
-        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36">
+        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36" fetchpriority="high">
       </a>
       <nav class="header__navigation" aria-label="주요 메뉴">
         <a class="header__link" href="about.html">About</a>

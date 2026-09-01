@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YUMU — About</title>
+  <title>브랜드 소개 | 유무 YUMU</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/images/about/about-hero-bg.webp" as="image" type="image/webp">
 
   <meta name="description" content="있는 듯 없는 듯, 그러나 늘 그 자리에 남는 감각. 유무는 흐릿하지만 오래 남는 감각의 오브제를 제안합니다.">
   <link rel="canonical" href="https://inseo05.github.io/yumu-brand/about.html">
@@ -23,7 +24,7 @@
   <!-- Open Graph -->
   <meta property="og:locale" content="ko_KR">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="About | 유무 YUMU">
+  <meta property="og:title" content="브랜드 소개 | 유무 YUMU">
   <meta property="og:description" content="있는 듯 없는 듯, 그러나 늘 그 자리에 남는 감각. 유무는 흐릿하지만 오래 남는 감각의 오브제를 제안합니다.">
   <meta property="og:url" content="https://inseo05.github.io/yumu-brand/about.html">
   <meta property="og:site_name" content="유무 YUMU">
@@ -35,10 +36,40 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="About | 유무 YUMU">
+  <meta name="twitter:title" content="브랜드 소개 | 유무 YUMU">
   <meta name="twitter:description" content="있는 듯 없는 듯, 그러나 늘 그 자리에 남는 감각. 유무는 흐릿하지만 오래 남는 감각의 오브제를 제안합니다.">
   <meta name="twitter:image" content="https://inseo05.github.io/yumu-brand/assets/images/og.webp">
   <meta name="twitter:domain" content="유무 YUMU">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://inseo05.github.io/yumu-brand/#organization",
+        "name": "유무 YUMU",
+        "alternateName": "YUMU",
+        "url": "https://inseo05.github.io/yumu-brand/",
+        "logo": "https://inseo05.github.io/yumu-brand/assets/images/footer/logo-footer.png",
+        "email": "hello@yumu.kr",
+        "telephone": "+82-507-0000-0000",
+        "sameAs": ["https://www.instagram.com/yumu.objet/"]
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://inseo05.github.io/yumu-brand/about.html#webpage",
+        "url": "https://inseo05.github.io/yumu-brand/about.html",
+        "name": "브랜드 소개 | 유무 YUMU",
+        "description": "있는 듯 없는 듯, 그러나 늘 그 자리에 남는 감각. 유무는 흐릿하지만 오래 남는 감각의 오브제를 제안합니다.",
+        "isPartOf": { "@id": "https://inseo05.github.io/yumu-brand/#website" },
+        "about": { "@id": "https://inseo05.github.io/yumu-brand/#organization" },
+        "inLanguage": "ko-KR"
+      }
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="assets/css/base/reset.css">
   <link rel="stylesheet" href="assets/css/base/fonts.css">
@@ -57,7 +88,7 @@
     <div class="container header__inner">
       <!-- Sub pages: logo-other.png / Mobile menu: menu-mobilde-black.png -->
       <a class="header__logo" href="index.html" aria-label="YUMU">
-        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36">
+        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36" fetchpriority="high">
       </a>
       <nav class="header__navigation" aria-label="주요 메뉴">
         <a class="header__link" href="about.html">About</a>

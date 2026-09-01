@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YUMU — Collection</title>
+  <title>컬렉션 | 유무 YUMU</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/images/collection/bg-collection.webp" as="image" type="image/webp">
 
   <meta name="description" content="오래 남는 형태와 손의 흔적, 선명하지 않지만 공간에 머무는 감각. 유무의 컬렉션을 만나보세요.">
   <link rel="canonical" href="https://inseo05.github.io/yumu-brand/collection.html">
@@ -23,7 +24,7 @@
   <!-- Open Graph -->
   <meta property="og:locale" content="ko_KR">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Collection | 유무 YUMU">
+  <meta property="og:title" content="컬렉션 | 유무 YUMU">
   <meta property="og:description" content="오래 남는 형태와 손의 흔적, 선명하지 않지만 공간에 머무는 감각. 유무의 컬렉션을 만나보세요.">
   <meta property="og:url" content="https://inseo05.github.io/yumu-brand/collection.html">
   <meta property="og:site_name" content="유무 YUMU">
@@ -35,10 +36,91 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Collection | 유무 YUMU">
+  <meta name="twitter:title" content="컬렉션 | 유무 YUMU">
   <meta name="twitter:description" content="오래 남는 형태와 손의 흔적, 선명하지 않지만 공간에 머무는 감각. 유무의 컬렉션을 만나보세요.">
   <meta name="twitter:image" content="https://inseo05.github.io/yumu-brand/assets/images/og.webp">
   <meta name="twitter:domain" content="유무 YUMU">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://inseo05.github.io/yumu-brand/#organization",
+        "name": "유무 YUMU",
+        "url": "https://inseo05.github.io/yumu-brand/",
+        "sameAs": ["https://www.instagram.com/yumu.objet/"]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://inseo05.github.io/yumu-brand/collection.html#webpage",
+        "url": "https://inseo05.github.io/yumu-brand/collection.html",
+        "name": "컬렉션 | 유무 YUMU",
+        "description": "오래 남는 형태와 손의 흔적, 선명하지 않지만 공간에 머무는 감각. 유무의 컬렉션을 만나보세요.",
+        "isPartOf": { "@id": "https://inseo05.github.io/yumu-brand/#website" },
+        "inLanguage": "ko-KR"
+      },
+      {
+        "@type": "ItemList",
+        "name": "유무 YUMU 컬렉션",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Collection",
+              "name": "Ceramic",
+              "description": "오래 남는 형태와 손의 흔적",
+              "url": "https://inseo05.github.io/yumu-brand/products.html?category=ceramic"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "Collection",
+              "name": "Fog",
+              "description": "선명하지 않지만 공간에 머무는 감각",
+              "url": "https://inseo05.github.io/yumu-brand/products.html?category=fog"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "Collection",
+              "name": "Moss",
+              "description": "느리게 축적되는 생명력",
+              "url": "https://inseo05.github.io/yumu-brand/products.html?category=moss"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "Collection",
+              "name": "Lily",
+              "description": "조용하고 정제된 아름다움",
+              "url": "https://inseo05.github.io/yumu-brand/products.html?category=lily"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "Collection",
+              "name": "Resin",
+              "description": "사라지는 순간을 보존하는 물성",
+              "url": "https://inseo05.github.io/yumu-brand/products.html?category=resin"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="assets/css/base/reset.css">
   <link rel="stylesheet" href="assets/css/base/fonts.css">
@@ -58,7 +140,7 @@
     <div class="container header__inner">
       <!-- Sub pages: logo-other.png / Mobile menu: menu-mobilde-black.png -->
       <a class="header__logo" href="index.html" aria-label="YUMU">
-        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36">
+        <img class="header__logo-image" src="assets/images/header/logo-other.png" alt="" width="31" height="36" fetchpriority="high">
       </a>
       <nav class="header__navigation" aria-label="주요 메뉴">
         <a class="header__link" href="about.html">About</a>
@@ -85,7 +167,7 @@
           <div class="collection-item__cluster collection-item__cluster--primary">
             <picture>
               <source media="(max-width: 48rem)" srcset="./assets/images/collection/mobile/ceramic/ceramic-1.png">
-              <img loading="lazy" class="collection-item__image collection-item__image--1" src="./assets/images/collection/ceramic/ceramic-p1.png" alt="">
+              <img fetchpriority="high" class="collection-item__image collection-item__image--1" src="./assets/images/collection/ceramic/ceramic-p1.png" alt="">
             </picture>
             <p class="collection-item__description">“오래 남는 형태와 손의 흔적”</p>
           </div>
