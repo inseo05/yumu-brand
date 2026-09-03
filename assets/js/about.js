@@ -1228,21 +1228,25 @@ function initAboutNameMobileScale() {
 
   const BASE_WIDTH = 360;
   const BASE_HEIGHT = 808;
+  const CERAMIC_IMAGE_WIDTH = 300;
   const mobileQuery = window.matchMedia('(max-width: 48rem)');
 
   const pairs = sections
     .map((section) => ({
+      section,
       viewport: section.querySelector('.about-name__viewport'),
       stage: section.querySelector('.about-name__stage'),
+      image: section.querySelector('.about-name__image'),
     }))
     .filter((pair) => pair.viewport && pair.stage);
 
   if (!pairs.length) return;
 
   const updateScale = () => {
-    pairs.forEach(({ viewport, stage }) => {
+    pairs.forEach(({ section, viewport, stage, image }) => {
       if (!mobileQuery.matches) {
         stage.style.transform = '';
+        if (image) image.style.width = '';
         return;
       }
 
@@ -1252,6 +1256,11 @@ function initAboutNameMobileScale() {
       );
 
       stage.style.transform = `scale(${scale})`;
+
+      // 스테이지 scale과 무관하게 도자기 이미지는 화면 기준 186px 유지
+      if (image && !section.classList.contains('about-name--fog') && scale > 0) {
+        image.style.width = `${CERAMIC_IMAGE_WIDTH / scale}px`;
+      }
     });
 
     syncAboutNameHanjaAlign();

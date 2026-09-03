@@ -60,6 +60,11 @@
   font-style: normal;
 }
 
+/* PC: 대표전화 앞 간격 / 모바일: 줄바꿈 */
+.footer__br-mobile::before {
+  content: "\00a0\00a0";
+}
+
 .footer__text {
   font-family: var(--font-body);
   font-size: var(--footer-text-size);
@@ -214,6 +219,15 @@
   .footer__copyright {
     font-size: var(--footer-text-size-mobile);
     line-height: 160%;
+  }
+
+  /* 모바일: 대표전화를 다음 줄로 */
+  .footer__br-mobile {
+    display: block;
+  }
+
+  .footer__br-mobile::before {
+    content: none;
   }
 
   .footer__title {

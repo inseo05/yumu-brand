@@ -322,6 +322,10 @@
   display: inline;
 }
 
+.about-name__break--fog-gap {
+  display: none;
+}
+
 @media (max-width: 64rem) {
   .about-name__title {
     padding: 26px 0 16px;
@@ -600,6 +604,15 @@
     display: none;
   }
 
+  /* 안개 무: 모바일에서 강제 줄바꿈 제거, '유무에게' 앞만 빈 줄(br×2) */
+  .about-name--fog .about-name__text br {
+    display: none;
+  }
+
+  .about-name--fog .about-name__text br.about-name__break--fog-gap {
+    display: inline;
+  }
+
   .about-name__image {
     position: relative;
     top: auto;
@@ -607,7 +620,7 @@
     left: auto;
     z-index: 1;
     display: block;
-    width: 300px;
+    width: 186px;
     max-width: none;
     height: auto;
     margin-top: 70px;
